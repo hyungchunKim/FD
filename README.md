@@ -106,3 +106,5 @@ Nextjs에서 파일 컨벤션은 다음 링크에서 확인할 수 있습니다.
 ## sequence diagram
 ![시퀀스다이어그램 drawio (1)](https://github.com/user-attachments/assets/507eb9ac-43d7-4281-9c7f-bc20403c81da)
 
+## Object Diagram
+![객체 다이어그램 drawio](https://github.com/user-attachments/assets/90e435c8-b726-4cb7-81d5-45e4f62e64aa)

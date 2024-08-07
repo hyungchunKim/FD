@@ -102,3 +102,7 @@ Nextjs에서 파일 컨벤션은 다음 링크에서 확인할 수 있습니다.
 
 ## use case diagram
 ![유즈케이스 drawio](https://github.com/user-attachments/assets/6a1fa2ea-9eed-47ee-a619-e2ec2b3d5807)
+
+## sequence diagram
+![시퀀스다이어그램 drawio](https://github.com/user-attachments/assets/6412ec80-f854-4112-a309-0d84c2fd0d95)
+

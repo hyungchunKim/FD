@@ -97,3 +97,8 @@ Nextjs에서 파일 컨벤션은 다음 링크에서 확인할 수 있습니다.
 ### Nextjs의 Code Convention
 
 [Nextjs Code Convention](https://github.com/dwarvesf/nextjs-boilerplate/blob/master/docs/CODE_STYLE.md?plain=1)
+
+# UML
+
+## use case diagram
+![유즈케이스 drawio](https://github.com/user-attachments/assets/6a1fa2ea-9eed-47ee-a619-e2ec2b3d5807)

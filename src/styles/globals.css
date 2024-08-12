@@ -1,3 +1,172 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+@layer components {
+  .title-2xl-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.9");
+  }
+  .title-2xl-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.9");
+  }
+  .title-2xl-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.9");
+  }
+
+  .title-xl-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.8");
+  }
+  .title-xl-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.8");
+  }
+  .title-xl-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.8");
+  }
+
+  .title-md-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.7");
+  }
+  .title-md-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.7");
+  }
+  .title-md-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.7");
+  }
+  .title-sm-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.6");
+  }
+  .title-sm-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.6");
+  }
+  .title-sm-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.6");
+  }
+  .title-xs-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.4");
+  }
+  .title-xs-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.4");
+  }
+  .title-xs-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.4");
+  }
+
+  .subtitle-md-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.5");
+  }
+  .subtitle-md-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.5");
+  }
+  .subtitle-md-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.5");
+  }
+
+  .subtitle-sm-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.3");
+  }
+  .subtitle-sm-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.3");
+  }
+  .subtitle-sm-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.3");
+  }
+
+
+  .caption-md-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.0");
+  }
+  .caption-md-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.0");
+  }
+  .caption-md-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.0");
+  }
+
+  .caption-xl-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.2");
+  }
+  .caption-xl-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.2");
+  }
+  .caption-xl-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.2");
+  }
+
+  .label-md-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.2");
+  }
+  .label-md-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.2");
+  }
+  .label-md-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.2");
+  }
+  .label-xs-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.1");
+  }
+  .label-xs-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.1");
+  }
+  .label-xs-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.1");
+  }
+  .body-md-bold {
+    font-weight: theme("fontWeight.inter-0");
+    font-size: theme("fontSize.2");
+  }
+  .body-md-medium {
+    font-weight: theme("fontWeight.inter-1");
+    font-size: theme("fontSize.2");
+  }
+  .body-md-regular {
+    font-weight: theme("fontWeight.inter-2");
+    font-size: theme("fontSize.2");
+  }
+  h1,h2 {
+    @apply title-2xl-medium;
+  }
+  h3,h4 {
+    @apply title-xl-medium;
+  }
+  h5 {
+    @apply title-md-medium;
+  }
+  p, span {
+    @apply body-md-regular;
+  }
+}

@@ -7,7 +7,6 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-
     extend: {
       buttonShadow: {
         color: "#00000040",
@@ -27,10 +26,9 @@ const config: Config = {
         3: "16",
       },
       fontWeights: {
-        inter_0: "Semi Bold",
+        inter_0: "Bold",
         inter_1: "Medium",
         inter_2: "Regular",
-        inter_3: "Bold",
       },
       fontSize: {
         0: "12",
@@ -56,7 +54,7 @@ const config: Config = {
         "80px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "AUTO",
             fontSize: "80",
             letterSpacing: "1.5%",
@@ -91,7 +89,7 @@ const config: Config = {
         "60px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "60",
             letterSpacing: "1.5%",
@@ -126,7 +124,7 @@ const config: Config = {
         "32px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "32",
             letterSpacing: "1.5%",
@@ -196,7 +194,7 @@ const config: Config = {
         "20px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "20",
             letterSpacing: "0%",
@@ -233,7 +231,7 @@ const config: Config = {
         "24px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "24",
             letterSpacing: "0%",
@@ -268,7 +266,7 @@ const config: Config = {
         "18px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "18",
             letterSpacing: "0%",
@@ -305,7 +303,7 @@ const config: Config = {
         "12px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "28",
             fontSize: "12",
             letterSpacing: "1.5%",
@@ -342,7 +340,7 @@ const config: Config = {
         "16px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "16",
             letterSpacing: "-1%",
@@ -379,7 +377,7 @@ const config: Config = {
         "14px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "14",
             letterSpacing: "-1%",
@@ -416,7 +414,7 @@ const config: Config = {
         "16px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "16",
             letterSpacing: "-1%",
@@ -453,7 +451,7 @@ const config: Config = {
         "14px": {
           bold: {
             fontFamily: "Inter",
-            fontWeight: "Semi Bold",
+            fontWeight: "Bold",
             lineHeight: "140%",
             fontSize: "16",
             letterSpacing: "-1%",

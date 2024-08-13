@@ -171,3 +171,4 @@ dist
 
 # package lock
 .package-lock.json
+*storybook.log

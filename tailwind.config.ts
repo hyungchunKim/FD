@@ -4,10 +4,9 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-
     extend: {
       colors: {
         primary: {
@@ -62,9 +61,8 @@ const config: Config = {
           20: "#cccccc",
           10: "#e6e6e6",
           5: "#f3f3f3",
-        }
-      }
-      ,
+        },
+      },
       buttonShadow: {
         color: "#00000040",
         type: "dropShadow",
@@ -82,7 +80,7 @@ const config: Config = {
         2: "28",
         3: "16",
       },
-      fontWeights: {
+      fontWeight: {
         inter_0: "bold",
         inter_1: "medium",
         inter_2: "regular",
@@ -107,74 +105,74 @@ const config: Config = {
       paragraphSpacing: {
         0: "0",
       },
-
-
     },
   },
-  plugins:[
-    plugin(({addComponents, theme}) => addComponents({
-      ".title-2xl-bold": {
-        fontWeight: theme("fontWeights.inter_0"),
-        fontSize: theme("fontSize.9")
-      },
-      ".title-2xl-medium": {
-          fontWeight: theme("fontWeights.inter_1"),
-          fontSize: theme("fontSize.9")
+  plugins: [
+    plugin(({ addComponents, theme }) =>
+      addComponents({
+        ".title-2xl-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.9"),
         },
-      ".title-2xl-regular": {
-          fontWeight: theme("fontWeights.inter_2"),
-          fontSize: theme("fontSize.9")
+        ".title-2xl-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.9"),
         },
-      ".title-xl-bold": {
-          fontWeight: theme("fontWeights.inter_0"),
-          fontSize: theme("fontSize.8")
-      },
-      ".title-xl-medium": {
-          fontWeight: theme("fontWeights.inter_1"),
-          fontSize: theme("fontSize.8")
+        ".title-2xl-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.9"),
+        },
+        ".title-xl-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.8"),
+        },
+        ".title-xl-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.8"),
         },
 
-      ".title-xl-regular": {
-          fontWeight: theme("fontWeights.inter_2"),
-          fontSize: theme("fontSize.8")
+        ".title-xl-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.8"),
         },
-      ".title-md-bold": {
-          fontWeight: theme("fontWeights.inter_0"),
-          fontSize: theme("fontSize.7")
+        ".title-md-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.7"),
         },
-      ".title-md-medium": {
-          fontWeight: theme("fontWeights.inter_1"),
-          fontSize: theme("fontSize.7")
+        ".title-md-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.7"),
         },
-      ".title-md-regular": {
-          fontWeight: theme("fontWeights.inter_2"),
-          fontSize: theme("fontSize.7")
+        ".title-md-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.7"),
         },
-      ".title-sm-bold": {
-          fontWeight: theme("fontWeights.inter_0"),
-          fontSize: theme("fontSize.6")
+        ".title-sm-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.6"),
         },
-      ".title-sm-medium": {
-          fontWeight: theme("fontWeights.inter_1"),
-          fontSize: theme("fontSize.6")
+        ".title-sm-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.6"),
         },
-      ".title-sm-regular": {
-          fontWeight: theme("fontWeights.inter_2"),
-          fontSize: theme("fontSize.6")
+        ".title-sm-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.6"),
         },
-      ".title-xs-bold": {
-          fontWeight: theme("fontWeights.inter_0"),
-          fontSize: theme("fontSize.4")
+        ".title-xs-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.4"),
         },
-      ".title-xs-medium": {
-          fontWeight: theme("fontWeights.inter_1"),
-          fontSize: theme("fontSize.4")
+        ".title-xs-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.4"),
         },
-      ".title-xs-regular": {
-          fontWeight: theme("fontWeights.inter_2"),
-          fontSize: theme("fontSize.4")
+        ".title-xs-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.4"),
         },
-    }))
-  ]
+      }),
+    ),
+  ],
 };
 export default config;

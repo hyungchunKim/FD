@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -170,6 +171,92 @@ const config: Config = {
         ".title-xs-regular": {
           fontWeight: theme("fontWeight.inter_2"),
           fontSize: theme("fontSize.4"),
+        },
+        ".subtitle-md-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.5"),
+        },
+        ".subtitle-md-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.5"),
+        },
+        ".subtitle-md-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.5"),
+        },
+
+        ".subtitle-sm-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.3"),
+        },
+        ".subtitle-sm-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.3"),
+        },
+        ".subtitle-sm-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.3"),
+        },
+        ".caption-md-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.0"),
+        },
+        ".caption-md-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.0"),
+        },
+        ".caption-md-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.0"),
+        },
+        ".caption-xl-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".caption-xl-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".caption-xl-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.2"),
+        },
+
+        ".label-md-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".label-md-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".label-md-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".label-xs-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.1"),
+        },
+        ".label-xs-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.1"),
+        },
+        ".label-xs-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.1"),
+        },
+        ".body-md-bold": {
+          fontWeight: theme("fontWeight.inter_0"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".body-md-medium": {
+          fontWeight: theme("fontWeight.inter_1"),
+          fontSize: theme("fontSize.2"),
+        },
+        ".body-md-regular": {
+          fontWeight: theme("fontWeight.inter_2"),
+          fontSize: theme("fontSize.2"),
         },
       }),
     ),

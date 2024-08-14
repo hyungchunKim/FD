@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,79 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-
+      <body className={inter.className}>
+        <div className="grid h-max min-h-screen w-full grid-rows-[auto_1fr_auto]">
+          <header className="sticky w-full px-[40px]">
+            <div className="mx-auto flex h-[136px] w-full min-w-[1240px] max-w-[1920px] items-center justify-between">
+              <div className="flex gap-10 px-[40px]">
+                <Link href="/" className="uppercase">
+                  FLAWDETECTOR
+                </Link>
+                <Link href="/">취약점 DB</Link>
+              </div>
+              <div className="px-[40px]">
+                <Link href="/">MY 저장소</Link>
+              </div>
+            </div>
+          </header>
+          <main className="mx-auto w-full min-w-[1240px] max-w-[1920px] text-text-dark">
+            {children}
+          </main>
+          <footer className="">
+            <div className="mx-auto flex w-full min-w-[1240px] max-w-[1920px] items-stretch justify-between gap-10 px-[80px] py-5">
+              <div className="">
+                <div className="title-xs-bold uppercase">CONTACT</div>
+                <div className="label-md-bold flex gap-10 [&_p]:text-text-default">
+                  <div className="[&>div]:flex">
+                    <div>
+                      <p className="mr-5">(주)스펙스페이스</p>
+                      <p className="mr-3">대표자</p>
+                      <span>염민호</span>
+                    </div>
+                    <div>
+                      <span>서울 강서구 마곡중앙2로 11, 3층 303호</span>
+                    </div>
+                    <div>
+                      <p className="mr-4">Email</p>
+                      <span>admin@sfacspace.com</span>
+                    </div>
+                  </div>
+                  <div className="[&>div]:flex">
+                    <div>
+                      <p className="mr-3">사업자등록번호</p>
+                      <span>450-87-01864</span>
+                    </div>
+                    <div>
+                      <p className="mr-3">대표번호</p>
+                      <span>02-6217-1119</span>
+                    </div>
+                    <div>
+                      <p className="mr-5">팩스</p>
+                      <span>02-6217-1115</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-end">
+                <div className="mb-3 flex gap-5">
+                  <Link href="/" className="text-text-default underline">
+                    회사소개
+                  </Link>
+                  <Link href="/" className="text-text-default underline">
+                    서비스이용약관
+                  </Link>
+                  <Link href="/" className="text-text-default underline">
+                    개인정보처리방침
+                  </Link>
+                </div>
+                <p className="label-xs-medium text-right">
+                  Ⓒ Spacspace.All right reserved.
+                </p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </body>
     </html>
   );
 }

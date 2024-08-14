@@ -14,8 +14,28 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
+    color: {
+      control: "select",
+      options: ["primary", "warning", "assist", "suggest", "success", "tonal"],
+      default: "primary",
+    },
+    variant: {
+      control: "select",
+      options: ["filled", "outline"],
+      default: "filled",
+    },
     size: {
+      control: "select",
       options: ["small", "medium", "large"],
+      default: "medium",
+    },
+    rounded: {
+      control: "select",
+      options: ["xs", "md"],
+      default: "xs",
+    },
+    disabled: {
+      control: "boolean",
     },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
@@ -26,14 +46,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const DefaultButton: Story = {
-  args: {
-    color: "primary",
-    variant: "filled",
-    children: "Button",
-    rounded: "xs",
-    size: "",
-  },
+export const Buttons: Story = {
+  args: {},
   render() {
     return (
       <div className="grid grid-cols-4 gap-[12px]">
@@ -337,5 +351,15 @@ export const DefaultButton: Story = {
         </div>
       </div>
     );
+  },
+};
+
+export const DefaultButton: Story = {
+  args: {
+    color: "primary",
+    variant: "filled",
+    children: "Button",
+    rounded: "xs",
+    size: "",
   },
 };

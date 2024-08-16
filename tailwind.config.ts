@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -82,9 +83,9 @@ const config: Config = {
         3: "16",
       },
       fontWeight: {
-        inter_0: "bold",
-        inter_1: "medium",
-        inter_2: "regular",
+        inter_0: "600",
+        inter_1: "500",
+        inter_2: "400",
       },
       fontSize: {
         0: "12px",
@@ -105,6 +106,11 @@ const config: Config = {
       },
       paragraphSpacing: {
         0: "0",
+      },
+      backgroundImage: {
+        "main-bg": "url('/home_background.svg')",
+        "main-rect-icon": "url('/home_rect_icon.svg')",
+        "footer-bg": "url('/footer_background.svg')",
       },
     },
   },

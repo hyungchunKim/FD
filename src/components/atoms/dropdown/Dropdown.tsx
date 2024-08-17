@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 import { TDropdown } from "@/types/dropdown/dropdown";
 
-const Dropdown: React.FC<{ dropdown: TDropdown }> = ({ dropdown }) => {
+interface DropdownProps {
+  dropdown: TDropdown
+}
+
+const Dropdown = ({dropdown}: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(dropdown.downMenus);
 

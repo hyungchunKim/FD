@@ -17,12 +17,12 @@ const CustomerCenter = () => {
         <div className="w-[1538px] h-[817px] flex justify-between mt-[124px] mx-auto">
           <div className="w-[429px] h-[808px] flex flex-col justify-between">
             <div>
-              <div className="w-full h-[180px] text-primary-500 text-[60px] font-inter_0">
+              <div className="w-full h-[180px] text-primary-500 title-xl-bold">
                 서비스이용에
                 <br/>
                 문제가 생겼나요?
               </div>
-              <div className="w-full h-[56px] text-text-default text-4 font-inter_1 mt-[30px]">
+              <div className="w-full h-[56px] text-text-default title-xs-medium mt-[30px]">
                 이용하면서 문제가 생겼다면 언제든지 문의해주세요.
                 <br/>
                 서비스 개발과 성장에 큰 도움이 됩니다.
@@ -30,18 +30,18 @@ const CustomerCenter = () => {
             </div>
             <div className="w-[260px] h-[181px] flex flex-col justify-between">
               <div className="flex flex-col gap-2">
-                <div className="w-full h-[30px] font-inter_1 text-4">
+                <div className="w-full h-[30px] title-xs-medium">
                   Email
                 </div>
-                <div className="w-full h-[27px] text-3 text-text-default">
+                <div className="w-full h-[27px] subtitle-sm-regular text-text-default">
                   justin@floatfactory.kr
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="w-full h-[30px] font-inter_1 text-4">
+                <div className="w-full h-[30px] title-xs-medium">
                   Address
                 </div>
-                <div className="w-full h-[27px] text-3 text-text-default">
+                <div className="w-full h-[27px] subtitle-sm-regular text-text-default">
                   서울 강서구 마곡중앙2로 11 305호
                 </div>
               </div>
@@ -49,30 +49,30 @@ const CustomerCenter = () => {
           </div>
           <div className="w-[985px] h-[817px] border border-primary-500 rounded-[40px] flex flex-col items-center">
             <div className="w-[866px] h-[83px] flex flex-col justify-between mt-[60px] mb-8">
-              <div className="w-[88px] h-9 text-5 font-inter_0">문의하기</div>
-              <div className="w-[524px] h-[24px] font-inter_1 text-[#8f8f8f]">
+              <div className="w-[88px] h-9 subtitle-md-bold">문의하기</div>
+              <div className="w-[524px] h-[24px] label-md-medium text-[#8f8f8f]">
                 문의하고 싶은 내용을 구체적으로 작성해주셔야 패드백이 정상적으로 반영됩니다.
               </div>
             </div>
             <div className="w-[866px] h-[86px] flex flex-col justify-between mb-8">
-              <div className="text-3 font-inter_1">Name</div>
+              <div className="subtitle-sm-medium">Name</div>
               <input 
-                className="w-[866px] h-[51px] border border-line-light text-3 font-inter_1 indent-3 rounded-lg"
+                className="w-[866px] h-[51px] border border-line-light subtitle-sm-medium indent-3 rounded-lg"
                 placeholder="이름을 적어주세요."
               />
             </div>
             <div className="w-[866px] h-[86px] flex flex-col justify-between mb-8">
-              <div className="text-3 font-inter_1">Email</div>
+              <div className="subtitle-sm-medium">Email</div>
               <input 
-                className="w-[866px] h-[51px] border border-line-light text-3 font-inter_1 indent-3 rounded-lg text-[#c5c5c5]"
+                className="w-[866px] h-[51px] border border-line-light subtitle-sm-medium indent-3 rounded-lg text-[#c5c5c5]"
                 value="justin@factory.kr"
                 disabled
               />
             </div>
             <div className="w-[866px] h-[261px] flex flex-col justify-between mb-8">
-              <div className="text-3 font-inter_1">Message</div>
+              <div className="subtitle-sm-medium">Message</div>
               <textarea 
-                className="w-[866px] h-[226px] border border-line-light text-3 font-inter_1 indent-3 rounded-lg leading-[60px]"
+                className="w-[866px] h-[226px] border border-line-light subtitle-sm-medium indent-3 rounded-lg leading-[60px]"
                 placeholder="내용을 적어주세요."
               />
             </div>

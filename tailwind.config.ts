@@ -67,7 +67,7 @@ const config: Config = {
       },
       buttonShadow: {
         color: "#00000040",
-        type: "dropShadow",
+        type: "buttonShadow",
         x: 0,
         y: 2,
         blur: 12,

@@ -32,52 +32,53 @@ const DefaultCard = ({
         className={twMerge(
           "h-full w-full p-7",
           "rounded-[8px] border border-line-default",
-          "flex flex-col gap-6",
           backgroundColor === "primary-light" && "bg-bg-primary_light",
           backgroundColor === "primary-dark" && "bg-bg-primary_dark",
           shadow && "shadow-[0_2px_12px_0_#00000040]",
           className,
         )}
       >
-        <div className={headerClass}>
-          <div className="card_header-chip flex justify-between">
-            <div>{chipLabel}</div>
-            <div>{useMenu && <>*</>}</div>
+        <div className="flex h-full w-full flex-col gap-6">
+          <div className={headerClass}>
+            <div className="card_header-chip flex justify-between">
+              <div>{chipLabel}</div>
+              <div>{useMenu && <>*</>}</div>
+            </div>
+            <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis text-black">
+              {title}
+            </h2>
+            {subTitle && (
+              <div
+                className={twMerge(
+                  "caption-xl-medium text-text-default",
+                  subTitleClass,
+                )}
+              >
+                <span>{subTitle}</span>
+              </div>
+            )}
           </div>
-          <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis text-black">
-            {title}
-          </h2>
-          {subTitle && (
-            <div
+          {summary && (
+            <p
               className={twMerge(
-                "caption-xl-medium text-text-default",
-                subTitleClass,
+                "card_summary title-xs-regular flex-1 text-ellipsis text-text-default",
+                summaryClass,
               )}
             >
-              <span>{subTitle}</span>
+              {summary}
+            </p>
+          )}
+          {(usePinIcon || useNewWindowIcon || useShareIcon || createDate) && (
+            <div className="flex justify-between align-bottom">
+              <div className="flex gap-4">
+                {usePinIcon && "pin"}
+                {useNewWindowIcon && "newWindow"}
+                {useShareIcon && "shareIcon"}
+              </div>
+              <div>{createDate && CardDateFormat(createDate)}</div>
             </div>
           )}
         </div>
-        {summary && (
-          <p
-            className={twMerge(
-              "card_summary title-xs-regular flex-1 text-ellipsis text-text-default",
-              summaryClass,
-            )}
-          >
-            {summary}
-          </p>
-        )}
-        {(usePinIcon || useNewWindowIcon || useShareIcon || createDate) && (
-          <div className="flex justify-between align-bottom">
-            <div className="flex gap-4">
-              {usePinIcon && "pin"}
-              {useNewWindowIcon && "newWindow"}
-              {useShareIcon && "shareIcon"}
-            </div>
-            <div>{createDate && CardDateFormat(createDate)}</div>
-          </div>
-        )}
       </div>
     </>
   );

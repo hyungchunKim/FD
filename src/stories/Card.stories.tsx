@@ -5,6 +5,7 @@ import CardComp, {
   FileCard as FileComp,
   ImageLinkCard as ImageLinkComp,
   ContentCard as ContentComp,
+  InnerImageCard as InnerImageComp,
 } from "../components/organisms/card";
 import { CardType } from "@/components/organisms/card/card.d";
 import CardImg from "./assets/card-image.png";
@@ -139,6 +140,21 @@ export const ContentCard: Story = {
     return (
       <>
         <ContentComp {...args} />
+      </>
+    );
+  },
+};
+
+export const InnerImageCard: Story = {
+  args: {
+    title: "Content Card",
+    className: "w-[700px] h-[350px]",
+    imgUrl: CardImg.src,
+  },
+  render: (args) => {
+    return (
+      <>
+        <InnerImageComp {...args} />
       </>
     );
   },

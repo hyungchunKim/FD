@@ -1,4 +1,3 @@
-import Card from "./Card";
 import DefaultCard from "./DefualtCard";
 import ContentCard from "./ContentCard";
 import ImageLinkCard from "./ImageLinkCard";

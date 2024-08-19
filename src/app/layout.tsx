@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="grid h-max min-h-screen w-full grid-rows-[auto_1fr_auto]">
-          <header className="sticky w-full px-[40px]">
+        <div className="h-max min-h-screen w-full">
+          <header className="sticky top-0 z-50 w-full bg-white px-[40px]">
             <div className="mx-auto flex h-[136px] w-full min-w-[1240px] max-w-[1920px] items-center justify-between">
               <div className="flex gap-10 px-[40px]">
                 <Link href="/" className="uppercase">
@@ -32,11 +32,11 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <main className="mx-auto w-full min-w-[1240px] max-w-[1920px] text-text-dark">
+          <main className="mx-auto w-full min-w-[1240px] max-w-[1920px] px-[40px] text-text-dark has-[.content-w-full]:max-w-full has-[.content-px-none]:px-0">
             {children}
           </main>
-          <footer className="">
-            <div className="mx-auto flex w-full min-w-[1240px] max-w-[1920px] items-stretch justify-between gap-10 px-[80px] py-5">
+          <footer className="before:bg-main-bg relative overflow-hidden bg-bg-primary_light px-[80px] py-[60px] before:absolute before:left-[-20px] before:top-[-80px] before:z-0 before:h-[845px] before:w-[2875px] before:bg-[length:100%_100%] before:content-['']">
+            <div className="relative z-30 mx-auto flex w-full min-w-[1240px] max-w-[1920px] items-stretch justify-between gap-10 px-[80px] py-5">
               <div className="">
                 <div className="title-xs-bold uppercase">CONTACT</div>
                 <div className="label-md-bold flex gap-10 [&_p]:text-text-default">

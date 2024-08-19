@@ -3,6 +3,9 @@
 import { twMerge } from "tailwind-merge";
 import { CardType } from "./card.d";
 import Link from "next/link";
+import ArrowUp from "@/assets/icons/ArrowUp.svg";
+
+console.log(ArrowUp);
 
 type PropTypes = {
   link: string;
@@ -18,7 +21,6 @@ const ImageLinkCard = ({
   size = "small",
   className = "",
 }: PropTypes) => {
-  console.log(backgroundImg);
   return (
     <>
       <Link href={link}>
@@ -34,7 +36,7 @@ const ImageLinkCard = ({
         >
           <div
             className={twMerge(
-              "z-10 flex items-center justify-between text-white",
+              "z-10 flex w-full items-center justify-between text-white",
             )}
           >
             <div>
@@ -58,7 +60,9 @@ const ImageLinkCard = ({
                 {subTitle}
               </p>
             </div>
-            <div></div>
+            <div className="flex h-[68px] w-[68px] rotate-90 items-center justify-center rounded-full bg-white/70 [&_path]:fill-black">
+              <ArrowUp />
+            </div>
           </div>
         </div>
       </Link>

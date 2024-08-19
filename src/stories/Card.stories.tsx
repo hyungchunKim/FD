@@ -65,7 +65,7 @@ const meta = {
     usePinIcon: true,
     useNewWindowIcon: true,
   },
-} satisfies Meta<typeof Input>;
+} satisfies Meta<typeof CardComp>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

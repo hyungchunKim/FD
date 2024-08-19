@@ -1,17 +1,34 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true, // React의 Strict Mode를 활성화하여 잠재적인 문제를 감지
-  
-    webpack: (config) => {
-      // Webpack 설정을 커스터마이징하기 위해 기존 설정에 새로운 규칙을 추가
-      config.module.rules.push({
-        test: /\.svg$/, // `.svg` 파일을 찾는 정규식
-        use: ["@svgr/webpack"], // `@svgr/webpack` 로더를 사용하여 SVG를 React 컴포넌트로 변환
-      });
-  
-      return config; // 수정된 Webpack 설정을 반환
-    },
-  };
-  
-  export default nextConfig;
-  
+  reactStrictMode: true, // React의 Strict Mode를 활성화하여 잠재적인 문제를 감지
+
+  webpack(config) {
+    // Grab the existing rule that handles SVG imports
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.(".svg"),
+    );
+
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        use: ["@svgr/webpack"],
+      },
+    );
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    return config;
+  },
+};
+
+export default nextConfig;

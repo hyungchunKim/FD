@@ -1,4 +1,5 @@
-type CardIconType = "pin" | "newWindow" | "share";
+export type CardBgColorType = "white" | "primary-light" | "primary-dark";
+export type CardIconType = "pin" | "newWindow" | "share";
 
 export type CardType = {
   chipLabel?: string;
@@ -21,4 +22,5 @@ export type CardType = {
   summary?: string;
   createDate?: string;
   shadow?: boolean;
+  backgroundColor?: CardBgColorType;
 };

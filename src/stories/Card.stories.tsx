@@ -4,6 +4,7 @@ import { fn } from "@storybook/test";
 import CardComp, {
   FileCard as FileComp,
   ImageLinkCard as ImageLinkComp,
+  ContentCard as ContentComp,
 } from "../components/organisms/card";
 import { CardType } from "@/components/organisms/card/card.d";
 import CardImg from "./assets/card-image.png";
@@ -54,6 +55,10 @@ const meta = {
     },
     createDate: {
       controls: "date",
+    },
+    backgroundColor: {
+      controls: "select",
+      options: ["white", "primary-light", "primary-dark"],
     },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
@@ -120,6 +125,20 @@ export const ImageLinkCard: Story = {
     return (
       <>
         <ImageLinkComp {...args} />
+      </>
+    );
+  },
+};
+
+export const ContentCard: Story = {
+  args: {
+    title: "Content Card",
+    className: "w-[500px] h-[350px]",
+  },
+  render: (args) => {
+    return (
+      <>
+        <ContentComp {...args} />
       </>
     );
   },

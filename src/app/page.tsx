@@ -89,9 +89,6 @@ export default function page() {
         </div>
       </div>
       <div className="mx-auto flex h-[calc(100vh_-_136px)] w-full min-w-[1022px] max-w-[1920px] items-center gap-[124px] py-[192px] text-primary-500"></div>
-
     </div>
   );
-};
-
-export default Page;
+}

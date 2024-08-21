@@ -69,7 +69,7 @@ const MyLibraryList = ({
             chipLabel={library.status}
             useMenu={useCardMenu}
             subTitle={library.caption}
-            className="h-[200px]"
+            className="h-[200px] border-primary-100"
           />
         ))}
         <div className="absolute left-[-26px] top-[50%] flex h-0 w-[calc(100%_+_52px)] items-center justify-between">

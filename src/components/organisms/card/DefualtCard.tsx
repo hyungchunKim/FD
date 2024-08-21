@@ -2,6 +2,10 @@
 import { twMerge } from "tailwind-merge";
 import { CardType } from "./card.d";
 import { CardDateFormat } from "@/utils";
+import PushPin from "@/assets/icons/PushPin.svg";
+import Share from "@/assets/icons/Share.svg";
+import ShareFat from "@/assets/icons/ShareFat.svg";
+import MoreVerti from "@/assets/icons/MoreVeri.svg";
 
 type PropTypes = {
   subTitleClass?: string;
@@ -42,7 +46,13 @@ const DefaultCard = ({
           <div className={twMerge("h-full w-full", headerClass)}>
             <div className="card_header-chip flex justify-between">
               <div>{chipLabel}</div>
-              <div>{useMenu && <>*</>}</div>
+              <div>
+                {useMenu && (
+                  <button>
+                    <MoreVerti />
+                  </button>
+                )}
+              </div>
             </div>
             <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis text-black">
               {title}
@@ -71,9 +81,21 @@ const DefaultCard = ({
           {(usePinIcon || useNewWindowIcon || useShareIcon || createDate) && (
             <div className="flex justify-between align-bottom">
               <div className="flex gap-4">
-                {usePinIcon && "pin"}
-                {useNewWindowIcon && "newWindow"}
-                {useShareIcon && "shareIcon"}
+                {usePinIcon && (
+                  <button>
+                    <PushPin />
+                  </button>
+                )}
+                {useNewWindowIcon && (
+                  <button>
+                    <Share />
+                  </button>
+                )}
+                {useShareIcon && (
+                  <button>
+                    <ShareFat />
+                  </button>
+                )}
               </div>
               <div>{createDate && CardDateFormat(createDate)}</div>
             </div>

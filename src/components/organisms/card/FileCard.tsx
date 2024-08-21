@@ -24,10 +24,8 @@ const FileCard = ({
         title={title}
         subTitle={subTitle}
         useMenu={useMenu}
-        className={twMerge(
-          "[&>div]:grid [&>div]:h-full [&>div]:grid-rows-[auto_1fr_auto] [&>div]:items-end [&_h2]:flex-1",
-          className,
-        )}
+        className={twMerge("h-[200px]", className)}
+        headerClass="grid grid-rows-[auto_1fr_auto] h-full items-end"
       ></DefaultCard>
     </>
   );

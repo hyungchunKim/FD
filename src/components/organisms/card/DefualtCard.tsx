@@ -39,7 +39,7 @@ const DefaultCard = ({
         )}
       >
         <div className="flex h-full w-full flex-col gap-6">
-          <div className={headerClass}>
+          <div className={twMerge("h-full w-full", headerClass)}>
             <div className="card_header-chip flex justify-between">
               <div>{chipLabel}</div>
               <div>{useMenu && <>*</>}</div>

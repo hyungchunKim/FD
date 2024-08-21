@@ -3,7 +3,7 @@ import Button from "@/components/atoms/button";
 export default function page() {
   return (
     <div className="content-w-full content-px-none">
-      <div className="bg-main-bg overflow-hidden bg-[length:3856px_1134px] bg-center">
+      <div className="overflow-hidden bg-main-bg bg-[length:3856px_1134px] bg-center">
         <div className="mx-auto flex h-[calc(100vh_-_136px)] w-full min-w-[1240px] max-w-[1920px] flex-col items-center justify-center text-primary-500">
           <p className="title-xl-regular">Find your Flaw,</p>
           <h2 className="title-xl-regular mb-10 rounded-full border-4 border-primary-500 bg-white px-7 py-2">
@@ -50,7 +50,7 @@ export default function page() {
               개발자들에게 편의와 안전한 개발 환경을 제공합니다.
             </p>
           </div>
-          <div className="bg-main-rect-icon relative right-0 flex w-[680px] items-center bg-[length:auto_100%] bg-[center_right_0] bg-no-repeat">
+          <div className="relative right-0 flex w-[680px] items-center bg-main-rect-icon bg-[length:auto_100%] bg-[center_right_0] bg-no-repeat">
             <div className="flex h-[380px] w-[380px] flex-col justify-center bg-white shadow-[0px_60px_60px_-24px] shadow-primary-500/40"></div>
           </div>
         </div>
@@ -88,7 +88,74 @@ export default function page() {
           />
         </div>
       </div>
-      <div className="mx-auto flex h-[calc(100vh_-_136px)] w-full min-w-[1022px] max-w-[1920px] items-center gap-[124px] py-[192px] text-primary-500"></div>
+      <div className="mx-auto w-full min-w-[1022px] max-w-[1920px] items-center py-[192px] text-primary-500">
+        <div className="border-box mt-[72px] border border-transparent">
+          <div className="mx-auto mt-[124px] flex w-[1538px] justify-between">
+            <div className="flex h-[808px] w-[429px] flex-col justify-between">
+              <div>
+                <div className="title-xl-bold h-[180px] w-full text-primary-500">
+                  서비스이용에
+                  <br />
+                  문제가 생겼나요?
+                </div>
+                <div className="title-xs-medium mt-[30px] h-[56px] w-full text-text-default">
+                  이용하면서 문제가 생겼다면 언제든지 문의해주세요.
+                  <br />
+                  서비스 개발과 성장에 큰 도움이 됩니다.
+                </div>
+              </div>
+              <div className="flex h-[181px] w-[260px] flex-col justify-between">
+                <div className="flex flex-col gap-2">
+                  <div className="title-xs-medium h-[30px] w-full">Email</div>
+                  <div className="subtitle-sm-regular h-[27px] w-full text-text-default">
+                    justin@floatfactory.kr
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="title-xs-medium h-[30px] w-full">Address</div>
+                  <div className="subtitle-sm-regular h-[27px] w-full text-text-default">
+                    서울 강서구 마곡중앙2로 11 305호
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex h-[817px] w-[985px] flex-col items-center rounded-[40px] border border-primary-500">
+              <div className="mb-8 mt-[60px] flex h-[83px] w-[866px] flex-col justify-between">
+                <div className="subtitle-md-bold h-9 w-[88px]">문의하기</div>
+                <div className="label-md-medium h-[24px] w-[524px] text-[#8f8f8f]">
+                  문의하고 싶은 내용을 구체적으로 작성해주셔야 패드백이
+                  정상적으로 반영됩니다.
+                </div>
+              </div>
+              <div className="mb-8 flex h-[86px] w-[866px] flex-col justify-between">
+                <div className="subtitle-sm-medium">Name</div>
+                <input
+                  className="subtitle-sm-medium h-[51px] w-[866px] rounded-lg border border-line-light indent-3"
+                  placeholder="이름을 적어주세요."
+                />
+              </div>
+              <div className="mb-8 flex h-[86px] w-[866px] flex-col justify-between">
+                <div className="subtitle-sm-medium">Email</div>
+                <input
+                  className="subtitle-sm-medium h-[51px] w-[866px] rounded-lg border border-line-light indent-3 text-[#c5c5c5]"
+                  value="justin@factory.kr"
+                  disabled
+                />
+              </div>
+              <div className="mb-8 flex h-[261px] w-[866px] flex-col justify-between">
+                <div className="subtitle-sm-medium">Message</div>
+                <textarea
+                  className="subtitle-sm-medium h-[226px] w-[866px] rounded-lg border border-line-light indent-3 leading-[60px]"
+                  placeholder="내용을 적어주세요."
+                />
+              </div>
+              <button className="h-[53px] w-[866px] rounded-lg bg-primary-500 text-3 font-semibold text-white">
+                문의 보내기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

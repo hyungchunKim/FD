@@ -7,7 +7,7 @@ import Share from "@/assets/icons/Share.svg";
 import ShareFat from "@/assets/icons/ShareFat.svg";
 import MoreVerti from "@/assets/icons/MoreVeri.svg";
 
-type PropTypes = {
+export type PropTypes = {
   subTitleClass?: string;
   headerClass?: string;
   summaryClass?: string;
@@ -71,7 +71,7 @@ const DefaultCard = ({
           {summary && (
             <p
               className={twMerge(
-                "card_summary title-xs-regular flex-1 text-ellipsis text-text-default",
+                "card_summary caption-xs-regular flex-1 text-ellipsis text-text-default",
                 summaryClass,
               )}
             >

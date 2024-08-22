@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/atoms/button";
 //import Switch from "@/components/atoms/switch";
 
@@ -8,7 +10,7 @@ export default function setting() {
         <Button
           variant={"outline"}
           color="primary"
-          className="h-[79px] w-[233px] rounded-full border-[4px] border-primary-500 text-[40px] font-normal leading-[48.41px]"
+          className="title-md-bold h-[79px] w-[233px] rounded-full border-[4px] border-primary-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,41 +38,41 @@ export default function setting() {
                 </svg>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[40px] font-medium leading-[48.41px]">
+                <p className="text- title-md-medium truncate text-text-dark">
                   Hello, <br />
-                  marry@gamil.com
+                  marry@gmail.com
                 </p>
               </div>
-              <div className="inline-flex items-center text-base font-semibold">
+              <div className="inline-flex items-center">
                 <Button
                   variant={"outline"}
-                  rounded={"xs"}
                   size={"medium"}
+                  rounded={"xs"}
                   color="primary"
-                  className="h-[61px] w-[128px] border-2 border-primary-500 text-5 font-light leading-[29.05px] text-primary-500"
+                  className="title-xs-regular h-[61px] w-[128px] border-2 border-primary-500 text-primary-500"
                 >
                   로그아웃
                 </Button>
               </div>
             </div>
           </li>
-          <li className="h-[189px] py-20 text-5 leading-[29.05px]">
+          <li className="h-[189px] py-20">
             <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="flex-shrink-0 font-semibold">계정 유형</div>
+              <div className="subtitle-md-bold flex-shrink-0">계정 유형</div>
               <div className="min-w-0 flex-1">
-                <p className="font-normal">깃허브 연동</p>
+                <p className="subtitle-md-regular">깃허브 연동</p>
               </div>
             </div>
           </li>
-          <li className="h-[276px] py-20 text-5 leading-[29.05px]">
+          <li className="h-[276px] py-20">
             <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="min-w-0 flex-1 flex-shrink-0 font-semibold">
+              <div className="subtitle-md-bold min-w-0 flex-1 flex-shrink-0">
                 알림
-                <p className="mt-[60px] truncate font-normal">
-                  이메일로 알림 받기
+                <p className="subtitle-md-medium mt-[60px] max-h-[140px] overflow-y-auto">
+                  이메일로 알림
                 </p>
               </div>
-              <div className="inline-flex items-center text-base font-semibold">
+              <div className="inline-flex items-center text-base">
                 {/* <Switch></Switch> */}
               </div>
             </div>

@@ -60,8 +60,10 @@ const ImageLinkCard = ({
                 {subTitle}
               </p>
             </div>
-            <div className="flex h-[68px] w-[68px] rotate-90 items-center justify-center rounded-full bg-white/70 [&_path]:fill-black">
-              <ArrowUp />
+            <div>
+              <div className="flex h-[68px] w-[68px] rotate-90 items-center justify-center rounded-full bg-white/70 [&_path]:fill-black">
+                <ArrowUp />
+              </div>
             </div>
           </div>
         </div>

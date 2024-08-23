@@ -17,16 +17,19 @@ const Pagenation = ({ totalPages, currentPage, pageGroupSize, onPageChange }: Pa
   const endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
   const handlePrevGroup = () => {
-    const nextGroupStart = startPage + pageGroupSize;
+    const prevGroupStart = startPage - pageGroupSize;
     
-    if (nextGroupStart <= totalPages) {
-      onPageChange(nextGroupStart);
+    if (prevGroupStart > 0) {
+      setPageGroupStart(prevGroupStart);
     }
   }
 
   const handleNextGroup = () => {
-    if (endPage < totalPages) {
-      setPageGroupStart(pageGroupStart + 10);
+    
+    const nextGroupStart = startPage + pageGroupSize;
+    
+    if (nextGroupStart <= totalPages) {
+      setPageGroupStart(nextGroupStart);
     }
   }
   

@@ -8,7 +8,7 @@ import OffIcon from '@/assets/icons/off.svg';
 import Vector6Icon from '@/assets/icons/Vector 6.svg';
 
 const chipVariants = cva(
-  'inline-flex items-center justify-between text-sm transition-colors focus:outline-none',
+  'inline-flex items-center justify-center text-sm transition-colors focus:outline-none',
   {
     variants: {
       variant: {
@@ -71,17 +71,15 @@ const Chip: React.FC<ChipProps> = ({
         chipVariants({ variant, size, state }),
         color,
         className,
-        'flex items-center justify-between px-3'
+        'flex items-center justify-center px-3'  
       )}
       {...props}
     >
-      <div className="flex items-center min-w-0 space-x-2">
-        {showLeftIcon && (
-          <FileIcon className="w-6 h-6 flex-shrink-0" style={{ width: '24px', height: '24px' }} />
-        )}
-        <span className="truncate">{text}</span>
-      </div>
-      <div className="flex items-center space-x-2 flex-shrink-0">
+      {showLeftIcon && (
+        <FileIcon className="w-6 h-6 flex-shrink-0 mr-2" />
+      )}
+      <span className="truncate">{text}</span>
+      <div className="flex items-center space-x-2 ml-2">
         {percentage !== undefined && (
           <span className="font-medium text-xs">{percentage}%</span>
         )}
@@ -97,7 +95,7 @@ const Chip: React.FC<ChipProps> = ({
         {showRightVector && (
           <Vector6Icon
             className="flex-shrink-0"
-            style={{ width: '24px', height: '24px', marginLeft: '4px', transform: 'translateY(7px)' }}
+            style={{ width: '24px', height: '24px', marginLeft: '4px' }}
           />
         )}
       </div>

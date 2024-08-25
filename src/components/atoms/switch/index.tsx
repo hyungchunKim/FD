@@ -1,84 +1,106 @@
-"use client";
-import { cva, VariantProps } from "class-variance-authority";
-import { twMerge } from "tailwind-merge";
-const SwitchVariants = cva(
-  `
- relative w-[52px] h-[32px] bg-primary-50 peer-focus:outline-none rounded-full peer 
-  `,
+"use client"
+
+import React, { useState } from 'react';
+import Pagination from '@/components/atoms/pagination/Pagination';
+import Chip from '@/components/atoms/chips/Chip';
+import Button from '@/components/atoms/button/Button';
+import Input from '@/components/atoms/input/Input';
+import InfoBox from '@/components/atoms/infobox/InfoBox';
+import Switch from '@/components/atoms/switch/Switch';
+import Dropdown from '@/components/atoms/dropdown/Dropdown';
+import { ContentCard } from '@/components/organisms/card/ContentCard';
+import { ImageLinkCard } from '@/components/organisms/card/ImageLinkCard';
+import { PropTypes } from '@/components/organisms/card/DefaultCard';
+
+// 상수 정의
+const TOPICS = [
+  'Topic', '웹뷰', '허프만 코딩 구현', '테스크 커버리지', '코드형 인프라(IaC)',
+  '클린 아키텍쳐', 'UI 라이브러리 개발', 'AWS Personalize', '키클락', '클린 코어'
+];
+
+const ISSUE_ITEMS: PropTypes[] = [
   {
-    variants: {
-      color: {
-        primary: [
-          "after:inline-block after:align-middle after:mx-[2px] after:start-[2px] after:rounded-full after:w-[16px] after:h-[16px] rounded-full peer after:bg-[#79747E] after:transition-all ",
-          "after:hover:ring-[#1D1B20] after:hover:bg-[#79747E] after:hover:ring-[8px] after:hover:ring-opacity-[0.08] after:content-[''] ",
-          "after:peer-focus:ring-[#c9a8ff] after:peer-focus:bg-text-dark after:peer-focus:ring-[8px] after:peer-focus:ring-opacity-50  ",
-          "peer-checked:after:hover:ring-[8px]   peer-checked:after:hover:border-[#6750A4] peer-checked:after:hover:border-opacity-[0.08]",
-          "peer-checked:after:peer-focus:ring-primary-300 peer-checked:after:peer-focus:bg-primary-50 peer-checked:after:peer-focus:ring-opacity-[0.12]",
-          "peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:mt-[3px] peer-checked:after:w-[24px] peer-checked:after:h-[24px] peer-checked:after:bg-white peer-checked:bg-primary-500 peer-checked:border-0",
-        ],
-      },
-      disabled: {
-        true: [
-          "border-primary-200 after:bg-[#1D1B20] after:hover:ring-[0px]",
-          "peer-checked:after:hover:ring-[0px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:mt-[3px] peer-checked:after:w-[24px] peer-checked:after:h-[24px] peer-checked:after:bg-white peer-checked:bg-primary-200 peer-checked:bg-opacity-50 peer-checked:borderr-[2px]",
-        ],
-      },
-      icon: {
-        true: [
-          "after:w-[24px] after:h-[24px] after:z-0 after:relative ",
-          "after:hover:ring-[#1D1B20] after:hover:bg-[#79747E] ",
-        ],
-      },
-      variant: {
-        outline: "border-[2px] border-line-dark bg-primary-50 ",
-        filled: "border-[2px] border-primary-500 before:content-none",
-      },
-    },
-    defaultVariants: {
-      variant: "outline",
-      color: "primary",
-      disabled: false,
-    },
-    compoundVariants: [
-      {
-        disabled: true,
-        variant: "outline",
-        class: "border-primary-200 bg-bg-primary_light",
-      },
-    ],
+    chipLabel: 'chip',
+    title: '[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서',
+    summary: '최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..',
+    usePinIcon: true,
+    useNewWindowIcon: true,
+    summaryClass: 'caption-xl-regular bg-bg-primary_light p-[20px] text-[#797979]'
   },
-);
-type TSwitchIcon = {
-  icon: boolean;
-};
-type TInputProps = React.ComponentPropsWithoutRef<"input">;
-type SwitchProps = VariantProps<typeof SwitchVariants>;
+  // ... (나머지 5개 아이템 복사)
+];
 
-export type PropTypes = TInputProps & SwitchProps; //& TSwitchIcon;
+const FlawDbPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [dropdownState, setDropdownState] = useState({ dropWidth: 200, dropStandard: '정렬 기준', downMenus: [] });
+  
+  const totalItems = ISSUE_ITEMS.length;
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const pageGroupSize = 1;
+  
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  }
 
-export default function Switch({
-  variant,
-  color,
-  disabled,
-  children,
-  className,
-  icon,
-  ...props
-}: PropTypes) {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const currentItems = ISSUE_ITEMS.slice(startIndex, endIndex);
+
   return (
-    <label className="inline-flex cursor-pointer items-center">
-      <input
-        type="checkbox"
-        className="peer sr-only"
-        disabled={disabled}
-        {...props}
+    <div className='w-[1313px] h-[2028px] flex flex-col gap-[76px] mt-[27px] mb-[19px]'>
+      <div className='w-[1313px] h-[1916px] mx-auto box-border'>
+        <div className='w-full h-[390px] flex gap-[28px] mb-[76px]'>
+          <ImageLinkCard link={''} backgroundImg={''} size='large' title='[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서' className='w-[625px] h-[390px]'/>
+          <ImageLinkCard link={''} backgroundImg={''} size='small' title='2023년 12월 CNNVD 호환 서비스 신제품 발표' className='w-[316px] h-[390px]'/>
+          <ImageLinkCard link={''} backgroundImg={''} size='small' title='[취약성 보고서] CISCO IOS XE 소프트웨어의 보안 취약점에 대한 CNNVD의 보고서' className='w-[316px] h-[390px]'/>
+        </div>
+        <div className='w-[1313px] h-[1450px] flex gap-[102px]'>
+          <div className='w-[865px] h-[1450px]'>
+            <div className='w-[105px] h-[29px] subtitle-md-bold mb-4'>취약점 DB</div>
+            <div className='w-[133px] h-[35px] flex gap-3 mb-4'>
+              <Chip text='HOT' color='bg-accent-red' size='suggestion' variant='suggestion' className='text-white'/>
+              <Chip text='NEW' color='bg-[#E8E8E8]' size='suggestion' variant='suggestion' className='text-line-dark'/>
+            </div>
+            <div className='flex justify-between items-center mb-4'>
+              <Input placeholder="검색어를 입력하세요" className="w-[300px]" />
+              <Dropdown dropdown={dropdownState} />
+            </div>
+            <div className='w-full h-[1354px] gap-4 flex flex-col'>
+              {currentItems.map((currentItem, index) => (
+                <ContentCard 
+                  className='w-[865px] h-[258px]'
+                  key={index} 
+                  title={currentItem.title}
+                  summary={currentItem.summary}
+                  usePinIcon={currentItem.usePinIcon}
+                  useNewWindowIcon={currentItem.useNewWindowIcon} 
+                />
+              ))}
+            </div>
+          </div>
+          <div className='w-[346px] h-[664px] flex flex-col gap-4'>
+            <div className='w-[156px] h-[68px] flex flex-col'>
+              <div className='w-[134px] h-[29px] subtitle-md-bold mb-[17px]'>실시간 Topic</div>
+              <div className='w-full h-[22px] subtitle-sm-medium text-text-gray-default'>03.08 10:00시 기준</div>
+            </div>
+            <div className='w-[346px] h-[580px] border border-line-default rounded-lg flex flex-col justify-center items-center px-5'>
+              {TOPICS.map((topic, idx) => (
+                <div className='w-full h-[54px] border-b border-line-light flex items-center subtitle-sm-medium text-text-gray-dark' key={idx}>{`${idx+1}. ${topic}`}</div>
+              ))}
+            </div>    
+          </div>
+        </div>
+      </div>
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pageGroupSize={pageGroupSize}
+        onPageChange={handlePageChange}
       />
-      <div
-        className={twMerge(
-          SwitchVariants({ color, disabled, icon }),
-          className,
-        )}
-      ></div>
-    </label>
+    </div>
   );
-}
+};
+
+export default FlawDbPage;

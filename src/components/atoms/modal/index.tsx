@@ -1,9 +1,12 @@
 "use client";
 import { twMerge } from "tailwind-merge";
 
-export type PropTypes = { children: React.ReactNode };
+export type PropTypes = { children: React.ReactNode; className: string };
 
-export default function Modal({ children }: PropTypes, open: boolean) {
+export default function Modal(
+  { children, className }: PropTypes,
+  open: boolean,
+) {
   return (
     <>
       <div
@@ -12,6 +15,7 @@ export default function Modal({ children }: PropTypes, open: boolean) {
         className={twMerge(
           "fixed inset-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-[rgb(0,0,0,0.6)]",
           open && "flex",
+          className,
         )}
       >
         <div

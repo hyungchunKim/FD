@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="grid h-max min-h-screen w-max grid-rows-[auto_1fr_auto]">
+        <div className="grid h-max min-h-screen w-full grid-rows-[auto_1fr_auto]">
           <header className="sticky top-0 z-50 w-full bg-white px-[40px]">
             <div className="mx-auto flex h-[136px] w-full min-w-[1240px] max-w-[1920px] items-center justify-between">
               <div className="flex gap-10 px-[40px]">

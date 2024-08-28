@@ -7,8 +7,7 @@ const DetectedFiles = () => {
       <div className="mb-12 flex items-center justify-center">
         <Button rounded="md" variant="outline" size="small">
           <div className="flex items-center gap-6">
-            <CaretLeft />
-            <span className="title-md-medium">Detected Files</span>
+            <span className="title-md-medium">My Library</span>
           </div>
         </Button>
       </div>

@@ -26,7 +26,7 @@ const MyLibrary = () => {
           </p>
 
           <h2 className="title-xl-regular mb-10 rounded-full border-4 border-primary-500 bg-white px-7 py-2">
-            MY Library
+            Profile Information
           </h2>
         </div>
         {isLogin ? (

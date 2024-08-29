@@ -16,16 +16,12 @@ const MyLibrary = () => {
     >
       <div
         className={twMerge(
-          "flex flex-col items-center justify-center text-primary-500",
+          "flex flex-col items-center justify-center",
           isLogin ? "pb-[124px] pt-12" : "h-full gap-[60px]",
         )}
       >
         <div className="mx-auto flex w-full min-w-[1240px] max-w-[1920px] flex-col items-center justify-center">
-          <p className="title-xl-regular mb-2 font-light">
-            containing code files
-          </p>
-
-          <h2 className="title-xl-regular mb-10 rounded-full border-4 border-primary-500 bg-white px-7 py-2">
+          <h2 className="title-xl-regular mb-10 rounded-full border-4 border-primary-500 bg-white px-7 py-2 text-primary-500">
             Profile Information
           </h2>
         </div>

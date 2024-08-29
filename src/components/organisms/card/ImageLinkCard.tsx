@@ -32,19 +32,21 @@ const ImageLinkCard = ({
             "flex items-end",
             className,
           )}
-          style={{ backgroundImage: `url('${backgroundImg}'` }}
+          style={{ backgroundImage: `url(${backgroundImg}`}}
         >
           <div
             className={twMerge(
-              "z-10 flex w-full items-center justify-between text-white",
+              "z-10 flex w-full justify-between text-white",
+              size === "small" && "gap-[40px]",
+              size === "large" && "gap-[65px]",
             )}
           >
             <div>
               <h1
                 className={twMerge(
                   "text-white",
-                  size === "small" && "subtitle-sm-bold",
-                  size === "large" && "title-sm-bold",
+                  size === "small" && "subtitle-sm-bold w-[136px] h-auto leading-[25.4px]",
+                  size === "large" && "title-sm-bold w-[420px] h-auto leading-[39.2px]",
                 )}
               >
                 {title}
@@ -52,16 +54,16 @@ const ImageLinkCard = ({
 
               <p
                 className={twMerge(
-                  "text-text-light",
-                  size === "small" && "caption-md-medium",
-                  size === "large" && "title-xs-medium",
+                  "text-text-light mt-[9px]",
+                  size === "small" && "caption-xl-medium leading-[22.4px]",
+                  size === "large" && "title-xs-medium leading-[28px]",
                 )}
               >
                 {subTitle}
               </p>
             </div>
-            <div>
-              <div className="flex h-[68px] w-[68px] rotate-90 items-center justify-center rounded-full bg-white/70 [&_path]:fill-black">
+            <div className="flex flex-col justify-end">
+              <div className="flex h-[68px] w-[68px] items-center justify-center rounded-full bg-white/70 [&_path]:fill-black">
                 <ArrowUp />
               </div>
             </div>

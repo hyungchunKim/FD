@@ -1,20 +1,11 @@
 import Button from "@/components/atoms/button";
-import LoginMyLibrary from "@/components/pages/my-library/LoginMyLibrary";
-import { twJoin, twMerge } from "tailwind-merge";
 import CaretLeft from "@/assets/icons/CaretLeft.svg";
-import AlertTriangle from "@/assets/icons/alert-triangle.svg";
-import YellowTriangle from "@/assets/icons/alert-triangle.svg";
-import CheckCircle from "@/assets/icons/alert-triangle.svg";
-import Chip from "@/components/atoms/chips";
-import ProgressBar from "@/components/atoms/progressbar/ProgressBar";
+import AlertTriangle from "@/assets/icons/Vector10.svg";
+import YellowTriangle from "@/assets/icons/Polygon1.svg";
+import CheckCircle from "@/assets/icons/Ellipse213.svg";
 import List from "@/components/atoms/list";
 import VulnerabilityAnalysisCode from "@/components/pages/my-library/VulnerabilityAnalysisCode";
 import InfoBox from "@/components/atoms/infobox/infobox";
-import VulnerabilityAnalysisCodeStatus from "@/components/pages/my-library/VulnerabilityAnalysisCodeStatus";
-import VulnerabilityAnalysisCodeContent from "@/components/pages/my-library/VulnerabilityAnalysisCodeContent";
-import FolderIcon from "@/assets/icons/.svg";
-import FolderIcon2 from "@/assets/icons/FolderSimpleDashed.svg";
-import Modal from "@/components/atoms/modal";
 import { TAnalysisListProps } from "@/types/my-library/vulnerability-analysis";
 
 const isLogin = true;
@@ -37,56 +28,62 @@ const analysisList: TAnalysisListProps[] = Array.from(
 const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
   return (
     <>
-      <div className="mb-12 flex items-center justify-center">
+      <div className="mb-12 flex gap-6">
         <Button
           rounded="md"
           variant="outline"
-          className="w-full items-start justify-start"
+          className="h-[79px] w-[79px] border-4 border-primary-500"
         >
-          <div className="flex items-center gap-6">
-            <CaretLeft />
-            <span className="title-md-medium">sfacweb - 1</span>
-          </div>
+          <CaretLeft />
         </Button>
-      </div>
-      <div className="mb-7 flex h-[107px] w-[1761px] gap-7">
-        <Button rounded={"xs"} className="subtitle-md-bold flex w-[247px]">
-          폴더 전체 검사
-        </Button>
-        <div className="flex-1 gap-5 rounded-lg border border-primary-300 p-5">
-          <div className="mb-4 flex max-w-[1480px] overflow-x-auto">
-            {analysisList.map((list) => (
-              <Chip
-                showLeftIcon={list.iconShow}
-                className="h-[35px] w-[221px] gap-7 rounded-lg"
-                text={list.fileName}
-              ></Chip>
-            ))}
-          </div>
-
-          <ProgressBar
-            progress={60}
-            className="after:bg-primary-puple-500"
-          ></ProgressBar>
+        <div className="flex h-[79px] w-[1665px] items-center justify-start rounded-full border-4 border-primary-500 bg-transparent px-8 py-5 text-primary-500">
+          <span className="title-md-medium">sfacweb - 1</span>
         </div>
       </div>
-      <div className="-max mb-6 flex max-h-[1065px] w-[1761px] gap-7">
+      <div className="mb-6 flex max-h-[1065px] w-[1761px] gap-7">
         <div className="gap-6">
-          <div className="mb-6 flex h-[65px] w-[247px] gap-3 rounded-lg border p-5">
-            <AlertTriangle className="h-[25px] w-[25px]" />
-            <YellowTriangle className="h-[25px] w-[25px]" />
-            <CheckCircle
-              className="h-[25px] w-[25px]"
-              width={"14px"}
-              height={"14px"}
-            />
+          <Button
+            rounded={"xs"}
+            className="subtitle-md-bold mb-6 flex h-[107px] w-[247px]"
+          >
+            폴더 전체 검사
+          </Button>
+          <div className="title-xs-medium mb-6 flex h-[116px] w-[247px] flex-col gap-3 rounded-lg px-2">
+            <p className="flex h-7">
+              <AlertTriangle className="flex h-[25px] w-[25px] items-center justify-center" />
+              <span className="flex-1">검출된 취약점</span>
+              <span className="inline-flex"></span>
+            </p>
+            <p className="flex h-7">
+              <YellowTriangle className="h-[25px] w-[25px]" />
+              <span className="flex-1">수정 제안</span>
+              <span className="inline-flex"></span>
+            </p>
+            <p className="flex h-7">
+              <CheckCircle className="h-[25px] w-[25px]" />
+              <span className="flex-1">문제 없음</span>
+              <span className="inline-flex"></span>
+            </p>
           </div>
           <List className="mb-6"></List>
         </div>
         {/* 코드 */}
-        <div className="flex w-full gap-7 rounded-lg">
-          <VulnerabilityAnalysisCode></VulnerabilityAnalysisCode>
-          <VulnerabilityAnalysisCode></VulnerabilityAnalysisCode>
+        <div className="w-full gap-7 rounded-lg">
+          <VulnerabilityAnalysisCode
+            className={`${status === "success" && "h-[555px]"}`}
+          ></VulnerabilityAnalysisCode>
+          {/* 수정된 코드 */}
+          {status === "success" && (
+            <div className="w-[1486px] gap-5 rounded-lg">
+              <div className="subtitle-md-bold">수정된 코드</div>
+              <div className="overflow-x-hidden">
+                <InfoBox
+                  backgroundClass="bg-bg-red_light"
+                  className="mb-5"
+                ></InfoBox>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="mb-6 flex max-h-[1157px] min-h-max w-[1761px] gap-7">
@@ -95,18 +92,6 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
             검사하기
           </Button>
         </div>
-        {/* 코드 */}
-        {status === "success" && (
-          <div className="w-full gap-5 rounded-lg">
-            <div className="subtitle-md-bold">수정된 코드</div>
-            <div className="max-h-[287px] overflow-y-auto overflow-x-hidden">
-              <InfoBox
-                backgroundClass="bg-bg-red_light"
-                className="mb-5"
-              ></InfoBox>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

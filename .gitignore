@@ -172,3 +172,8 @@ dist
 # package lock
 .package-lock.json
 *storybook.log
+
+# google translation api key , firebase service account key
+
+orbital-gantry-435220-e3-c971b94a8c24.json
+fd-6aea3-firebase-adminsdk-t7blu-a3caea7018.json

@@ -7,6 +7,7 @@ import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
 import UnionWhite from "@/assets/icons/UnionWhite.svg";
 import Star from "@/assets/icons/Star.svg";
+import StarPurple from "@/assets/icons/StarPurple.svg";
 import Chip from "@/components/atoms/chips";
 import { useRouter } from "next/navigation";
 import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
@@ -54,7 +55,7 @@ const FileCard = ({
       <div
         className={twMerge(
           "h-full w-full p-5",
-          "rounded-[8px] border border-line-default",
+          "rounded-[8px] border border-line-default hover:bg-background-purple-light",
 
           backgroundColor === "primary-light" && "bg-bg-primary_light",
           backgroundColor === "primary-dark" && "bg-bg-primary_dark",
@@ -115,7 +116,10 @@ const FileCard = ({
                   "mt-[10px]",
                 )}
               >
-                <Button onClick={() => handleReposPage(url as string)}>
+                <Button
+                  onClick={() => handleReposPage(url as string)}
+                  className="gap-[7px]"
+                >
                   <UnionWhite /> 결과보기 <CareRightWhite />
                 </Button>
               </div>

@@ -1,6 +1,42 @@
+"use client";
 import Button from "@/components/atoms/button";
-
+import { useRouter } from "next/navigation";
+import { signInWithGithub } from "@/components/pages/layout/Login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useState } from "react";
 export default function page() {
+  const router = useRouter();
+
+  const [isLogin, setIsLogin] = useState(false);
+  // const handleGithubLogin = async () => {
+  //   const loginResult = await signInWithGithub();
+
+  //   if (loginResult?.user) {
+  //     return loginResult?.user;
+  //   } else if (loginResult?.error) {
+  //     console.error("Login failed:", loginResult.error);
+  //     return false;
+  //   }
+  // };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setIsLogin(true);
+      console.log("User is logged in:", user.uid);
+    } else {
+      setIsLogin(false);
+      router.push("/");
+      console.log("not login");
+    }
+  });
+
+  const handleLoginPage = () => {
+    router.push("/login");
+  };
+  const handleReposPage = () => {
+    router.push("/repos");
+  };
   return (
     <div className="content-w-full content-px-none">
       <div className="overflow-hidden bg-main-bg bg-[length:3856px_1134px] bg-center">
@@ -13,9 +49,23 @@ export default function page() {
             인공지능의 뛰어난 분석 능력을 활용하여 코드의 보안 취약점을 신속하게
             해결하세요.
           </p>
-          <Button className="title-sm-regular px-6 font-thin" rounded="md">
-            파일 분석하러 가기
-          </Button>
+          {isLogin ? (
+            <Button
+              className="title-sm-regular px-6 font-thin"
+              rounded="md"
+              onClick={handleReposPage}
+            >
+              파일 분석하러 가기
+            </Button>
+          ) : (
+            <Button
+              className="title-sm-regular px-6 font-thin"
+              rounded="md"
+              onClick={handleLoginPage}
+            >
+              로그인
+            </Button>
+          )}
           <svg
             width="56"
             height="57"

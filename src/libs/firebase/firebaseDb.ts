@@ -4,6 +4,8 @@ interface TranslationData {
   title: string;
   publishedTime: string;
   summary: string;
+  detailContent: string;
+  url: string;
 }
 
 // 환경 변수에서 서비스 계정 키 JSON 문자열을 불러와 파싱

@@ -6,7 +6,7 @@ import { translateText } from './translate';
 const URL = 'https://www.cve.org/Media/News/AllNews';
 
 async function scrapeAndSave() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   
   await page.goto(URL, { waitUntil: 'networkidle2' });
@@ -21,21 +21,20 @@ async function scrapeAndSave() {
 
       return {
         title: titleElement?.textContent?.trim() || '',
+        url: 'https://www.cve.org' + titleElement?.getAttribute('href') || '', // 세부 페이지 URL
         publishedTime: timeElement?.textContent?.trim() || '',
         summary: summaryElement ? Array.from(summaryElement.childNodes).map(node => node.textContent?.trim()).filter(text => text).join(' ') : ''
       };
     });
   });
 
-  // 중복 제거 및 빈 문자열 필터링
   const uniqueNewsItems = new Map<string, any>();
 
   for (const newsItem of newsItems) {
-    const { title, publishedTime, summary } = newsItem;
+    const { title, publishedTime, summary, url } = newsItem;
 
     // 모든 키가 존재하는지 확인
-    if (title && publishedTime && summary) {
-      // 중복 제거 (title을 기준으로 중복 확인)
+    if (title && publishedTime && summary && url) {
       if (!uniqueNewsItems.has(title)) {
         uniqueNewsItems.set(title, newsItem);
       }
@@ -44,19 +43,35 @@ async function scrapeAndSave() {
 
   const filteredNewsItems = Array.from(uniqueNewsItems.values());
 
-  // 데이터 번역 및 저장
   for (const newsItem of filteredNewsItems) {
     try {
-      // 데이터 번역
-      const translatedTitle = await translateText(newsItem.title);
-      const translatedSummary = await translateText(newsItem.summary);
+      // 세부 페이지로 이동
+      if (newsItem.url) {
+        await page.goto(newsItem.url, { waitUntil: 'networkidle2' });
 
-      // Firestore에 저장
-      await saveToFirestore({
-        ...newsItem,
-        title: translatedTitle,
-        summary: translatedSummary,
-      });
+        // 세부 페이지에서 개행 및 공백을 유지하면서 텍스트 추출
+        const detailedContent = await page.evaluate(() => {
+          const contentElement = document.querySelector('.content.ml-2.mt-5') as HTMLElement; // 세부 페이지의 내용 선택자
+          
+          // 개행과 공백을 유지한 텍스트 추출
+          return contentElement?.innerText?.replace(/\n/g, '\n').trim() || '';
+        });
+
+        // 번역
+        const translatedTitle = await translateText(newsItem.title);
+        const translatedSummary = await translateText(newsItem.summary);
+        const translatedPublishedTime = await translateText(newsItem.publishedTime)
+        const translatedDetailContent = await translateText(detailedContent);
+
+        // Firestore에 저장
+        await saveToFirestore({
+          title: translatedTitle,
+          summary: translatedSummary,
+          publishedTime: translatedPublishedTime,
+          detailContent: translatedDetailContent,
+          url: newsItem.url,
+        });
+      }
     } catch (error) {
       console.error('Error processing item:', error);
     }

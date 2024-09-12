@@ -7,7 +7,7 @@ import CheckCircle from "@/assets/icons/Ellipse213.svg";
 import List from "@/components/atoms/list";
 import VulnerabilityAnalysisCode from "@/components/pages/my-library/VulnerabilityAnalysisCode";
 import InfoBox from "@/components/atoms/infobox/infobox";
-import { TAnalysisListProps } from "@/types/my-library/vulnerability-analysis";
+
 import { useEffect, useState } from "react";
 import useGitContentsStore, {
   TRepoContentItem,
@@ -155,8 +155,12 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
                   className="mb-5"
                   title=""
                   titleClass=""
-                  description=""
-                ></InfoBox>
+                  description={["", ""]} 
+                  codeSnippet={{
+                    language: "",
+                    code: ""
+                  }}                
+                />
               </div>
             </div>
           )}

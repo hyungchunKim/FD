@@ -1,16 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
-import Pagination from '@/components/atoms/pagination/Pagination';
-import Chip from '@/components/atoms/chips/Chip';
-import Button from '@/components/atoms/button/Button';
-import Input from '@/components/atoms/input/Input';
-import InfoBox from '@/components/atoms/infobox/InfoBox';
-import Switch from '@/components/atoms/switch/Switch';
+import Pagination from '@/components/atoms/pagenation/Pagenation';
+import Chip from '@/components/atoms/chips/index';
+import Input from '@/components/atoms/input';
 import Dropdown from '@/components/atoms/dropdown/Dropdown';
-import { ContentCard } from '@/components/organisms/card/ContentCard';
-import { ImageLinkCard } from '@/components/organisms/card/ImageLinkCard';
-import { PropTypes } from '@/components/organisms/card/DefaultCard';
+import { ContentCard } from '@/components/organisms/card';
+import { ImageLinkCard } from '@/components/organisms/card';
+import { PropTypes } from '@/components/organisms/card/DefualtCard';
 
 // 상수 정의
 const TOPICS = [
@@ -32,7 +29,7 @@ const ISSUE_ITEMS: PropTypes[] = [
 
 const FlawDbPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [dropdownState, setDropdownState] = useState({ dropWidth: 200, dropStandard: '정렬 기준', downMenus: [] });
+  const [dropdownState, setDropdownState] = useState({ dropWidth: 200, dropStandard: '정렬 기준', downMenus: [], isToggle: true });
   
   const totalItems = ISSUE_ITEMS.length;
   const itemsPerPage = 5;

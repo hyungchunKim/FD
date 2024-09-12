@@ -6,7 +6,6 @@ import ImageLinkCard from "@/components/organisms/card/ImageLinkCard";
 import Chip from "@/components/atoms/chips";
 import { ContentCard } from "@/components/organisms/card";
 import { PropTypes } from "@/components/organisms/card/DefualtCard";
-import dbImageLargeCard from "@/assets/images/dbcardlarge.png"
 
 const topics = [
   "Topic",
@@ -74,7 +73,7 @@ const issueItems: PropTypes[] = [
   },
 ];
 
-const FlawDbPage = () => {
+const VulDbPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = issueItems.length;
@@ -180,4 +179,4 @@ const FlawDbPage = () => {
   );
 };
 
-export default FlawDbPage;
+export default VulDbPage;

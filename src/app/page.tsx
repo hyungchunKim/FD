@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/libs/firebase/firebaseConfig";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Page() {
   
@@ -109,7 +110,7 @@ export default function Page() {
       </div>
       <div className="mx-auto flex h-[calc(100vh_-_136px)] w-full min-w-[1022px] max-w-[1920px] items-stretch justify-between overflow-hidden px-32 text-primary-500">
         <div className="relative top-[192px]">
-          <img src="/home_detect_image.png" alt="detect sample image" />
+          <Image src="/home_detect_image.png" alt="detect sample image" />
         </div>
         <div className="flex flex-col justify-center text-right">
           <h1 className="title-md-bold mb-8 font-extrabold">
@@ -133,7 +134,7 @@ export default function Page() {
             <br />
             프로세스를 제공합니다.
           </h1>
-          <img
+          <Image
             src="/home_service_card.png"
             width={1920}
             alt="flaw service image"

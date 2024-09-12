@@ -10,6 +10,7 @@ import RecentsFile from "@/assets/icons/RecentsFile.svg";
 import BookmarkFolder from "@/assets/icons/BookmarkFolder.svg";
 import { TUserInfo } from "@/types/my-library/vulnerability-analysis";
 import useGitRepoStore from "@/store/useGitRepoStore";
+import Image from "next/image";
 
 const DetectedFiles = () => {
   const [user, setUser] = useState<TUserInfo>();
@@ -67,7 +68,9 @@ const DetectedFiles = () => {
         >
           <div>
             <div className="flex h-[107px] w-[107px] items-center justify-center overflow-hidden rounded-full bg-bg-gray_light">
-              <img width="100%" src={user?.photoUrl} alt="프로필 이미지" />
+              {
+                user?.photoUrl && <Image width={107} src={user.photoUrl} alt="프로필 이미지"/>
+              }
             </div>
           </div>
           <p className="title-md-medium flex-1 text-left text-text-gray-dark">

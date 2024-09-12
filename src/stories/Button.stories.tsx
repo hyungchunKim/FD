@@ -360,6 +360,6 @@ export const DefaultButton: Story = {
     variant: "filled",
     children: "Button",
     rounded: "xs",
-    size: "",
+    size: null,
   },
 };

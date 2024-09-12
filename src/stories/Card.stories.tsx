@@ -116,20 +116,20 @@ export const FileCard: Story = {
   },
 };
 
-export const ImageLinkCard: Story = {
-  args: {
-    link: "/",
-    backgroundImg: CardImg.src,
-    className: "w-[300px] h-[350px]",
-  },
-  render: (args) => {
-    return (
-      <>
-        <ImageLinkComp {...args} />
-      </>
-    );
-  },
-};
+// export const ImageLinkCard: Story = {
+//   args: {
+//     link: "/",
+//     backgroundImg: CardImg.src,
+//     className: "w-[300px] h-[350px]",
+//   },
+//   render: (args) => {
+//     return (
+//       <>
+//         <ImageLinkComp link={""} backgroundImg={""} {...args} />
+//       </>
+//     );
+//   },
+// };
 
 export const ContentCard: Story = {
   args: {
@@ -145,17 +145,17 @@ export const ContentCard: Story = {
   },
 };
 
-export const InnerImageCard: Story = {
-  args: {
-    title: "Content Card",
-    className: "w-[700px] h-[350px]",
-    imgUrl: CardImg.src,
-  },
-  render: (args) => {
-    return (
-      <>
-        <InnerImageComp {...args} />
-      </>
-    );
-  },
-};
+// export const InnerImageCard: Story = {
+//   args: {
+//     title: "Content Card",
+//     className: "w-[700px] h-[350px]",
+//     imgUrl: CardImg.src,
+//   },
+//   render: (args) => {
+//     return (
+//       <>
+//         <InnerImageComp {...args} />
+//       </>
+//     );
+//   },
+// };

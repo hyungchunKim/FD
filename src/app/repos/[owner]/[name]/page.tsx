@@ -7,40 +7,20 @@ import CheckCircle from "@/assets/icons/Ellipse213.svg";
 import List from "@/components/atoms/list";
 import VulnerabilityAnalysisCode from "@/components/pages/my-library/VulnerabilityAnalysisCode";
 import InfoBox from "@/components/atoms/infobox/infobox";
-
 import { useEffect, useState } from "react";
-import useGitContentsStore, {
-  TRepoContentItem,
-  Tstatus,
-} from "@/store/useGitContentsStore";
+import useGitContentsStore, { TRepoContentItem, Tstatus } from "@/store/useGitContentsStore";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import { useParams, useRouter } from "next/navigation";
 
 const isLogin = true;
-export type TAnlaysisCode = {
-  type?: string; //원본 파일, 분석 파일 분류
-  content?: string; //파일 내용
-  status?: string; // 분석중, 성공
-};
-//상단의 분석중인 파일
-// const analysisList: TAnalysisListProps[] = Array.from(
-//   {
-//     length: 10,
-//   },
-//   (_, i) => ({
-//     id: `id_${i + 1}`,
-//     fileName: `file ${i + 1}`,
-//     iconShow: "false",
-//   }),
-// );
-const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
+
+const VulnerabilityAnalysis = () => {
   const { owner, name } = useParams();
   const repoOwner = Array.isArray(owner) ? owner[0] : owner;
   const repoName = Array.isArray(name) ? name[0] : name;
   const [curentCode, setCurrentCode] = useState<string | null>(null);
   const [currentFile, setCurrentFile] = useState<TRepoContentItem>();
   const [currentStatus, setCurrentStatus] = useState<Tstatus>();
-
   const {
     selectedFiles,
     fetchRepoContents,
@@ -48,7 +28,6 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
     fetchFileContent,
   } = useGitContentsStore();
   const { gitToken } = useGitRepoStore();
-
   useEffect(() => {
     const fetchContents = async () => {
       if (repoOwner && repoName && gitToken) {
@@ -57,24 +36,17 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
           owner: repoOwner,
           repo: repoName,
         });
-
         setRepoContents(contents);
       }
     };
-
     fetchContents();
   }, [repoOwner, repoName, gitToken, fetchRepoContents, setRepoContents]);
-
   useEffect(() => {
     if (!currentFile) return;
-
     const fileDetails = selectedFiles.find(
       (file) => file.path === currentFile.path,
     );
-
-    //현재 파일의 상태 관리
     if (fileDetails?.status) setCurrentStatus(fileDetails.status);
-
     const fetchContent = async () => {
       try {
         const content = await fetchFileContent(currentFile.download_url);
@@ -85,18 +57,16 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
         console.error(error);
       }
     };
-
-    //현재 파일의 코드 관리
     fetchContent();
   }, [currentFile, selectedFiles, fetchFileContent]);
-
   const router = useRouter();
   const handlePage = () => {
     router.push("/repos");
   };
-
-  //검사하기 onClick
-  const handleFileInspection = () => {};
+  const handleFileInspection = () => {
+    // 검사하기 버튼 클릭 시 실행되는 함수 (로직 추가 필요)
+    console.log("검사 시작");
+  };
   return (
     <>
       <div className="mb-12 flex gap-6">
@@ -139,13 +109,11 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
           </div>
           <List setCurrentFile={setCurrentFile}></List>
         </div>
-        {/* 코드 */}
         <div className="w-full gap-7 rounded-lg">
-          <VulnerabilityAnalysisCode
+          {/* <VulnerabilityAnalysisCode
             code={curentCode}
-            className={`${status === "success" && "h-[555px]"}`}
-          ></VulnerabilityAnalysisCode>
-          {/* 수정된 코드 */}
+            className={status === "success" ? "h-[555px]" : ""} // 삼항 연산자 수정
+          />
           {status === "success" && (
             <div className="w-[1486px] gap-5 rounded-lg">
               <div className="subtitle-md-bold">수정된 코드</div>
@@ -155,15 +123,15 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
                   className="mb-5"
                   title=""
                   titleClass=""
-                  description={["", ""]} 
+                  description={["",""]}
                   codeSnippet={{
                     language: "",
                     code: ""
-                  }}                
+                  }}
                 />
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
       <div className="mb-6 flex max-h-[1157px] min-h-max w-[1761px] gap-7">
@@ -171,7 +139,7 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
           <Button
             rounded={"xs"}
             className="subtitle-md-bold flex w-[247px]"
-            onClick={() => handleFileInspection}
+            onClick={handleFileInspection} // 함수 직접 전달
           >
             검사하기
           </Button>

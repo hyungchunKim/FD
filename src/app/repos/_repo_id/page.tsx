@@ -6,26 +6,15 @@ import CheckCircle from "@/assets/icons/Ellipse213.svg";
 import List from "@/components/atoms/list";
 import VulnerabilityAnalysisCode from "@/components/pages/my-library/VulnerabilityAnalysisCode";
 import InfoBox from "@/components/atoms/infobox/infobox";
-import { TAnalysisListProps } from "@/types/my-library/vulnerability-analysis";
+import { TRepoContentItem } from "@/store/useGitContentsStore";
 
-const isLogin = true;
 export type TAnlaysisCode = {
   type: string; //원본 파일, 분석 파일 분류
   content: string; //파일 내용
   status: string; // 분석중, 성공
 };
 //상단의 분석중인 파일
-const analysisList: TAnalysisListProps[] = Array.from(
-  {
-    length: 10,
-  },
-  (_, i) => ({
-    id: `id_${i + 1}`,
-    fileName: `file ${i + 1}`,
-    iconShow: "false",
-  }),
-);
-const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
+const Example = ({ status }: TAnlaysisCode) => {
   return (
     <>
       <div className="mb-12 flex gap-6">
@@ -65,7 +54,9 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
               <span className="inline-flex"></span>
             </p>
           </div>
-          <List className="mb-6"></List>
+          <List setCurrentFile={function (item: TRepoContentItem): void {
+            throw new Error("Function not implemented.");
+          } }></List>
         </div>
         {/* 코드 */}
         <div className="w-full gap-7 rounded-lg">
@@ -79,8 +70,11 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
               <div className="overflow-x-hidden">
                 <InfoBox
                   backgroundClass="bg-bg-red_light"
-                  className="mb-5"
-                ></InfoBox>
+                  className="mb-5" title={""} description={[]} codeSnippet={{
+                    language: "",
+                    code: ""
+                  }}
+                />
               </div>
             </div>
           )}
@@ -96,4 +90,4 @@ const VulnerabilityAnalysis = ({ status }: TAnlaysisCode) => {
     </>
   );
 };
-export default VulnerabilityAnalysis;
+export default Example;

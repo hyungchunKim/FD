@@ -69,7 +69,7 @@ const DetectedFiles = () => {
           <div>
             <div className="flex h-[107px] w-[107px] items-center justify-center overflow-hidden rounded-full bg-bg-gray_light">
               {
-                user?.photoUrl && <Image width={107} src={user.photoUrl} alt="프로필 이미지"/>
+                user?.photoUrl && <Image width={107} height={107} src={user.photoUrl} alt="프로필 이미지"/>
               }
             </div>
           </div>

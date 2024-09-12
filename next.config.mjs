@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true, // React의 Strict Mode를 활성화하여 잠재적인 문제를 감지
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
+
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -32,3 +43,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+

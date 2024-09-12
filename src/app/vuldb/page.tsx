@@ -6,6 +6,7 @@ import ImageLinkCard from "@/components/organisms/card/ImageLinkCard";
 import Chip from "@/components/atoms/chips";
 import { ContentCard } from "@/components/organisms/card";
 import { PropTypes } from "@/components/organisms/card/DefualtCard";
+import dbImageLargeCard from "@/assets/images/dbcardlarge.png"
 
 const topics = [
   "Topic",
@@ -96,24 +97,27 @@ const FlawDbPage = () => {
         <div className="mb-[76px] flex h-[390px] w-full gap-[28px]">
           <ImageLinkCard
             link={""}
-            backgroundImg={""}
+            backgroundImg={"/images/dbcardlarge.png"}
             size="large"
             title="[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서"
             className="h-[390px] w-[625px]"
+            subTitle="2024.03.08 13:30:24"
           />
           <ImageLinkCard
             link={""}
-            backgroundImg={""}
+            backgroundImg={"/images/dbcardsmall1.png"}
             size="small"
             title="2023년 12월 CNNVD 호환 서비스 신제품 발표"
-            className="h-[390px] w-[316pxpx]"
+            className="h-[390px] w-[316px]"
+            subTitle="2024.03.08 13:30:24"
           />
           <ImageLinkCard
             link={""}
-            backgroundImg={""}
+            backgroundImg={"/images/dbcardsmall2.png"}
             size="small"
             title="[취약성 보고서] CISCO IOS XE 소프트웨어의 보안 취약점에 대한 CNNVD의 보고서"
             className="h-[390px] w-[316px]"
+            subTitle="2024.03.08 13:30:24"
           />
         </div>
         <div className="flex h-[1450px] w-[1313px] gap-[102px]">
@@ -121,20 +125,16 @@ const FlawDbPage = () => {
             <div className="subtitle-md-bold mb-4 h-[29px] w-[105px]">
               취약점 DB
             </div>
-            <div className="mb-4 flex h-[35px] w-[133px] gap-3">
+            <div className="mb-4 flex h-[38px] w-[129px] gap-3">
               <Chip
                 text={"HOT"}
                 color={"bg-accent-red"}
-                size={"suggestion"}
-                variant={"suggestion"}
-                className="text-white"
+                className="text-white w-[57px] h-[38px] body-md-bold rounded-[999px]"
               />
               <Chip
                 text={"NEW"}
                 color={"bg-[#E8E8E8]"}
-                size={"suggestion"}
-                variant={"suggestion"}
-                className="text-line-dark"
+                className="text-line-dark w-[60px] h-[38px] body-md-bold rounded-[999px]"
               />
             </div>
             <div className="flex h-[1354px] w-full flex-col gap-4">
@@ -150,9 +150,9 @@ const FlawDbPage = () => {
               ))}
             </div>
           </div>
-          <div className="flex h-[664px] w-[346px] flex-col gap-4">
-            <div className="flex h-[68px] w-[156px] flex-col">
-              <div className="subtitle-md-bold mb-[17px] h-[29px] w-[134px]">
+          <div className="flex h-[664px] w-[346px] flex-col gap-[26px]">
+            <div className="flex h-[68px] w-[156px] flex-col justify-between">
+              <div className="subtitle-md-bold h-[29px] w-[134px]">
                 실시간 Topic
               </div>
               <div className="subtitle-sm-medium h-[22px] w-full text-text-gray-defalt">

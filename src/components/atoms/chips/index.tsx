@@ -78,8 +78,8 @@ const Chip: React.FC<ChipProps> = ({
       {showLeftIcon && (
         <FileIcon className="w-6 h-6 flex-shrink-0 mr-2" />
       )}
-      <span className="truncate">{text}</span>
-      <div className="flex items-center space-x-2 ml-2">
+      <span>{text}</span>
+      <div className="flex items-center space-x-2">
         {percentage !== undefined && (
           <span className="font-medium text-xs">{percentage}%</span>
         )}

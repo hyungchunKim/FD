@@ -8,7 +8,6 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function Page() {
-  
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);
@@ -110,7 +109,12 @@ export default function Page() {
       </div>
       <div className="mx-auto flex h-[calc(100vh_-_136px)] w-full min-w-[1022px] max-w-[1920px] items-stretch justify-between overflow-hidden px-32 text-primary-500">
         <div className="relative top-[192px]">
-          <Image src="/home_detect_image.png" alt="detect sample image" />
+          <Image
+            src="/home_detect_image.png"
+            alt="detect sample image"
+            width={1920}
+            height={136}
+          />
         </div>
         <div className="flex flex-col justify-center text-right">
           <h1 className="title-md-bold mb-8 font-extrabold">
@@ -137,6 +141,7 @@ export default function Page() {
           <Image
             src="/home_service_card.png"
             width={1920}
+            height={136}
             alt="flaw service image"
           />
         </div>
@@ -144,7 +149,7 @@ export default function Page() {
       <div className="mx-auto w-full min-w-[1022px] max-w-[1920px] items-center py-[192px] text-primary-500">
         <div className="border-box mt-[72px] border border-transparent">
           <div className="mx-auto mt-[124px] flex w-[1538px] justify-between">
-            <div className="flex h-[808px] w-[429px] flex-col justify-between">
+            <div className="flex h-[808px] w-[479px] flex-col justify-between">
               <div>
                 <div className="title-xl-bold h-[180px] w-full text-primary-500">
                   서비스이용에
@@ -157,7 +162,7 @@ export default function Page() {
                   서비스 개발과 성장에 큰 도움이 됩니다.
                 </div>
               </div>
-              <div className="flex h-[181px] w-[260px] flex-col justify-between">
+              <div className="flex h-[181px] w-[280px] flex-col justify-between">
                 <div className="flex flex-col gap-2">
                   <div className="title-xs-medium h-[30px] w-full">Email</div>
                   <div className="subtitle-sm-regular h-[27px] w-full text-text-default">
@@ -174,7 +179,7 @@ export default function Page() {
             </div>
             <div className="flex h-[817px] w-[985px] flex-col items-center rounded-[40px] border border-primary-500">
               <div className="mb-8 mt-[60px] flex h-[83px] w-[866px] flex-col justify-between">
-                <div className="subtitle-md-bold h-9 w-[88px]">문의하기</div>
+                <div className="subtitle-md-bold h-9 w-[128px]">문의하기</div>
                 <div className="label-md-medium h-[24px] w-[524px] text-[#8f8f8f]">
                   문의하고 싶은 내용을 구체적으로 작성해주셔야 패드백이
                   정상적으로 반영됩니다.

@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import Input from "@/components/atoms/input";
 import Link from "next/link";
-import { auth } from "@/firebase";
+import { auth } from "@/libs/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
 
 type PropTypes = {

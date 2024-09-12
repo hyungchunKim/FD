@@ -7,12 +7,9 @@ import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
 import UnionWhite from "@/assets/icons/UnionWhite.svg";
 import Star from "@/assets/icons/Star.svg";
-import StarPurple from "@/assets/icons/StarPurple.svg";
 import Chip from "@/components/atoms/chips";
 import { useRouter } from "next/navigation";
-import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
-import { auth, storage } from "@/firebase";
-import { fetchGitHubFile } from "@/services/GitBackupService";
+
 type PropTypes = {
   id?: string;
   status?: "waiting" | "inspecting" | "complete"; //검사전, 검사중, 검사완료

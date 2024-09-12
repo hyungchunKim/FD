@@ -2,7 +2,7 @@
 
 import { FileCard } from "@/components/organisms/card";
 import Dropdown from "@/components/atoms/dropdown/Dropdown";
-import { auth } from "@/firebase";
+import { auth } from "@/libs/firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useState } from "react";
 

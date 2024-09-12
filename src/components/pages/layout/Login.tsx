@@ -1,21 +1,12 @@
 "use client";
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
-import { auth, db } from "@/firebase";
+import { auth, db } from "@/libs/firebase/firebaseConfig";
 import {
-  getFirestore,
   doc,
   getDoc,
   setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
 } from "firebase/firestore";
-import {
-  fetchUserRepositories,
-  saveJsonDataToFirestore,
-} from "@/services/GitBackupService";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";

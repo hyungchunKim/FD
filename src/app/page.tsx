@@ -1,11 +1,13 @@
 "use client";
+
 import Button from "@/components/atoms/button";
 import { useRouter } from "next/navigation";
-import { signInWithGithub } from "@/components/pages/layout/Login";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "@/libs/firebase/firebaseConfig";
 import { useState } from "react";
-export default function page() {
+
+export default function Page() {
+  
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);

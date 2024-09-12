@@ -1,11 +1,5 @@
-import {
-  fetchGitHubFile,
-  saveFileToFirebaseStorage,
-  saveJsonDataToFirestore,
-} from "@/services/GitBackupService";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { storage } from "@/firebase";
 export type TRepoContentItem = {
   name: string;
   path: string;

@@ -1,18 +1,11 @@
 "use client";
-import { v4 as uuidv4 } from "uuid";
 import React from "react";
 import {
   GithubAuthProvider,
-  linkWithPopup,
-  signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import "firebase/auth";
 import Button from "@/components/atoms/button";
-import { auth } from "@/firebase";
-
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-
 import { useAuth } from "@/components/pages/layout/Login";
 
 const LoginPage = () => {

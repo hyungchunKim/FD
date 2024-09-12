@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/atoms/button";
 import MyLibraryList from "@/components/pages/my-library/MyLibraryList";
-import { auth } from "@/firebase";
+import { auth } from "@/libs/firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

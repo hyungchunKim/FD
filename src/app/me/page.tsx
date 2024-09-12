@@ -4,7 +4,7 @@ import LoginMyLibrary from "@/components/pages/my-library/LoginMyLibrary";
 import { twJoin, twMerge } from "tailwind-merge";
 
 import "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "@/libs/firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

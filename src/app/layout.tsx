@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Link from "next/link";
-import Login from "@/components/pages/layout/Login";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +28,7 @@ export default function RootLayout({
                 <Link href="/">취약점 DB</Link>
               </div>
               <div className="px-[40px]">
-                <Login>MY 저장소</Login>
+                <Link href="/repos">MY 저장소</Link>
               </div>
             </div>
           </header>

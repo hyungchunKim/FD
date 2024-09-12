@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 const InputVariants = cva(
@@ -26,13 +26,14 @@ type PropTypes = {
   error?: boolean;
 } & TInputProps;
 
-const Input = forwardRef<HTMLInputElement, PropTypes>(
+const Input = React.forwardRef<HTMLInputElement, PropTypes>(
   ({ className, value, error = false, disabled, ...rest }, ref) => {
     return (
       <>
         <input
           ref={ref}
           value={value}
+          disabled={disabled}
           className={twMerge(
             InputVariants({ error, filled: !!value }),
             className,
@@ -43,4 +44,5 @@ const Input = forwardRef<HTMLInputElement, PropTypes>(
     );
   },
 );
+Input.displayName = "Search";
 export default Input;

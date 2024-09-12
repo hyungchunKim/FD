@@ -23,7 +23,7 @@ const chipVariants = cva(
         assist: 'h-[30px] min-w-[60px] text-xs px-3',
         filter1: 'h-[44px] px-4',
         filter2: 'h-[44px] w-[100px]',
-        suggestion: 'h-[19px] min-w-[37px] text-xs px-2',
+        suggestion: 'h-[19px] min-w-[37px] text-xs ',
       },
       state: {
         default: '',

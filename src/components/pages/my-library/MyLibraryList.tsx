@@ -1,9 +1,10 @@
 "use client";
 
 import { FileCard } from "@/components/organisms/card";
-import { LibraryType } from "./libraryTypes";
 import Dropdown from "@/components/atoms/dropdown/Dropdown";
-import CaretLeft from "@/assets/icons/CaretLeft.svg";
+import { auth } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import React, { useState } from "react";
 
 const FILTER_DROPDOWN = {
   dropStandard: "Type",
@@ -29,59 +30,65 @@ const SORT_DROPDOWN = {
   isToggle: false,
 };
 
-type PropTypes = {
+type TRepository = {
+  id?: string;
+  name?: string;
+  description?: string;
+  owner?: string;
+  isBookmarked?: boolean;
+  created_at?: string;
+  uid?: string;
+  email?: string;
+  photoURL?: string;
+};
+type TLibraryFiles = {
+  repos: TRepository[];
+};
+type TProps = {
   title?: string;
   useCardMenu?: boolean;
   className?: string;
 };
+export type PropTypes = TProps & TLibraryFiles & TRepository;
 
-const MyLibraryList = ({
-  title = "Library",
-  useCardMenu = true,
-  className,
-}: PropTypes) => {
-  const libraryList: LibraryType[] = Array.from(
-    {
-      length: 12,
-    },
-    (_, i) => ({
-      id: `id_${i + 1}`,
-      foldrName: `Folder ${i + 1}`,
-      caption: `folder ${i + 1} caption`,
-      status: "label",
-    }),
-  );
+const MyLibraryList = ({ useCardMenu = true, className, repos }: PropTypes) => {
+  const [uid, setUid] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [imgUrl, setImgUrl] = useState<string>("");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUid(user.uid);
+      setEmail(user.email as string);
+      setImgUrl(user.photoURL as string);
+    } else {
+      console.log("No user is logged in.");
+    }
+  });
 
   return (
-    <div className={className}>
-      <div className="mb-12 flex justify-between">
-        <h1 className="title-md-medium text-text-gray-dark">{title}</h1>
-        <div className="flex gap-5">
-          <Dropdown dropdown={FILTER_DROPDOWN} />
-          <Dropdown dropdown={SORT_DROPDOWN} />
+    <>
+      <div className={className}>
+        <div className="mb-12 flex justify-between">
+          <h1 className="title-md-medium text-text-gray-dark"></h1>
+          <div className="flex gap-5">
+            <Dropdown dropdown={FILTER_DROPDOWN} />
+            <Dropdown dropdown={SORT_DROPDOWN} />
+          </div>
+        </div>
+        <div className="relative grid grid-cols-4 gap-x-[24px] gap-y-[48px]">
+          {repos.map((repo) => (
+            <FileCard
+              key={repo.id}
+              title={repo.name}
+              useMenu={useCardMenu}
+              url={`/repos/${repo.owner}/${repo.name}`}
+              fullName={repo.name}
+              className="h-[225px] w-[310px] border-primary-100"
+            />
+          ))}
         </div>
       </div>
-      <div className="relative grid grid-cols-4 gap-x-[24px] gap-y-[48px]">
-        {libraryList.map((library) => (
-          <FileCard
-            key={library.id}
-            title={library.foldrName}
-            chipLabel={library.status}
-            useMenu={useCardMenu}
-            subTitle={library.caption}
-            className="h-[200px] border-primary-100"
-          />
-        ))}
-        <div className="absolute left-[-26px] top-[50%] flex h-0 w-[calc(100%_+_52px)] items-center justify-between">
-          <button className="flex h-[52px] w-[52px] items-center justify-center rounded-full border border-text-gray-dark bg-white">
-            <CaretLeft className="[&_path]:fill-text-gray-dark" />
-          </button>
-          <button className="flex h-[52px] w-[52px] rotate-180 items-center justify-center rounded-full border border-text-gray-dark bg-white">
-            <CaretLeft className="[&_path]:fill-text-gray-dark" />
-          </button>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 export default MyLibraryList;

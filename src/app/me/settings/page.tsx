@@ -1,46 +1,67 @@
 "use client";
 
 import Button from "@/components/atoms/button";
-//import Switch from "@/components/atoms/switch";
+import { TUserInfo } from "@/types/my-library/vulnerability-analysis";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/libs/firebase/firebaseConfig";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { removeCookie } from "@/utils/cookies";
 
 export default function setting() {
+  const router = useRouter();
+  const [user, setUser] = useState<TUserInfo>();
+  useEffect(() => {
+    const currentUser = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          uid: user.uid as string,
+          displayName: user.displayName as string,
+          email: user.email as string,
+          photoUrl: user.photoURL as string,
+        });
+      } else {
+        setUser(undefined);
+        console.log("No user is logged in.");
+      }
+    });
+    return () => currentUser();
+  }, []);
+  const logout = async () => {
+    try {
+      await auth.signOut();
+      removeCookie();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
   return (
     <>
       <div className="mt-[72px] grid place-items-center">
-        <Button
-          variant={"outline"}
-          color="primary"
-          className="title-md-bold h-[79px] w-[233px] rounded-full border-[4px] border-primary-500"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 320 512"
-            width="36"
-            height="36"
-            className="mr-[12px]"
-            fill="#6100FF"
-          >
-            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-          </svg>
-          Setting
-        </Button>
+        <div className="mx-auto flex w-full min-w-[1240px] max-w-[1920px] flex-col items-center justify-center">
+          <h2 className="title-xl-regular mb-10 rounded-full border-4 border-primary-500 bg-white px-7 py-2 text-primary-500">
+            Setting
+          </h2>
+        </div>
         <ul className="my-[124px] h-[652px] w-[1314px] gap-20 divide-y divide-gray-200">
           <li className="h-[187px] pb-20">
             <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="mr-11 flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  width="107"
-                  height="107"
-                >
-                  <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
-                </svg>
+              <div className="mr-11 h-[107px] w-[107px] flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-bg-gray_light">
+                {user?.photoUrl && (
+                  <Image
+                    width={107}
+                    height={107}
+                    src={user.photoUrl}
+                    alt="프로필 이미지"
+                  />
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text- title-md-medium truncate text-text-dark">
                   Hello, <br />
-                  marry@gmail.com
+                  {user?.email}
                 </p>
               </div>
               <div className="inline-flex items-center">
@@ -50,6 +71,7 @@ export default function setting() {
                   rounded={"xs"}
                   color="primary"
                   className="title-xs-regular h-[61px] w-[128px] border-2 border-primary-500 text-primary-500"
+                  onClick={logout}
                 >
                   로그아웃
                 </Button>

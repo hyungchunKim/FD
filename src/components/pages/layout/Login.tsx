@@ -2,14 +2,11 @@
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
 import { auth, db } from "@/libs/firebase/firebaseConfig";
-import {
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
+import { setCookie } from "@/utils/cookies";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -29,6 +26,7 @@ export const useAuth = () => {
       const docSnap = await getDoc(userRef);
       if (token) {
         setGitToken(token);
+        setCookie(token);
       }
       if (!docSnap.exists()) {
         await setDoc(userRef, {
@@ -41,13 +39,13 @@ export const useAuth = () => {
         });
       }
 
-      await fetch("/api/setCookie", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token }),
-      });
+      // await fetch("/api/setCookie", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ token }),
+      // });
 
       console.log("Signed in with GitHub:", user);
       console.log("GitHub Access Token:", token);

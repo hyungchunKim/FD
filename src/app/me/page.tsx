@@ -8,27 +8,20 @@ import { auth } from "@/libs/firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { isLoggedIn } from "@/utils/auth";
 
 const MyLibrary = () => {
-  // async function triggerBackup() {
-  //   try {
-  //     const response = await fetch("/api/backup-repos", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error("Error triggering backup:", error);
-  //   }
-  // }
-
   const [isLogin, setLogin] = useState(false);
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState<string>("");
   const [imgUrl, setImgUrl] = useState<string>("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      router.push("/login");
+    }
+  }, [router]);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,7 +37,6 @@ const MyLibrary = () => {
     });
   });
 
-  const router = useRouter();
   const handleLoginPage = () => {
     router.push("/login");
   };

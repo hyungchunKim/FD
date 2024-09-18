@@ -11,8 +11,17 @@ import BookmarkFolder from "@/assets/icons/BookmarkFolder.svg";
 import { TUserInfo } from "@/types/my-library/vulnerability-analysis";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import Image from "next/image";
+import { isLoggedIn } from "@/utils/auth";
 
 const DetectedFiles = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      router.push("/login");
+    }
+  }, [router]);
+
   const [user, setUser] = useState<TUserInfo>();
   const { repositories, fetchRepositories } = useGitRepoStore();
   useEffect(() => {
@@ -48,7 +57,6 @@ const DetectedFiles = () => {
     owner: repo.owner.login,
   }));
 
-  const router = useRouter();
   const handleMePage = () => {
     router.push("/me");
   };
@@ -68,9 +76,14 @@ const DetectedFiles = () => {
         >
           <div>
             <div className="flex h-[107px] w-[107px] items-center justify-center overflow-hidden rounded-full bg-bg-gray_light">
-              {
-                user?.photoUrl && <Image width={107} height={107} src={user.photoUrl} alt="프로필 이미지"/>
-              }
+              {user?.photoUrl && (
+                <Image
+                  width={107}
+                  height={107}
+                  src={user.photoUrl}
+                  alt="프로필 이미지"
+                />
+              )}
             </div>
           </div>
           <p className="title-md-medium flex-1 text-left text-text-gray-dark">
@@ -95,4 +108,5 @@ const DetectedFiles = () => {
     </>
   );
 };
+
 export default DetectedFiles;

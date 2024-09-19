@@ -23,4 +23,5 @@ export type CardType = {
   createDate?: string;
   shadow?: boolean;
   backgroundColor?: CardBgColorType;
+  smBackgroundColor?: CardBgColorType;
 };

@@ -72,7 +72,7 @@ const LoginMyLibrary = ({ uid, email, imgUrl }: PropTypes) => {
           <div className="subtitle-md-medium flex max-h-[147px] min-w-0 flex-col gap-4">
             <Link href="">스크랩</Link>
             <Link href="/me/settings">설정</Link>
-            <Link href="">문의하기</Link>
+            <Link href="/me/customercenter">문의하기</Link>
           </div>
         </div>
       </div>

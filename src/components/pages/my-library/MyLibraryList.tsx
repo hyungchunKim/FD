@@ -4,7 +4,7 @@ import { FileCard } from "@/components/organisms/card";
 import Dropdown from "@/components/atoms/dropdown/Dropdown";
 import { auth } from "@/libs/firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const FILTER_DROPDOWN = {
   dropStandard: "Type",
@@ -43,6 +43,8 @@ type TRepository = {
 };
 type TLibraryFiles = {
   repos: TRepository[];
+  bookmarkedRepos: string[]; // 북마크된 파일 목록
+  setBookmarkedRepos: (repos: string[]) => void; // 북마크 상태 업데이트 함수
 };
 type TProps = {
   title?: string;
@@ -51,19 +53,37 @@ type TProps = {
 };
 export type PropTypes = TProps & TLibraryFiles & TRepository;
 
-const MyLibraryList = ({ useCardMenu = true, className, repos }: PropTypes) => {
+const MyLibraryList = ({
+  useCardMenu = true,
+  className,
+  repos,
+  bookmarkedRepos,
+  setBookmarkedRepos,
+}: PropTypes) => {
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState<string>("");
   const [imgUrl, setImgUrl] = useState<string>("");
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUid(user.uid);
-      setEmail(user.email as string);
-      setImgUrl(user.photoURL as string);
-    } else {
-      console.log("No user is logged in.");
-    }
-  });
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUid(user.uid);
+        setEmail(user.email as string);
+        setImgUrl(user.photoURL as string);
+      } else {
+        console.log("No user is logged in.");
+      }
+    });
+  }, []);
+
+  // 북마크 토글 함수
+  const toggleBookmark = (repoId: string) => {
+    setBookmarkedRepos(
+      bookmarkedRepos.includes(repoId)
+        ? bookmarkedRepos.filter((id) => id !== repoId) // 북마크 해제
+        : [...bookmarkedRepos, repoId], // 북마크 추가
+    );
+  };
 
   return (
     <>
@@ -79,10 +99,13 @@ const MyLibraryList = ({ useCardMenu = true, className, repos }: PropTypes) => {
           {repos.map((repo) => (
             <FileCard
               key={repo.id}
+              id={repo.id}
               title={repo.name}
               useMenu={useCardMenu}
               url={`/repos/${repo.owner}/${repo.name}`}
               fullName={repo.name}
+              isBookmarked={repo.isBookmarked!}
+              toggleBookmark={toggleBookmark}
               className="h-[225px] w-[310px] border-primary-100"
             />
           ))}

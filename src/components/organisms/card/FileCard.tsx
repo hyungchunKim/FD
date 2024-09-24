@@ -7,8 +7,10 @@ import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
 import UnionWhite from "@/assets/icons/UnionWhite.svg";
 import Star from "@/assets/icons/Star.svg";
+import StarPurple from "@/assets/icons/StarPurple.svg";
 import Chip from "@/components/atoms/chips";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type PropTypes = {
   id?: string;
@@ -17,6 +19,8 @@ type PropTypes = {
   url?: string; //파일 url
   fullName?: string;
   summaryClass?: string;
+  isBookmarked: boolean;
+  toggleBookmark: (id: string) => void;
 } & Pick<
   CardType,
   | "chipLabel"
@@ -33,6 +37,7 @@ type PropTypes = {
 const FileCard = ({
   chipLabel,
   chipProps,
+  id,
   title,
   url,
   inspect = true,
@@ -42,6 +47,8 @@ const FileCard = ({
   summaryClass = "",
   backgroundColor = "white",
   status,
+  isBookmarked,
+  toggleBookmark,
 }: PropTypes) => {
   const router = useRouter();
   const handleReposPage = (url: string) => {
@@ -87,9 +94,13 @@ const FileCard = ({
                 {title}
               </div>
               <div>
-                <Button className="w-min bg-inherit">
-                  <Star />
+                <Button
+                  className="w-min bg-inherit"
+                  onClick={() => toggleBookmark(id!)}
+                >
+                  {isBookmarked ? <StarPurple /> : <Star />}
                 </Button>
+                {isBookmarked}
               </div>
             </div>
             {inspect ? (

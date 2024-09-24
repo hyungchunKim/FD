@@ -24,6 +24,9 @@ const DetectedFiles = () => {
 
   const [user, setUser] = useState<TUserInfo>();
   const { repositories, fetchRepositories } = useGitRepoStore();
+  const [showBookmarked, setShowBookmarked] = useState(false); // 북마크 필터 상태 관리
+  const [bookmarkedRepos, setBookmarkedRepos] = useState<string[]>([]); // 북마크된 파일 id 저장
+
   useEffect(() => {
     const currentUser = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -55,7 +58,17 @@ const DetectedFiles = () => {
     description: repo.description,
     created_at: repo.created_at,
     owner: repo.owner.login,
+    isBookmarked: bookmarkedRepos.includes(repo.id), // 북마크 여부 추가
   }));
+
+  // 북마크
+  const filteredRepos = showBookmarked
+    ? reposData.filter((repo) => repo.isBookmarked) // 북마크된 리포지토리만 필터링
+    : reposData; // 모든 리포지토리 보여줌
+
+  const handleBookmarked = () => {
+    setShowBookmarked((prevState) => !prevState);
+  };
 
   const handleMePage = () => {
     router.push("/me");
@@ -99,11 +112,19 @@ const DetectedFiles = () => {
           <Button className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black">
             <RecentsFile /> Recents Files
           </Button>
-          <Button className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black">
-            <BookmarkFolder /> Bookmark
+          <Button
+            className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black"
+            onClick={handleBookmarked}
+          >
+            <BookmarkFolder /> {showBookmarked ? "전체 파일 보기" : "Bookmark"}
           </Button>
         </div>
-        <MyLibraryList className="mb-[124px]" repos={reposData} />
+        <MyLibraryList
+          className="mb-[124px]"
+          repos={filteredRepos}
+          bookmarkedRepos={bookmarkedRepos}
+          setBookmarkedRepos={setBookmarkedRepos}
+        />
       </div>
     </>
   );

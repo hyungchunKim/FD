@@ -1,7 +1,7 @@
+"use client"
+
 import { CardType } from "./card.d";
-import DefaultCard from "./DefualtCard";
 import { twMerge } from "tailwind-merge";
-import MoreVerti from "@/assets/icons/MoreVeri.svg";
 import { CardDateFormat } from "@/utils";
 import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";

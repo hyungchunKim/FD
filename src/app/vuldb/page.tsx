@@ -5,6 +5,7 @@ import Pagenation from "@/components/atoms/pagenation/Pagenation";
 import ImageLinkCard from "@/components/organisms/card/ImageLinkCard";
 import Chip from "@/components/atoms/chips";
 import { ContentCard } from "@/components/organisms/card";
+import Link from "next/link";
 
 interface ItemsDataProps {
   id: string;
@@ -49,7 +50,7 @@ const VulDbPage = () => {
   useEffect(() => {
     const fetchSummaryData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/getsummarydata');
+        const response = await fetch('api/getsummarydata');
         const result = await response.json();
         console.log(result);
 
@@ -108,14 +109,14 @@ const VulDbPage = () => {
         <div className="mb-[76px] flex h-[390px] w-full gap-[28px]">
           {headerItems.map((headerItem, idx) => (
             <ImageLinkCard
-            key={idx}
-            link=""
-            backgroundImg= "/images/dbcardlarge.png"
-            title= {headerItem.title}
-            subTitle= {headerItem.savedTime}
-            handleMouseEnter= {() => handleMouseEnter(headerItem.id)}
-            isHovered= {hoveredCardId === headerItem.id}
-          />
+              key={idx}
+              link=""
+              backgroundImg= "/images/dbcardlarge.png"
+              title= {headerItem.title}
+              subTitle= {headerItem.savedTime}
+              handleMouseEnter= {() => handleMouseEnter(headerItem.id)}
+              isHovered= {hoveredCardId === headerItem.id}
+            />
           ))}
         </div>
         <div className="flex h-[1450px] w-[1313px] gap-[102px]">
@@ -137,16 +138,17 @@ const VulDbPage = () => {
             </div>
             <div className="flex h-[1354px] w-full flex-col gap-4">
               {currentItems.map((currentItem) => (
-                <ContentCard
-                  className="h-[258px] w-[865px]"
-                  key={currentItem.id}
-                  title={currentItem.title}
-                  summary={currentItem.summary}
-                  usePinIcon={currentItem.usePinIcon}
-                  useNewWindowIcon={currentItem.useNewWindowIcon}
-                  createDate={currentItem.savedTime}
-                  smBackgroundColor= "primary-light"
-                />
+                <Link href={`vuldb/items/${currentItem.id}`} key={currentItem.id}>
+                  <ContentCard
+                    className="h-[258px] w-[865px]"
+                    title={currentItem.title}
+                    summary={currentItem.summary}
+                    usePinIcon={currentItem.usePinIcon}
+                    useNewWindowIcon={currentItem.useNewWindowIcon}
+                    createDate={currentItem.savedTime}
+                    smBackgroundColor= "primary-light"
+                  />
+                </Link>
               ))}
             </div>
           </div>

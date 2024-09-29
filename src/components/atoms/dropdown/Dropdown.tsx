@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import { TDropdown } from "@/types/dropdown/dropdown";
 
 interface DropdownProps {
-  dropdown: TDropdown
+  dropdown: TDropdown;
+  onMenuClick?: (index: number) => void;
 }
 
-const Dropdown = ({dropdown}: DropdownProps) => {
+const Dropdown = ({ dropdown, onMenuClick }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(dropdown.downMenus);
 
@@ -20,21 +21,26 @@ const Dropdown = ({dropdown}: DropdownProps) => {
       prevMenus.map((menu, idx) =>
         idx === index
           ? { ...menu, isChecked: !menu.isChecked } // 현재 클릭한 메뉴의 상태를 토글함
-          : { ...menu, isChecked: false }
-      )
+          : { ...menu, isChecked: false },
+      ),
     );
+
+    // 선택된 메뉴 인덱스를 부모 컴포넌트로 전달 (onMenuClick 호출)
+    if (onMenuClick) {
+      onMenuClick(index);
+    }
   };
 
   return (
     <div
-      className="border border-box border-transparent flex flex-col"
+      className="border-box z-20 flex flex-col border border-transparent"
       style={{ width: `${dropdown.dropWidth}px` }}
     >
-      <div className="w-full py-[10px] h-[44px] border border-line-default rounded-lg flex items-center">
-        <div className="flex justify-center items-center mx-auto gap-1">
+      <div className="flex h-[44px] w-full items-center rounded-lg border border-line-default py-[10px]">
+        <div className="mx-auto flex items-center justify-center gap-1">
           <div className="text-5">{dropdown.dropStandard}</div>
           <div
-            className="w-6 h-6 flex items-center justify-center cursor-pointer"
+            className="flex h-6 w-6 cursor-pointer items-center justify-center"
             onClick={toggleDropdown}
           >
             <svg
@@ -53,20 +59,18 @@ const Dropdown = ({dropdown}: DropdownProps) => {
         </div>
       </div>
       {isOpen && (
-        <div className="w-full mt-2 rounded-lg shadow-[0px_2px_16px_0px_rgba(0,0,0,0.25)] cursor-pointer">
+        <div className="mt-2 w-full cursor-pointer rounded-lg bg-white shadow-[0px_2px_16px_0px_rgba(0,0,0,0.25)]">
           {isSelected.map((downMenu, idx) => (
             <div
               key={idx}
-              className={`h-[39px] text-4 text-center bg-white hover:bg-bg-primary_dark leading-[39px] overflow-hidden ${
+              className={`h-[39px] overflow-hidden bg-white text-center text-4 leading-[39px] hover:bg-bg-primary_dark ${
                 idx === 0 ? "rounded-t-lg" : ""
-              } ${
-                isSelected.length - 1 === idx ? "rounded-b-lg" : ""
-              }`}
+              } ${isSelected.length - 1 === idx ? "rounded-b-lg" : ""}`}
               onClick={() => handleMenuClick(idx)}
             >
-              <div className="flex justify-center items-center mx-auto gap-1">
+              <div className="mx-auto flex items-center justify-center gap-1">
                 {downMenu.isChecked && (
-                  <div className="w-6 h-6 flex items-center justify-center">
+                  <div className="flex h-6 w-6 items-center justify-center">
                     <svg
                       width="19.51"
                       height="14.25"

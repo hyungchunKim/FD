@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 const FILTER_DROPDOWN = {
   dropStandard: "Type",
-  dropWidth: 89,
+  dropWidth: 120,
   downMenus: [
     {
       menuTitle: "",
@@ -19,11 +19,15 @@ const FILTER_DROPDOWN = {
 };
 
 const SORT_DROPDOWN = {
-  dropStandard: "Sort",
-  dropWidth: 89,
+  dropStandard: "날짜순",
+  dropWidth: 120,
   downMenus: [
     {
-      menuTitle: "",
+      menuTitle: "최신 순",
+      isChecked: false,
+    },
+    {
+      menuTitle: "오래된 순",
       isChecked: false,
     },
   ],
@@ -63,6 +67,7 @@ const MyLibraryList = ({
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState<string>("");
   const [imgUrl, setImgUrl] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("최신 순");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -85,18 +90,34 @@ const MyLibraryList = ({
     );
   };
 
+  //정렬
+  const getSortedRepos = () => {
+    const sortedRepos = [...repos];
+    return sortedRepos.sort((a, b) => {
+      const dateA = new Date(a.created_at!).getTime();
+      const dateB = new Date(b.created_at!).getTime();
+      return sortOrder === "최신 순" ? dateB - dateA : dateA - dateB;
+    });
+  };
+
+  // Dropdown에서 정렬 기준 선택 시 호출되는 함수
+  const handleSortChange = (index: number) => {
+    const selectedSort = SORT_DROPDOWN.downMenus[index].menuTitle;
+    setSortOrder(selectedSort);
+  };
+
   return (
     <>
       <div className={className}>
-        <div className="mb-12 flex justify-between">
+        <div className="relative mb-12 flex h-14 justify-end">
           <h1 className="title-md-medium text-text-gray-dark"></h1>
-          <div className="flex gap-5">
-            <Dropdown dropdown={FILTER_DROPDOWN} />
-            <Dropdown dropdown={SORT_DROPDOWN} />
+          <div className="absolute flex gap-5">
+            {/* <Dropdown dropdown={FILTER_DROPDOWN} /> */}
+            <Dropdown dropdown={SORT_DROPDOWN} onMenuClick={handleSortChange} />
           </div>
         </div>
         <div className="relative grid grid-cols-4 gap-x-[24px] gap-y-[48px]">
-          {repos.map((repo) => (
+          {getSortedRepos().map((repo) => (
             <FileCard
               key={repo.id}
               id={repo.id}

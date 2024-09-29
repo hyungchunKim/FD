@@ -104,6 +104,7 @@ const MyLibraryList = ({
               useMenu={useCardMenu}
               url={`/repos/${repo.owner}/${repo.name}`}
               fullName={repo.name}
+              createDate={repo.created_at}
               isBookmarked={repo.isBookmarked!}
               toggleBookmark={toggleBookmark}
               className="h-[225px] w-[310px] border-primary-100"

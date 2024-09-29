@@ -1,7 +1,5 @@
 import { CardType } from "./card.d";
-import DefaultCard from "./DefualtCard";
 import { twMerge } from "tailwind-merge";
-import MoreVerti from "@/assets/icons/MoreVeri.svg";
 import { CardDateFormat } from "@/utils";
 import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
@@ -10,7 +8,6 @@ import Star from "@/assets/icons/Star.svg";
 import StarPurple from "@/assets/icons/StarPurple.svg";
 import Chip from "@/components/atoms/chips";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 type PropTypes = {
   id?: string;
@@ -23,8 +20,6 @@ type PropTypes = {
   toggleBookmark: (id: string) => void;
 } & Pick<
   CardType,
-  | "chipLabel"
-  | "chipProps"
   | "title"
   | "subTitle"
   | "useMenu"
@@ -35,8 +30,6 @@ type PropTypes = {
 >;
 
 const FileCard = ({
-  chipLabel,
-  chipProps,
   id,
   title,
   url,
@@ -52,8 +45,20 @@ const FileCard = ({
 }: PropTypes) => {
   const router = useRouter();
   const handleReposPage = (url: string) => {
+    const openedFiles = JSON.parse(localStorage.getItem("openedFiles") || "[]");
+
+    const today = new Date().toISOString().split("T")[0];
+    const updatedFiles = [...openedFiles, { id, openedDate: today }];
+
+    const uniqueFiles = Array.from(
+      new Set(updatedFiles.map((file) => file.id)),
+    ).map((id) => updatedFiles.find((file) => file.id === id));
+
+    localStorage.setItem("openedFiles", JSON.stringify(uniqueFiles));
+
     router.push(url);
   };
+
   return (
     <>
       <div
@@ -103,52 +108,35 @@ const FileCard = ({
                 {isBookmarked}
               </div>
             </div>
-            {inspect ? (
-              <div
-                className={twMerge(
-                  "caption-xl-medium text-text-default",
-                  "mt-[10px]",
-                )}
-              >
-                <Button
-                  className="h-10 w-[146.45px]"
-                  onClick={() => handleReposPage(url as string)}
-                >
-                  <UnionWhite /> 검사하기 <CareRightWhite />
-                </Button>
-              </div>
-            ) : (
-              <div
-                className={twMerge(
-                  "caption-xl-medium bg-neutral-100 text-text-default",
-                  "mt-[10px]",
-                )}
-              >
-                <Button
-                  onClick={() => handleReposPage(url as string)}
-                  className="gap-[7px]"
-                >
-                  <UnionWhite /> 결과보기 <CareRightWhite />
-                </Button>
-              </div>
-            )}
-          </div>
-          {summary && (
-            <p
-              className={twMerge(
-                "card_summary caption-xs-regular flex-1 text-ellipsis text-text-default",
-                summaryClass,
-              )}
+            <div
+              className={twMerge("caption-xl-medium flex gap-6", "mt-[10px]")}
             >
-              {summary}
-            </p>
-          )}
-          {createDate && (
-            <div className="flex justify-between align-bottom">
-              <div className="flex gap-4"></div>
-              <div>{createDate && CardDateFormat(createDate)}</div>
+              {inspect ? (
+                <div className={twMerge("text-text-default")}>
+                  <Button
+                    className="h-10 w-[146.45px]"
+                    onClick={() => handleReposPage(url as string)}
+                  >
+                    <UnionWhite /> 검사하기 <CareRightWhite />
+                  </Button>
+                </div>
+              ) : (
+                <div className={twMerge("bg-neutral-100 text-text-default")}>
+                  <Button
+                    onClick={() => handleReposPage(url as string)}
+                    className="gap-[7px]"
+                  >
+                    <UnionWhite /> 결과보기 <CareRightWhite />
+                  </Button>
+                </div>
+              )}
+              {createDate && (
+                <div className="flex items-end">
+                  {createDate && CardDateFormat(createDate)}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

@@ -1,11 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagenation from "@/components/atoms/pagenation/Pagenation";
 import ImageLinkCard from "@/components/organisms/card/ImageLinkCard";
 import Chip from "@/components/atoms/chips";
 import { ContentCard } from "@/components/organisms/card";
-import { PropTypes } from "@/components/organisms/card/DefualtCard";
+import Link from "next/link";
+
+interface ItemsDataProps {
+  id: string;
+  chipLabel: string | undefined;
+  title: string;
+  summary: string;
+  usePinIcon: boolean;
+  useNewWindowIcon: boolean;
+  savedTime: string;
+}
+
+interface HeaderItemsProps {
+  id: string;
+  title: string;
+  savedTime: string;
+}
 
 const topics = [
   "Topic",
@@ -20,66 +36,83 @@ const topics = [
   "클린 코어",
 ];
 
-const issueItems: PropTypes[] = [
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-    summaryClass:
-      "caption-xl-regular bg-bg-primary_lingt p-[20px] text-[#797979]",
-  },
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-  },
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-  },
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-  },
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-  },
-  {
-    chipLabel: "chip",
-    title: "[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서",
-    summary:
-      "최근 Microsoft는 다양한 보안 취약점에 대한 공지를 공식적으로 발표했으며, 이 취약점 공지에는 총 80개의 취약점..",
-    usePinIcon: true,
-    useNewWindowIcon: true,
-  },
-];
-
 const VulDbPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [items, setItems] = useState<ItemsDataProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [headerItems, setHeaderItems] = useState<HeaderItemsProps[]>([]);
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState<ItemsDataProps[]>([]);
 
-  const totalItems = issueItems.length;
+  const handleMouseEnter = (id: string) => {
+    setHoveredCardId(id);
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }
+
+  useEffect(() => {
+    const fetchSummaryData = async () => {
+      try {
+        const response = await fetch('api/getsummarydata');
+        const result = await response.json();
+        console.log(result);
+
+        if(response.ok) {          
+          const formattedItems =
+            result.data.map((item: ItemsDataProps, index: number) => ({
+              ...item,
+              usePinIcon: true,
+              useNewWindowIcon: true,
+              chipLabel: index < 10 ? "HOT" : undefined
+            })
+          )
+
+          setItems(formattedItems);
+          setFilteredItems(formattedItems);
+          setHeaderItems([...headerItems, result.data[0], result.data[1], result.data[2]])
+          console.log(items);
+        } else {
+          console.error('Data Fetching Error', result.error);
+        }
+      } catch (error) {
+        console.error('Data Fetching Error', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSummaryData();
+
+  }, [])
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredItems(items); // 검색어가 없으면 모든 데이터를 보여줌
+    } else {
+      const filtered = items.filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredItems(filtered);
+    }
+  }, [searchTerm, items]);
+
+  useEffect (() => {
+    console.log(items);
+  }, [items])
+
+  useEffect(() => {
+    if (headerItems.length > 0) {
+      setHoveredCardId(headerItems[0].id);
+    }
+  }, [headerItems]);
+
+  const totalItems = items.length;
   const itemsPerPage = 5;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const pageGroupSize = 1;
+  const pageGroupSize = 10;
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -87,37 +120,38 @@ const VulDbPage = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
-  const currentItems = issueItems.slice(startIndex, endIndex);
+  const currentItems = filteredItems.slice(startIndex, endIndex);
 
   return (
-    <div className="mx-auto mb-[19px] mt-[27px] flex h-[2028px] w-[1313px] flex-col gap-[76px]">
-      <div className="mx-auto box-border h-[1916px] w-[1313px]">
+    <div className="mx-auto mb-[196px] mt-[27px] flex h-[2249px] w-[1313px] flex-col gap-[76px]">
+      <div className="mx-auto box-border h-[2137px] w-[1313px]">
         <div className="mb-[76px] flex h-[390px] w-full gap-[28px]">
-          <ImageLinkCard
-            link={""}
-            backgroundImg={"/images/dbcardlarge.png"}
-            size="large"
-            title="[취약성 경고] Microsoft의 여러 보안 취약점에 대한 CNNVD의 보고서"
-            className="h-[390px] w-[625px]"
-            subTitle="2024.03.08 13:30:24"
-          />
-          <ImageLinkCard
-            link={""}
-            backgroundImg={"/images/dbcardsmall1.png"}
-            size="small"
-            title="2023년 12월 CNNVD 호환 서비스 신제품 발표"
-            className="h-[390px] w-[316px]"
-            subTitle="2024.03.08 13:30:24"
-          />
-          <ImageLinkCard
-            link={""}
-            backgroundImg={"/images/dbcardsmall2.png"}
-            size="small"
-            title="[취약성 보고서] CISCO IOS XE 소프트웨어의 보안 취약점에 대한 CNNVD의 보고서"
-            className="h-[390px] w-[316px]"
-            subTitle="2024.03.08 13:30:24"
-          />
+          {headerItems.map((headerItem, idx) => (
+            <ImageLinkCard
+              key={idx}
+              link=""
+              backgroundImg= "/images/dbcardlarge.png"
+              title= {headerItem.title}
+              subTitle= {headerItem.savedTime}
+              handleMouseEnter= {() => handleMouseEnter(headerItem.id)}
+              isHovered= {hoveredCardId === headerItem.id}
+            />
+          ))}
+        </div>
+        <div className="w-[1313px] h-[82px] px-[24px] py-[25px] mb-[76px] mt-[76px] border border-primary-500 rounded-[14px]">
+          <div className="w-full h-full flex justify-between">
+            <input 
+              className="w-[1223px] h-full outline-none subtitle-md-medium" 
+              placeholder="검색어를 입력해주세요."
+              onChange={handleSearchChange}
+              value={searchTerm}
+            />
+            <div className="w-8 h-8 flex justify-center items-center">
+              <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26.2078 25.2923L19.949 19.0348C21.7631 16.8569 22.6676 14.0635 22.4746 11.2357C22.2815 8.40789 21.0057 5.76337 18.9125 3.85226C16.8193 1.94116 14.0698 0.910614 11.2362 0.975014C8.4025 1.03941 5.70274 2.1938 3.69851 4.19802C1.69429 6.20225 0.539902 8.90201 0.475503 11.7357C0.411103 14.5694 1.44164 17.3188 3.35275 19.412C5.26385 21.5052 7.90838 22.781 10.7362 22.9741C13.564 23.1672 16.3574 22.2626 18.5353 20.4485L24.7928 26.7073C24.8857 26.8002 24.996 26.8739 25.1174 26.9242C25.2388 26.9745 25.3689 27.0004 25.5003 27.0004C25.6317 27.0004 25.7618 26.9745 25.8832 26.9242C26.0046 26.8739 26.1149 26.8002 26.2078 26.7073C26.3007 26.6144 26.3744 26.5041 26.4247 26.3827C26.475 26.2613 26.5008 26.1312 26.5008 25.9998C26.5008 25.8684 26.475 25.7383 26.4247 25.6169C26.3744 25.4955 26.3007 25.3852 26.2078 25.2923ZM2.50029 11.9998C2.50029 10.2198 3.02813 8.47971 4.01706 6.99966C5.00599 5.51962 6.4116 4.36607 8.05613 3.68488C9.70067 3.00369 11.5103 2.82546 13.2561 3.17273C15.0019 3.52 16.6056 4.37716 17.8642 5.63584C19.1229 6.89451 19.9801 8.49816 20.3274 10.244C20.6746 11.9898 20.4964 13.7994 19.8152 15.4439C19.134 17.0885 17.9805 18.4941 16.5004 19.483C15.0204 20.472 13.2803 20.9998 11.5003 20.9998C9.11415 20.9972 6.8265 20.0481 5.13925 18.3608C3.45199 16.6736 2.50293 14.3859 2.50029 11.9998Z" fill="#6100FF"/>
+              </svg>
+            </div>
+          </div>
         </div>
         <div className="flex h-[1450px] w-[1313px] gap-[102px]">
           <div className="h-[1450px] w-[865px]">
@@ -137,15 +171,18 @@ const VulDbPage = () => {
               />
             </div>
             <div className="flex h-[1354px] w-full flex-col gap-4">
-              {currentItems.map((currentItem, index) => (
-                <ContentCard
-                  className="h-[258px] w-[865px]"
-                  key={index}
-                  title={currentItem.title}
-                  summary={currentItem.summary}
-                  usePinIcon={currentItem.usePinIcon}
-                  useNewWindowIcon={currentItem.useNewWindowIcon}
-                />
+              {currentItems.map((currentItem) => (
+                <Link href={`vuldb/items/${currentItem.id}`} key={currentItem.id}>
+                  <ContentCard
+                    className="h-[258px] w-[865px]"
+                    title={currentItem.title}
+                    summary={currentItem.summary}
+                    usePinIcon={currentItem.usePinIcon}
+                    useNewWindowIcon={currentItem.useNewWindowIcon}
+                    createDate={currentItem.savedTime}
+                    smBackgroundColor= "primary-light"
+                  />
+                </Link>
               ))}
             </div>
           </div>

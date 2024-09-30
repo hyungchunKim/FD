@@ -24,6 +24,11 @@ const DetectedFiles = () => {
 
   const [user, setUser] = useState<TUserInfo>();
   const { repositories, fetchRepositories } = useGitRepoStore();
+  const [showBookmarked, setShowBookmarked] = useState(false); // 북마크 필터 상태 관리
+  const [showRecents, setShowRecents] = useState(false); // 오늘 열어본 파일만 보이게 관리
+  const [bookmarkedRepos, setBookmarkedRepos] = useState<string[]>([]); // 북마크된 파일 id 저장
+  const [recentFiles, setRecentFiles] = useState<string[]>([]); // 오늘 열어본 파일 id 저장
+
   useEffect(() => {
     const currentUser = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,10 +49,20 @@ const DetectedFiles = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchRepositories();
+      filterTodayOpenedFiles();
     };
 
     fetchData();
   }, [fetchRepositories]);
+
+  const filterTodayOpenedFiles = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const openedFiles = JSON.parse(localStorage.getItem("openedFiles") || "[]");
+    const todayOpenedFiles = openedFiles.filter(
+      (file: { id: string; openedDate: string }) => file.openedDate === today,
+    );
+    setRecentFiles(todayOpenedFiles.map((file: { id: string }) => file.id));
+  };
 
   const reposData = repositories.flatMap((repo) => ({
     id: repo.id,
@@ -55,7 +70,23 @@ const DetectedFiles = () => {
     description: repo.description,
     created_at: repo.created_at,
     owner: repo.owner.login,
+    isBookmarked: bookmarkedRepos.includes(repo.id), // 북마크 여부 추가
+    isRecent: recentFiles.includes(repo.id),
   }));
+
+  // 북마크
+  const filteredRepos = showRecents
+    ? reposData.filter((repo) => repo.isRecent)
+    : showBookmarked
+      ? reposData.filter((repo) => repo.isBookmarked) // 북마크된 리포지토리만 필터링
+      : reposData; // 모든 리포지토리 보여줌
+
+  const handleRecentsFile = () => {
+    setShowRecents((prevState) => !prevState);
+  };
+  const handleBookmarked = () => {
+    setShowBookmarked((prevState) => !prevState);
+  };
 
   const handleMePage = () => {
     router.push("/me");
@@ -96,14 +127,25 @@ const DetectedFiles = () => {
           </div>
         </Button>
         <div className="title-xs-medium mb-7 flex h-[60px] w-full gap-[21px]">
-          <Button className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black">
-            <RecentsFile /> Recents Files
+          <Button
+            className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black"
+            onClick={handleRecentsFile}
+          >
+            <RecentsFile /> {showRecents ? "전체 파일 보기" : "Recents Files"}
           </Button>
-          <Button className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black">
-            <BookmarkFolder /> Bookmark
+          <Button
+            className="h-[60px] w-[644.5px] gap-[10px] rounded-xl border border-line-light bg-white p-4 text-black"
+            onClick={handleBookmarked}
+          >
+            <BookmarkFolder /> {showBookmarked ? "전체 파일 보기" : "Bookmark"}
           </Button>
         </div>
-        <MyLibraryList className="mb-[124px]" repos={reposData} />
+        <MyLibraryList
+          className="mb-[124px]"
+          repos={filteredRepos}
+          bookmarkedRepos={bookmarkedRepos}
+          setBookmarkedRepos={setBookmarkedRepos}
+        />
       </div>
     </>
   );

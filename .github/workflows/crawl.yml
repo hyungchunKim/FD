@@ -1,0 +1,24 @@
+name: Scrape and Save to Firebase
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 매일 오전 12:00에 실행 (UTC 기준)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run the scraping script
+      run: npm run crawl # 크롤링 스크립트 실행

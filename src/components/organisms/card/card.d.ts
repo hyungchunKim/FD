@@ -1,12 +1,11 @@
+import { ChipProps } from "@/components/atoms/chips/index";
+
+
 export type CardBgColorType = "white" | "primary-light" | "primary-dark";
 export type CardIconType = "pin" | "newWindow" | "share";
 
 export type CardType = {
-  chipLabel?: string;
-  chipProps?: {
-    chipType?: string;
-    chipColor?: string;
-  };
+  chipLabel?: ChipProps;
   className?: string;
   useMenu?: boolean;
   menuList?: {
@@ -23,4 +22,5 @@ export type CardType = {
   createDate?: string;
   shadow?: boolean;
   backgroundColor?: CardBgColorType;
+  smBackgroundColor?: CardBgColorType;
 };

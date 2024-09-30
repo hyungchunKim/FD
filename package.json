@@ -9,14 +9,15 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "crawl": "tsx /Users/hyungjun/Documents/GitHub/FD/src/utils/crawler.ts"
   },
   "dependencies": {
     "@google-cloud/translate": "^8.5.0",
-    "@types/react-syntax-highlighter": "^15.5.13",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^4.0.0-beta.1",
     "dayjs": "^1.11.12",
     "firebase": "^10.13.1",
     "firebase-admin": "^12.4.0",
@@ -30,12 +31,12 @@
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.20",
     "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.15",
     "nookies": "^2.5.2",
     "prismjs": "^1.29.0",
     "puppeteer": "^23.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.26.1",
     "react-syntax-highlighter": "^15.5.0",
     "simple-git": "^3.26.0",
@@ -53,10 +54,10 @@
     "@storybook/react": "^8.2.8",
     "@storybook/test": "^8.2.8",
     "@svgr/webpack": "^8.1.0",
-    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.11",
     "@types/prismjs": "^1.26.4",
+    "@types/nodemailer": "^6.4.16",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
@@ -69,5 +70,6 @@
     "storybook": "^8.2.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "type": "module"
 }

@@ -29,6 +29,7 @@ const DefaultCard = ({
   headerClass = "",
   summaryClass = "",
   backgroundColor = "white",
+  smBackgroundColor = "white",
 }: PropTypes) => {
   return (
     <>
@@ -73,6 +74,7 @@ const DefaultCard = ({
               className={twMerge(
                 "card_summary caption-xs-regular flex-1 text-ellipsis text-text-default",
                 summaryClass,
+                smBackgroundColor,
               )}
             >
               {summary}

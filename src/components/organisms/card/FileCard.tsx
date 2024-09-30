@@ -1,3 +1,5 @@
+"use client"
+
 import { CardType } from "./card.d";
 import { twMerge } from "tailwind-merge";
 import { CardDateFormat } from "@/utils";

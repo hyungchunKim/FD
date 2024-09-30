@@ -9,13 +9,15 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "crawl": "tsx /Users/hyungjun/Documents/GitHub/FD/src/utils/crawler.ts"
   },
   "dependencies": {
     "@google-cloud/translate": "^8.5.0",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^4.0.0-beta.1",
     "dayjs": "^1.11.12",
     "firebase": "^10.13.1",
     "firebase-admin": "^12.4.0",
@@ -49,7 +51,6 @@
     "@storybook/react": "^8.2.8",
     "@storybook/test": "^8.2.8",
     "@svgr/webpack": "^8.1.0",
-    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/node-fetch": "^2.6.11",
     "@types/nodemailer": "^6.4.16",
@@ -65,5 +66,6 @@
     "storybook": "^8.2.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "type": "module"
 }

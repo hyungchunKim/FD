@@ -71,7 +71,7 @@ const Chip: React.FC<ChipProps> = ({
         chipVariants({ variant, size, state }),
         color,
         className,
-        'flex items-center justify-center px-3'  
+        'flex items-center justify-center px-3 py-2'  
       )}
       {...props}
     >

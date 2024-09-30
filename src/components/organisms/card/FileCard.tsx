@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { CardType } from "./card.d";
 import { twMerge } from "tailwind-merge";
-import { CardDateFormat } from "@/utils";
+import { RepoCardDateFormat } from "@/utils";
 import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
 import UnionWhite from "@/assets/icons/UnionWhite.svg";
@@ -134,7 +134,7 @@ const FileCard = ({
               )}
               {createDate && (
                 <div className="flex items-end">
-                  {createDate && CardDateFormat(createDate)}
+                  {createDate && RepoCardDateFormat(createDate)}
                 </div>
               )}
             </div>

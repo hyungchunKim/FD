@@ -29,9 +29,7 @@ const MyLibrary = () => {
         setUid(user.uid);
         setEmail(user.email as string);
         setImgUrl(user.photoURL as string);
-        console.log("login ", isLogin);
       } else {
-        console.log("No user is logged in.");
         setLogin(false);
       }
     });

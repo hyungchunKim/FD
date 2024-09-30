@@ -1,4 +1,5 @@
 import { format, differenceInDays, parse } from "date-fns";
+import dayjs from "dayjs";
 
 export const CardDateFormat = (date: string) => {
   try {
@@ -10,6 +11,14 @@ export const CardDateFormat = (date: string) => {
 
     // n일 전 형식의 문자열 반환
     return `${difference}일 전`;
+  } catch (error) {
+    return date;
+  }
+};
+
+export const RepoCardDateFormat = (date: string) => {
+  try {
+    return dayjs(date).format("YYYY-MM-DD");
   } catch (error) {
     return date;
   }

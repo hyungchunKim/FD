@@ -1,3 +1,4 @@
+// InfoBox.tsx
 "use client";
 import React from "react";
 import { twMerge } from "tailwind-merge";
@@ -13,7 +14,7 @@ interface InfoBoxProps {
     class?: string;
   };
   className?: string;
-  codeSnippet: {
+  codeSnippet?: {
     language: string;
     code: string;
   };
@@ -30,7 +31,7 @@ const Button: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
 const CodeBlock: React.FC<{ language: string; code: string }> = ({ language, code }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(code);
-    // 여기에 복사 완료 알림 로직을 추가할 수 있습니다.
+    alert("코드가 복사되었습니다."); // 복사 완료 알림 추가
   };
 
   return (
@@ -56,12 +57,14 @@ const CodeBlock: React.FC<{ language: string; code: string }> = ({ language, cod
 const InfoBox: React.FC<InfoBoxProps> = ({
   backgroundClass,
   title,
-  titleClass,
+  titleClass = "", // 기본값 설정
   description,
   positionLink,
-  className,
+  className = "", // 기본값 설정
   codeSnippet,
 }) => {
+  const descriptionClass = "relative text-lg tracking-[0.015em] text-text-gray-dark"; // 스타일 상수화
+
   return (
     <div
       className={twMerge(
@@ -86,15 +89,19 @@ const InfoBox: React.FC<InfoBoxProps> = ({
           )}
         </div>
         {description.map((desc, index) => (
-          <div key={index} className="relative text-lg tracking-[0.015em] text-text-gray-dark">
+          <div key={index} className={descriptionClass}>
             {desc}
           </div>
         ))}
       </div>
-      <div className="w-full max-w-[687px]">
-        <div className="text-2xl font-semibold mb-2.5">수정된 코드</div>
-        <CodeBlock language={codeSnippet.language} code={codeSnippet.code} />
-      </div>
+
+      {/* codeSnippet이 존재할 때만 CodeBlock을 렌더링 */}s
+      {codeSnippet && (
+        <div className="w-full max-w-[687px]">
+          <div className="text-2xl font-semibold mb-2.5">수정된 코드</div>
+          <CodeBlock language={codeSnippet.language} code={codeSnippet.code} />
+        </div>
+      )}
     </div>
   );
 };

@@ -15,11 +15,9 @@ export default function Page() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setIsLogin(true);
-      console.log("User is logged in:", user.uid);
     } else {
       setIsLogin(false);
       router.push("/");
-      console.log("not login");
     }
   });
 

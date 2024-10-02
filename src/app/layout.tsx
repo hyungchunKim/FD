@@ -25,7 +25,7 @@ export default function RootLayout({
                 <Link href="/" className="uppercase">
                   FLAWDETECTOR
                 </Link>
-                <Link href="/">취약점 DB</Link>
+                <Link href="/vuldb">취약점 DB</Link>
               </div>
               <div className="px-[40px]">
                 <Link href="/repos">MY 저장소</Link>

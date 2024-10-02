@@ -4,7 +4,7 @@ import Button from "@/components/atoms/button";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/libs/firebase/firebaseConfig";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Modal from "@/components/atoms/modal";
 
@@ -12,14 +12,17 @@ export default function Page() {
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-      router.push("/");
-    }
-  });
+  
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+        router.push("/");
+      }
+    });
+  }, [isLogin, router])
 
   const handleLoginPage = () => {
     router.push("/login");

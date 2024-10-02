@@ -5,8 +5,6 @@ import { CardType } from "./card.d";
 import Link from "next/link";
 import ArrowUp from "@/assets/icons/ArrowUp.svg";
 
-console.log(ArrowUp);
-
 type PropTypes = {
   link: string;
   backgroundImg: string;

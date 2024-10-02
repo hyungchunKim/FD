@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import serviceAccount from '../../fd-6aea3-firebase-adminsdk-t7blu-a3caea7018.json'; // JSON 파일을 import
 
 interface TranslationData {
   title: string;
@@ -9,13 +10,10 @@ interface TranslationData {
   url?: string;
 }
 
-// 환경 변수에서 서비스 계정 키 JSON 문자열을 불러와 파싱
-const serviceAccount = require('../../fd-6aea3-firebase-adminsdk-t7blu-a3caea7018.json')
-
-// Firebase Admin SDK 초기화 (환경 변수에서 불러온 서비스 계정 키 사용)
+// Firebase Admin SDK 초기화
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount), // 타입 캐스팅 추가
   });
 }
 

@@ -8,6 +8,10 @@ interface TranslationData {
   summary?: string;
   detailContent?: string;
   url?: string;
+  usePinIcon?: boolean;
+  useNewWindowIcon?: boolean;
+  isClicked?: number;
+  isPinned?: boolean;
 }
 
 // Firebase Admin SDK 초기화

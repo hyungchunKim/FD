@@ -6,11 +6,20 @@ export async function GET() {
     // Firestore에서 'flawdb' 컬렉션의 데이터를 가져옴, 'savedTime' 기준으로 최신순으로 정렬
     const snapshot = await db.collection('flawdb')
       .orderBy('savedTime', 'desc') // 최신순으로 정렬
-      .select('id', 'title', 'summary', 'savedTime') // 필요한 필드만 선택
+      .select(
+        'id',
+        'title',
+        'summary',
+        'savedTime',
+        'isClicked',
+        'isPinned',
+        'url',
+        'useNewWindowIcon',
+        'usePinIcon',
+      ) // 필요한 필드만 선택
       .get();
 
     const data = snapshot.docs.map(doc => ({
-      id: doc.id, // 문서의 ID
       ...doc.data() // 문서의 데이터
     }));
 

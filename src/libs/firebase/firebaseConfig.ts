@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { doc, updateDoc } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,3 +27,25 @@ export const auth = getAuth(app);
 // Firestore 초기화
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export async function updateIsClickedInFirebase(id: string, isClicked: number) {
+  try {
+    const itemRef = doc(db, "flawdb", id);
+    await updateDoc(itemRef, { 
+      isClicked: isClicked, 
+    });
+    console.log(`Updated isPinned for item with id ${id}`);
+  } catch (error) {
+    console.error("Error updating isPinned in Firebase:", error);
+  }
+}
+
+export async function updateIsPinnedInFirebase(id: string, isPinned: boolean) {
+  try {
+    const itemRef = doc(db, "flawdb", id);
+    await updateDoc(itemRef, { isPinned });
+    console.log(`Updated isPinned for item with id ${id}`);
+  } catch (error) {
+    console.error("Error updating isPinned in Firebase:", error);
+  }
+}

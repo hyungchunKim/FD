@@ -30,6 +30,9 @@ export async function GET(
       publishedTime: data?.publishedTime || '',
       savedTime: data?.savedTime || '',
       detailContent: data?.detailContent || '',
+      isPinned: data?.isPinned || false,
+      isClicked: data?.isClicked || 0,
+      url: data?.url || '',
     };
 
     return NextResponse.json(responseData);

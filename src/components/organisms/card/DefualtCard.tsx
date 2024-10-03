@@ -6,11 +6,19 @@ import PushPin from "@/assets/icons/PushPin.svg";
 import Share from "@/assets/icons/Share.svg";
 import ShareFat from "@/assets/icons/ShareFat.svg";
 import MoreVerti from "@/assets/icons/MoreVeri.svg";
+import PinIcon from "@/assets/icons/Pin.svg";
+import { useEffect } from "react";
+import Link from "next/link";
 
 export type PropTypes = {
   subTitleClass?: string;
   headerClass?: string;
   summaryClass?: string;
+  handlePinIconClick?: (id: string) => Promise<void>; // 핀 아이콘 클릭 핸들러 추가
+  handleCopyLink?: (id: string) => Promise<void>;
+  isPinned: boolean;
+  id: string;
+  isStackedLocation: boolean;
 } & CardType;
 
 const DefaultCard = ({
@@ -24,13 +32,23 @@ const DefaultCard = ({
   usePinIcon = false,
   useNewWindowIcon = false,
   useShareIcon = false,
+  isPinned = false,
   createDate = "",
   subTitleClass = "",
   headerClass = "",
   summaryClass = "",
   backgroundColor = "white",
   smBackgroundColor = "white",
+  handlePinIconClick, // 핀 아이콘 클릭 핸들러 추가
+  handleCopyLink,
+  id,
+  isStackedLocation,
 }: PropTypes) => {
+  
+  useEffect(() => {
+    console.log('isPinned : ', isPinned);
+  }, [isPinned])
+  
   return (
     <>
       <div
@@ -43,32 +61,34 @@ const DefaultCard = ({
           className,
         )}
       >
-        <div className="flex h-full w-full flex-col gap-6">
-          <div className={twMerge("h-full w-full", headerClass)}>
-            <div className="card_header-chip flex justify-between">
-              <div>{chipLabel}</div>
-              <div>
-                {useMenu && (
-                  <button>
-                    <MoreVerti />
-                  </button>
-                )}
+        <div className="flex h-full w-full flex-col gap-9">
+          <Link href={isStackedLocation ? `${id}` : `/vuldb/items/${id}`}>
+            <div className={twMerge("h-full w-full", headerClass)}>
+              <div className="flex justify-between">
+                <div>{chipLabel}</div>
+                <div>
+                  {useMenu && (
+                    <button>
+                      <MoreVerti />
+                    </button>
+                  )}
+                </div>
               </div>
+              <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis ml-2 text-black leading-[30px]">
+                {title}
+              </h2>
+              {subTitle && (
+                <div
+                  className={twMerge(
+                    "caption-xl-medium text-text-default",
+                    subTitleClass,
+                  )}
+                >
+                  <span>{subTitle}</span>
+                </div>
+              )}
             </div>
-            <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis text-black">
-              {title}
-            </h2>
-            {subTitle && (
-              <div
-                className={twMerge(
-                  "caption-xl-medium text-text-default",
-                  subTitleClass,
-                )}
-              >
-                <span>{subTitle}</span>
-              </div>
-            )}
-          </div>
+          </Link>
           {summary && (
             <p
               className={twMerge(
@@ -84,12 +104,24 @@ const DefaultCard = ({
             <div className="flex justify-between align-bottom">
               <div className="flex gap-4">
                 {usePinIcon && (
-                  <button>
-                    <PushPin />
+                  <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); // 클릭 이벤트 전파 중단
+                    if (handlePinIconClick) { // 조건문으로 체크
+                      handlePinIconClick(id); // 직접 호출
+                    }
+                  }}
+                  >
+                    {isPinned ? <PushPin /> : <PinIcon />}
                   </button>
                 )}
                 {useNewWindowIcon && (
-                  <button>
+                  <button onClick={(e) => {
+                    e.stopPropagation();
+                    if (handleCopyLink) {
+                      handleCopyLink(id);
+                    }
+                  }}>
                     <Share />
                   </button>
                 )}

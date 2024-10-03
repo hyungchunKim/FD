@@ -66,21 +66,28 @@ async function scrapeAndSave() {
 
           const detailedContent = await page.evaluate(() => {
             const contentElement = document.querySelector('.content.ml-2.mt-5') as HTMLElement;
-            return contentElement?.innerText?.replace(/\n/g, '\n').trim() || '';
+            return contentElement?.innerHTML || '';
           });
+
+          // <br> 태그 추가
+          const formattedDetailContent = detailedContent.replace(/(<\/p>|<\/div>)/g, '<br>$1');
 
           const translatedTitle = await translateText(newsItem.title);
           const translatedSummary = await translateText(newsItem.summary);
           const translatedPublishedTime = await translateText(newsItem.publishedTime);
-          const translatedDetailContent = await translateText(detailedContent);
+          const translatedDetailContent = await translateText(formattedDetailContent);
 
           await saveToFirestore({
             title: translatedTitle,
             summary: translatedSummary,
             publishedTime: translatedPublishedTime,
             savedTime: format(Timestamp.now().toDate(), "yyyy년 MM월 dd일"),
-            detailContent: translatedDetailContent,
+            detailContent: " " + translatedDetailContent,
             url: newsItem.url,
+            usePinIcon: true,
+            useNewWindowIcon: true,
+            isClicked: 0,
+            isPinned: false,
           });
 
           console.log(`${pageNumber} 페이지 데이터 크롤링 완료`);

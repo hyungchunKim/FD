@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true, // React의 Strict Mode를 활성화하여 잠재적인 문제를 감지
+  reactStrictMode: false,
 
   images: {
     remotePatterns: [
@@ -14,28 +14,32 @@ const nextConfig = {
   },
 
   webpack(config) {
-    // Grab the existing rule that handles SVG imports
+    // WebAssembly 실험과 Layer 실험 활성화
+    config.experiments = {
+      asyncWebAssembly: true, // 비동기 WebAssembly 사용
+      syncWebAssembly: false, // 동기 WebAssembly 사용을 원하지 않는 경우
+      layers: true, // layers 실험 활성화
+    };
+
+    // 기존 SVG 처리 규칙 유지 및 수정
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg"),
     );
 
     config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
         resourceQuery: /url/, // *.svg?url
       },
-      // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
         use: ["@svgr/webpack"],
       },
     );
 
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
 
     return config;

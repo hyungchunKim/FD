@@ -5,7 +5,13 @@ import Pagenation from "@/components/atoms/pagenation/Pagenation";
 import ImageLinkCard from "@/components/organisms/card/ImageLinkCard";
 import Chip from "@/components/atoms/chips";
 import { ContentCard } from "@/components/organisms/card";
-import Link from "next/link";
+import TopicCarousel from "@/components/organisms/topicCarousel/TopicCarousel";
+import { db, updateIsPinnedInFirebase } from "@/libs/firebase/firebaseConfig";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { CardDateDifference } from "@/utils/dateUtils";
+import { isLoggedIn } from "@/utils/auth";
+import { useRouter } from "next/navigation";
+import AuthModal from "@/components/atoms/modal/AuthModal";
 
 interface ItemsDataProps {
   id: string;
@@ -15,6 +21,9 @@ interface ItemsDataProps {
   usePinIcon: boolean;
   useNewWindowIcon: boolean;
   savedTime: string;
+  isPinned: boolean;
+  isClicked: number;
+  url: string;
 }
 
 interface HeaderItemsProps {
@@ -23,17 +32,63 @@ interface HeaderItemsProps {
   savedTime: string;
 }
 
-const topics = [
-  "Topic",
-  "웹뷰",
-  "허프만 코딩 구현",
-  "테스크 커버리지",
-  "코드형 인프라(IaC)",
-  "클린 아키텍쳐",
-  "UI 라이브러리 개발",
-  "AWS Personalize",
-  "키클락",
-  "클린 코어",
+interface TopicCarouselProps {
+  id: number;
+  name: string;
+  link: string;
+}
+
+const topics: TopicCarouselProps[] = [
+  {
+    id: 1,
+    name: "Cisoco Talos Blog",
+    link: "https://blog.talosintelligence.com"
+  },
+  {
+    id: 2,
+    name: "보안 뉴스",
+    link: "https://m.boannews.com/html"
+  },
+  {
+    id: 3,
+    name: "Microsoft Security",
+    link: "https://www.microsoft.com/en-us/security/blog/threat-intelligence/threat-actors"
+  },
+  {
+    id: 4,
+    name: "EST Security",
+    link: "https://blog.alyac.co.kr/"
+  },
+  {
+    id: 5,
+    name: "SmokeScreen",
+    link: "https://www.smokescreen.io/blog"
+  },
+  {
+    id: 6,
+    name: "Threat Analysis Group",
+    link: "https://blog.google/threat-analysis-group"
+  },
+  {
+    id: 7,
+    name: "AhnLab (안랩)",
+    link: "https://asec.ahnlab.com/ko"
+  },
+  {
+    id: 8,
+    name: "S2W",
+    link: "https://medium.com/s2wblog"
+  },
+  {
+    id: 9,
+    name: "Kaspersky",
+    link: "https://www.kaspersky.com/blog"
+  },
+  {
+    id: 10,
+    name: "Mandiant",
+    link: "https://www.mandiant.kr"
+  }
 ];
 
 const VulDbPage = () => {
@@ -44,6 +99,43 @@ const VulDbPage = () => {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState<ItemsDataProps[]>([]);
+  const [filteredPinnedItems, setFilteredPinnedItems] = useState<ItemsDataProps[]>([]);
+  const [pinned, setPinned] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);   
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleCopyLink = async (id: string): Promise<void> => {
+    try {
+      console.log('전달된 id', id);
+      // id에 맞는 링크를 찾아서 복사
+      const copiedLink = items.find((item) => item.id === id)?.url;
+      console.log(copiedLink);
+      if (!copiedLink) {
+        console.error("해당 ID에 해당하는 링크가 없습니다.");
+        alert("해당 링크를 찾을 수 없습니다.");
+        return;
+      }
+  
+      if (navigator.clipboard) {
+        // 클립보드에 링크 복사
+        await navigator.clipboard.writeText(copiedLink);
+        console.log('링크 복사 완료:', copiedLink);
+        alert('링크가 클립보드에 복사되었습니다!');
+      } else {
+        throw new Error("클립보드를 사용할 수 없습니다.");
+      }
+    } catch (error) {
+      console.error("링크 복사 실패:", error);
+      alert("클립보드 복사에 실패했습니다.");
+    }
+  };
+  
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    router.push("/"); // 로그인되지 않았을 경우 로그인 페이지로 리디렉션
+  }
 
   const handleMouseEnter = (id: string) => {
     setHoveredCardId(id);
@@ -53,6 +145,79 @@ const VulDbPage = () => {
     setSearchTerm(e.target.value);
   }
 
+  const handlePinIconClick = async (id: string) => {
+    
+    if (isLoggedIn()) {
+      setIsAuth(true);
+      console.log('isAuth는: ',isAuth);
+    } else {
+      setIsAuth(false);
+      console.log('isAuth는: ',isAuth);
+    }
+
+    console.log('pinned 클릭됨');
+    const updatedItems = items.map((item) => {
+      if (item.id === id) {
+        const updatedItem = { ...item, isPinned: !item.isPinned};
+        console.log('업데이트된 항목:', updatedItem); // 로그 추가
+        return updatedItem;
+      }
+      return item;
+    });
+  
+    // Firebase 업데이트
+    try {
+      const updatedItem = updatedItems.find(item => item.id === id)!;
+      console.log('Firebase에 업데이트할 값 : ', updatedItem);
+      await updateIsPinnedInFirebase(id, updatedItem.isPinned);
+      setItems(updatedItems);
+      setFilteredItems(updatedItems);
+    } catch (error) {
+      console.error("Error updating state after Firebase update:", error);
+    }
+  };
+
+  const showPinnedButton = async () => {
+    try {
+      if (pinned === false) {
+        console.log("Pinned 클릭됨");
+  
+        const q = query(
+          collection(db, 'flawdb'), // Firestore 컬렉션 이름으로 변경
+          where('isPinned', '==', true), // isPinned가 true인 항목 필터링
+          orderBy('savedTime','desc')
+        );
+  
+        const querySnapshot = await getDocs(q);
+        const pinnedItems: ItemsDataProps[] = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+        })) as ItemsDataProps[];
+        
+        setPinned(true);
+        setFilteredPinnedItems(pinnedItems);
+        setItems(pinnedItems); // Pin이 활성화되면 필터링된 항목으로 업데이트
+      } else {
+        setPinned(false);
+        
+        const allItemsQuery = query(
+          collection(db, 'flawdb'),
+          orderBy('savedTime', 'desc') // 또는 필요한 다른 정렬 기준
+        );
+
+        const allItemsSnapshot = await getDocs(allItemsQuery);
+        const allItems: ItemsDataProps[] = allItemsSnapshot.docs.map(doc => ({
+          ...doc.data(),
+        })) as ItemsDataProps[];
+
+        setFilteredPinnedItems([]); // 초기화
+        setItems(allItems); // 모든 항목으로 업데이트
+      }
+    } catch (error) {
+      console.error('Error fetching pinned items:', error);
+    }
+  };
+  
+  
   useEffect(() => {
     const fetchSummaryData = async () => {
       try {
@@ -61,18 +226,9 @@ const VulDbPage = () => {
         console.log(result);
 
         if(response.ok) {          
-          const formattedItems =
-            result.data.map((item: ItemsDataProps, index: number) => ({
-              ...item,
-              usePinIcon: true,
-              useNewWindowIcon: true,
-              chipLabel: index < 10 ? "HOT" : undefined
-            })
-          )
-
-          setItems(formattedItems);
-          setFilteredItems(formattedItems);
-          setHeaderItems([...headerItems, result.data[0], result.data[1], result.data[2]])
+          setItems(result.data);
+          setFilteredItems(result.data);
+          setHeaderItems([result.data[0], result.data[1], result.data[2]])
           console.log(items);
         } else {
           console.error('Data Fetching Error', result.error);
@@ -104,6 +260,25 @@ const VulDbPage = () => {
   }, [items])
 
   useEffect(() => {
+    const checkAuth = () => {
+      const loggedIn = isLoggedIn();
+      if (!loggedIn) {
+        setIsAuth(false);
+        console.log('isAuth는: ', false); // loggedIn이 false일 때
+      } else {
+        setIsAuth(true);
+        console.log('isAuth는: ', true); // loggedIn이 true일 때
+      }
+    };
+  
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    console.log('isAuth가 변경되었습니다: ', isAuth);
+  }, [isAuth]);
+
+  useEffect(() => {
     if (headerItems.length > 0) {
       setHoveredCardId(headerItems[0].id);
     }
@@ -123,13 +298,24 @@ const VulDbPage = () => {
   const currentItems = filteredItems.slice(startIndex, endIndex);
 
   return (
-    <div className="mx-auto mb-[196px] mt-[27px] flex h-[2249px] w-[1313px] flex-col gap-[76px]">
+    <div className="mx-auto mb-[196px] mt-[27px] flex h-[2249px] w-[1313px] flex-col gap-[76px]"> 
+      <AuthModal isAuth={isAuth} onClose={closeModal}>
+        <h2 className="text-lg font-semibold">접근 불가</h2>
+        <p className="mt-2">로그인이 필요합니다..!</p>
+        <p className="mt-2">창을 닫으면 잠시후 홈화면으로 이동합니다.</p>
+        <button
+          className="mt-8 px-4 py-2 bg-purple-600 text-white rounded-[10px] cursor-pointer"
+          onClick={closeModal}
+        >
+          닫기
+        </button>
+      </AuthModal>
       <div className="mx-auto box-border h-[2137px] w-[1313px]">
         <div className="mb-[76px] flex h-[390px] w-full gap-[28px]">
           {headerItems.map((headerItem, idx) => (
             <ImageLinkCard
               key={idx}
-              link=""
+              link={`vuldb/items/${headerItem.id}`}
               backgroundImg= "/images/dbcardlarge.png"
               title= {headerItem.title}
               subTitle= {headerItem.savedTime}
@@ -158,51 +344,59 @@ const VulDbPage = () => {
             <div className="subtitle-md-bold mb-4 h-[29px] w-[105px]">
               취약점 DB
             </div>
-            <div className="mb-4 flex h-[38px] w-[129px] gap-3">
-              <Chip
-                text={"HOT"}
-                color={"bg-accent-red"}
-                className="text-white w-[57px] h-[38px] body-md-bold rounded-[999px]"
-              />
-              <Chip
-                text={"NEW"}
-                color={"bg-[#E8E8E8]"}
-                className="text-line-dark w-[60px] h-[38px] body-md-bold rounded-[999px]"
-              />
+            <div className="mb-4 flex h-[38px] w-full gap-3 justify-start cursor-pointer">
+              { pinned ?
+                <Chip
+                  text={"All"}
+                  color={"bg-primary-300"}
+                  className="text-white w-[100px] h-[38px] body-md-bold rounded-full"
+                  onClick={showPinnedButton}
+                />
+                :
+                <Chip
+                  text={"Pinned"}
+                  color={"bg-primary-500"}
+                  className="text-white w-[100px] h-[38px] body-md-bold rounded-full"
+                  onClick={showPinnedButton}
+                />
+              }
             </div>
-            <div className="flex h-[1354px] w-full flex-col gap-4">
-              {currentItems.map((currentItem) => (
-                <Link href={`vuldb/items/${currentItem.id}`} key={currentItem.id}>
-                  <ContentCard
-                    className="h-[258px] w-[865px]"
-                    title={currentItem.title}
-                    summary={currentItem.summary}
-                    usePinIcon={currentItem.usePinIcon}
-                    useNewWindowIcon={currentItem.useNewWindowIcon}
-                    createDate={currentItem.savedTime}
-                    smBackgroundColor= "primary-light"
-                  />
-                </Link>
+            <div className={`flex h-[1354px] w-full flex-col gap-4 ${ isAuth ? '' : 'blur pointer-events-none'}`}>
+              {currentItems.map((currentItem: ItemsDataProps) => (
+                <ContentCard
+                  className="h-[258px] w-[865px]"
+                  title={currentItem.title}
+                  summary={currentItem.summary}
+                  usePinIcon={currentItem.usePinIcon}
+                  useNewWindowIcon={currentItem.useNewWindowIcon}
+                  createDate={currentItem.savedTime}
+                  smBackgroundColor= "primary-light"
+                  isPinned={currentItem.isPinned}
+                  handlePinIconClick={() => handlePinIconClick(currentItem.id)}
+                  handleCopyLink={() => handleCopyLink(currentItem.id)}
+                  id={currentItem.id}
+                  key={currentItem.id}
+                  url={currentItem.url}
+                  chipLabel={
+                    currentItem.isClicked > 20 ? <Chip text="HOT" color="bg-accent-red text-white" className="text-white w-[57px] h-[38px] body-md-bold rounded-[999px]"/> :
+                    (CardDateDifference(currentItem.savedTime) as number < 1) ?
+                    <Chip text="New" color="bg-accent-orange text-white" className="text-white w-[57px] h-[38px] body-md-bold rounded-[999px]"/> :
+                    <Chip text="" color="bg-white text-white" className="text-white w-[4px] h-[38px] body-md-bold rounded-[999px]"/>  
+                  }
+                />
               ))}
             </div>
           </div>
           <div className="flex h-[664px] w-[346px] flex-col gap-[26px]">
-            <div className="flex h-[68px] w-[156px] flex-col justify-between">
-              <div className="subtitle-md-bold h-[29px] w-[134px]">
-                실시간 Topic
+            <div className="flex h-[68px] w-full flex-col justify-between">
+              <div className="subtitle-md-bold h-[29px] w-full">
+                보안 관련 사이트 링크
               </div>
-              <div className="subtitle-sm-medium h-[22px] w-full text-text-gray-defalt">
-                03.08 10:00시 기준
+              <div className="subtitle-sm-medium h-[22px] w-full text-primary-500 opacity-60">
+                Flaw Detector&#39;s Pick
               </div>
             </div>
-            <div className="flex h-[580px] w-[346px] flex-col items-center justify-center rounded-lg border border-line-default px-5">
-              {topics.map((topic, idx) => (
-                <div
-                  className="subtitle-sm-medium flex h-[54px] w-full items-center border-b border-line-light text-text-gray-dark"
-                  key={idx}
-                >{`${idx + 1}. ${topic}`}</div>
-              ))}
-            </div>
+            <TopicCarousel topics={topics}/>
           </div>
         </div>
       </div>

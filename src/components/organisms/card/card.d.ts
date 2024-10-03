@@ -15,6 +15,7 @@ export type CardType = {
   usePinIcon?: boolean;
   useNewWindowIcon?: boolean;
   useShareIcon?: boolean;
+  isPinned?: boolean;
   handleClickIcon?: (iconType: CardIconType) => void;
   title?: string;
   subTitle?: string;

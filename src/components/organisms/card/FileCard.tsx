@@ -10,6 +10,8 @@ import Star from "@/assets/icons/Star.svg";
 import StarPurple from "@/assets/icons/StarPurple.svg";
 import Chip from "@/components/atoms/chips";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Modal from "@/components/atoms/modal";
 
 type PropTypes = {
   id?: string;
@@ -46,6 +48,8 @@ const FileCard = ({
   toggleBookmark,
 }: PropTypes) => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal 상태 추가
+
   const handleReposPage = (url: string) => {
     const openedFiles = JSON.parse(localStorage.getItem("openedFiles") || "[]");
 
@@ -59,6 +63,12 @@ const FileCard = ({
     localStorage.setItem("openedFiles", JSON.stringify(uniqueFiles));
 
     router.push(url);
+
+    //setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -83,7 +93,6 @@ const FileCard = ({
           >
             <div className="flex justify-between">
               <div>
-                {status === "waiting" && <></>}
                 {status === "inspecting" && (
                   <Chip
                     text="검사중"
@@ -97,7 +106,7 @@ const FileCard = ({
                   />
                 )}
               </div>
-              <div className="subtitle-md-medium text-ellipsis text-left text-black">
+              <div className="subtitle-md-medium h-[108px] w-[200px] text-ellipsis text-left text-black">
                 {title}
               </div>
               <div>
@@ -116,7 +125,7 @@ const FileCard = ({
               {inspect ? (
                 <div className={twMerge("text-text-default")}>
                   <Button
-                    className="h-10 w-[146.45px]"
+                    className="h-10 w-[146.45px] gap-1"
                     onClick={() => handleReposPage(url as string)}
                   >
                     <UnionWhite /> 검사하기 <CareRightWhite />
@@ -126,7 +135,7 @@ const FileCard = ({
                 <div className={twMerge("bg-neutral-100 text-text-default")}>
                   <Button
                     onClick={() => handleReposPage(url as string)}
-                    className="gap-[7px]"
+                    className="h-10 w-[146.45px] gap-1"
                   >
                     <UnionWhite /> 결과보기 <CareRightWhite />
                   </Button>
@@ -141,6 +150,16 @@ const FileCard = ({
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Modal className="">
+          <p className="title-md-bold mb-3 w-[985px]">
+            LLM 이용기간이 만료되었습니다.
+          </p>
+          <Button className="mt-3" onClick={handleClose}>
+            닫기
+          </Button>
+        </Modal>
+      )}
     </>
   );
 };

@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
-import {
-  GithubAuthProvider,
-} from "firebase/auth";
+import { GithubAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import "firebase/auth";
 import Button from "@/components/atoms/button";
@@ -16,18 +14,7 @@ const LoginPage = () => {
 
   //github로그인
   const { handleLogin } = useAuth();
-  // github 로그인(기능O)
-  // async function handleLogin() {
 
-  //   const loginResult = await signInWithGithub();
-
-  //   if (loginResult?.user) {
-  //     console.log("Logged in user:", loginResult.user);
-  //     router.push("/me");
-  //   } else if (loginResult?.error) {
-  //     console.error("Login failed:", loginResult.error);
-  //   }
-  // }
   //github새탭
   const handleOpenNewTab = () => {
     window.open("https://github.com/", "_blank");

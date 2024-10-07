@@ -95,7 +95,6 @@ const LoginMyLibrary = ({ uid, email, imgUrl }: PropTypes) => {
       <div className="mb-20 flex gap-11 border-b border-[#BABABA] pb-20">
         <div className="items-center space-x-4 rtl:space-x-reverse">
           <div className="subtitle-md-medium flex max-h-[147px] min-w-0 flex-col gap-4">
-            <Link href="">스크랩</Link>
             <Link href="/me/settings">설정</Link>
             <Link href="/me/customercenter">문의하기</Link>
           </div>

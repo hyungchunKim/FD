@@ -20,7 +20,7 @@ type TRepoContentItem = {
   isChecked: boolean;
 };
 
-type FileStatus = 'none' | 'checking' | 'checked' | 'warning';
+type FileStatus = "none" | "checking" | "checked" | "warning";
 
 // Constants
 const FOLDER_SCAN_BUTTON_TEXT = "선택 폴더 검사";
@@ -29,10 +29,13 @@ const API_EXPIRED_MESSAGE = "API 사용이 만료되었습니다.";
 const VulnerabilityAnalysis: React.FC = () => {
   const params = useParams();
   const router = useRouter();
-  const repoOwner = Array.isArray(params.owner) ? params.owner[0] : params.owner;
+  const repoOwner = Array.isArray(params.owner)
+    ? params.owner[0]
+    : params.owner;
   const repoName = Array.isArray(params.name) ? params.name[0] : params.name;
 
-  const { repoContents, fetchRepoContents, setRepoContents, fetchFileContent } = useGitContentsStore();
+  const { repoContents, fetchRepoContents, setRepoContents, fetchFileContent } =
+    useGitContentsStore();
   const { gitToken } = useGitRepoStore();
 
   const [currentFile, setCurrentFile] = useState<TRepoContentItem | null>(null);
@@ -41,13 +44,19 @@ const VulnerabilityAnalysis: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<TRepoContentItem[]>([]);
   const [alertType, setAlertType] = useState<string | null>(null);
   const [alertMessage, setAlertMessage] = useState<string>("");
-  const [fileStatuses, setFileStatuses] = useState<Record<string, FileStatus>>({});
+  const [fileStatuses, setFileStatuses] = useState<Record<string, FileStatus>>(
+    {},
+  );
   const [checkingFiles, setCheckingFiles] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchContents = async () => {
       if (repoOwner && repoName && gitToken) {
-        const contents = await fetchRepoContents({ token: gitToken, owner: repoOwner, repo: repoName });
+        const contents = await fetchRepoContents({
+          token: gitToken,
+          owner: repoOwner,
+          repo: repoName,
+        });
         setRepoContents(contents);
       }
     };
@@ -64,27 +73,30 @@ const VulnerabilityAnalysis: React.FC = () => {
     setAlertMessage(API_EXPIRED_MESSAGE);
   }, []);
 
-  const handleFileSelect = useCallback((file: TRepoContentItem) => {
-    setCurrentFile(file);
-    setSelectedFiles((prevFiles) => {
-      const isAlreadySelected = prevFiles.some(f => f.path === file.path);
-      if (isAlreadySelected) {
-        return prevFiles.filter(f => f.path !== file.path);
-      } else {
-        return [...prevFiles, file];
-      }
-    });
+  const handleFileSelect = useCallback(
+    (file: TRepoContentItem) => {
+      setCurrentFile(file);
+      setSelectedFiles((prevFiles) => {
+        const isAlreadySelected = prevFiles.some((f) => f.path === file.path);
+        if (isAlreadySelected) {
+          return prevFiles.filter((f) => f.path !== file.path);
+        } else {
+          return [...prevFiles, file];
+        }
+      });
 
-    if (file.type === 'file') {
-      fetchFileContent(file.download_url)
-        .then(content => setCurrentCode(content))
-        .catch(error => {
-          console.error("파일 내용을 가져오는 중 오류 발생:", error);
-          setAlertType("error");
-          setAlertMessage("파일 내용을 불러오는 데 실패했습니다.");
-        });
-    }
-  }, [fetchFileContent]);
+      if (file.type === "file") {
+        fetchFileContent(file.download_url)
+          .then((content) => setCurrentCode(content as string))
+          .catch((error) => {
+            console.error("파일 내용을 가져오는 중 오류 발생:", error);
+            setAlertType("error");
+            setAlertMessage("파일 내용을 불러오는 데 실패했습니다.");
+          });
+      }
+    },
+    [fetchFileContent],
+  );
 
   const startInspection = useCallback(() => {
     if (selectedFiles.length === 0) {
@@ -96,29 +108,33 @@ const VulnerabilityAnalysis: React.FC = () => {
     setAlertMessage(API_EXPIRED_MESSAGE);
   }, [selectedFiles]);
 
-  const getLanguageFromFileName = useMemo(() => (fileName: string): string => {
-    const extension = fileName.split('.').pop()?.toLowerCase();
-    switch (extension) {
-      case 'js':
-      case 'jsx':
-        return 'javascript';
-      case 'ts':
-      case 'tsx':
-        return 'typescript';
-      case 'py':
-        return 'python';
-      case 'java':
-        return 'java';
-      case 'html':
-        return 'html';
-      case 'css':
-        return 'css';
-      case 'json':
-        return 'json';
-      default:
-        return 'text';
-    }
-  }, []);
+  const getLanguageFromFileName = useMemo(
+    () =>
+      (fileName: string): string => {
+        const extension = fileName.split(".").pop()?.toLowerCase();
+        switch (extension) {
+          case "js":
+          case "jsx":
+            return "javascript";
+          case "ts":
+          case "tsx":
+            return "typescript";
+          case "py":
+            return "python";
+          case "java":
+            return "java";
+          case "html":
+            return "html";
+          case "css":
+            return "css";
+          case "json":
+            return "json";
+          default:
+            return "text";
+        }
+      },
+    [],
+  );
 
   return (
     <>
@@ -137,9 +153,9 @@ const VulnerabilityAnalysis: React.FC = () => {
       </div>
 
       {alertType && (
-        <div className="fixed top-4 right-4 z-50">
+        <div className="fixed right-4 top-4 z-50">
           <Alert
-            type={alertType}
+            type="error"
             title={alertType === "error" ? "오류" : "알림"}
             message={alertMessage}
             buttonText="확인"
@@ -149,7 +165,7 @@ const VulnerabilityAnalysis: React.FC = () => {
       )}
 
       <div className="flex h-[calc(100vh-150px)] w-[1761px] gap-7">
-        <div className="flex flex-col gap-6 w-[247px]">
+        <div className="flex w-[247px] flex-col gap-6">
           <Button
             rounded="xs"
             className="subtitle-md-bold mb-6 h-[107px] w-full"
@@ -158,7 +174,7 @@ const VulnerabilityAnalysis: React.FC = () => {
             {FOLDER_SCAN_BUTTON_TEXT}
           </Button>
 
-          <div className="flex-1 overflow-y-auto h-[500px]">
+          <div className="h-[500px] flex-1 overflow-y-auto">
             <List
               setCurrentFile={handleFileSelect}
               currentFile={currentFile}
@@ -171,10 +187,10 @@ const VulnerabilityAnalysis: React.FC = () => {
 
         <div className="w-full flex-grow">
           {currentCode && currentFile && (
-            <div className="flex-grow overflow-auto h-full p-4">
-              <h2 className="text-xl font-bold mb-4">{currentFile.name}</h2>
-              <VulnerabilityAnalysisCode 
-                code={currentCode} 
+            <div className="h-full flex-grow overflow-auto p-4">
+              <h2 className="mb-4 text-xl font-bold">{currentFile.name}</h2>
+              <VulnerabilityAnalysisCode
+                code={currentCode}
                 language={getLanguageFromFileName(currentFile.name)}
               />
             </div>
@@ -183,14 +199,15 @@ const VulnerabilityAnalysis: React.FC = () => {
       </div>
 
       <div className="mt-auto flex max-h-[1157px] min-h-max w-[1761px] gap-7 pb-6">
-        <Button 
-          rounded="xs" 
-          className="subtitle-md-bold flex w-[247px]" 
-          onClick={startInspection} 
+        <Button
+          rounded="xs"
+          className="subtitle-md-bold flex w-[247px]"
+          onClick={startInspection}
           disabled={selectedFiles.length === 0}
         >
           검사하기
         </Button>
+        9
       </div>
 
       {showModal && (

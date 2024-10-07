@@ -2,7 +2,7 @@
 
 import { CardType } from "./card.d";
 import { twMerge } from "tailwind-merge";
-import { RepoCardDateFormat } from "@/utils";
+import { RepoCardDateFormat } from "@/utils/dateUtils";
 import Button from "@/components/atoms/button";
 import CareRightWhite from "@/assets/icons/CareRightWhite.svg";
 import UnionWhite from "@/assets/icons/UnionWhite.svg";

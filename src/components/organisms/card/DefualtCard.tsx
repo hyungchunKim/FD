@@ -1,7 +1,7 @@
 "use client";
 import { twMerge } from "tailwind-merge";
 import { CardType } from "./card.d";
-import { CardDateFormat } from "@/utils";
+import { CardDateFormat } from "@/utils/dateUtils";
 import PushPin from "@/assets/icons/PushPin.svg";
 import Share from "@/assets/icons/Share.svg";
 import ShareFat from "@/assets/icons/ShareFat.svg";

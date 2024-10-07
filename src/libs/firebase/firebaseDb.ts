@@ -27,9 +27,11 @@ if (!serviceAccount.projectId || !serviceAccount.privateKey || !serviceAccount.c
   throw new Error('Firebase service account must include projectId, privateKey, and clientEmail');
 }
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 export const db = admin.firestore();
 

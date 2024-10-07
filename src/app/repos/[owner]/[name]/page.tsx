@@ -23,7 +23,7 @@ type TRepoContentItem = {
 type FileStatus = 'none' | 'checking' | 'checked' | 'warning';
 
 // Constants
-const FOLDER_SCAN_BUTTON_TEXT = "폴더 전체 검사";
+const FOLDER_SCAN_BUTTON_TEXT = "선택 폴더 검사";
 const API_EXPIRED_MESSAGE = "API 사용이 만료되었습니다.";
 
 const VulnerabilityAnalysis: React.FC = () => {

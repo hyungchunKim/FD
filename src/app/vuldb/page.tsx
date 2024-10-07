@@ -341,7 +341,7 @@ const VulDbPage = () => {
         </div>
         <div className="flex h-[1450px] w-[1313px] gap-[102px]">
           <div className="h-[1450px] w-[865px]">
-            <div className="subtitle-md-bold mb-4 h-[29px] w-[105px]">
+            <div className="subtitle-md-bold mb-4 h-[29px] w-full">
               취약점 DB
             </div>
             <div className="mb-4 flex h-[38px] w-full gap-3 justify-start cursor-pointer">

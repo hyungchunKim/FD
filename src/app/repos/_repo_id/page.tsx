@@ -1,20 +1,41 @@
+"use client";
+
+import React, { useState } from "react";
 import Button from "@/components/atoms/button";
 import CaretLeft from "@/assets/icons/CaretLeft.svg";
 import AlertTriangle from "@/assets/icons/Vector10.svg";
 import YellowTriangle from "@/assets/icons/Polygon1.svg";
 import CheckCircle from "@/assets/icons/Ellipse213.svg";
-import List from "@/components/atoms/list";
+import List from "@/components/atoms/list"; // List 컴포넌트 경로 확인 필요
 import VulnerabilityAnalysisCode from "@/components/pages/my-library/VulnerabilityAnalysisCode";
 import InfoBox from "@/components/atoms/infobox/infobox";
 import { TRepoContentItem } from "@/store/useGitContentsStore";
 
+// FileStatus 타입 정의
+type FileStatus = "none" | "checking" | "checked" | "warning";
+
 export type TAnlaysisCode = {
-  type: string; //원본 파일, 분석 파일 분류
-  content: string; //파일 내용
+  type: string; // 원본 파일, 분석 파일 분류
+  content: string; // 파일 내용
   status: string; // 분석중, 성공
 };
-//상단의 분석중인 파일
+
+// 상단의 분석중인 파일
 const Example = ({ status }: TAnlaysisCode) => {
+  // 선택된 파일을 관리하는 상태
+  const [currentFile, setCurrentFile] = useState<TRepoContentItem | null>(null);
+
+  // 파일 상태와 관련된 객체, Record<string, FileStatus>로 수정
+  const [fileStatuses, setFileStatuses] = useState<Record<string, FileStatus>>({
+    "example-file-path": "none", // 예시 파일 상태
+  });
+  
+  // 검사 중인 파일 목록
+  const [checkingFiles, setCheckingFiles] = useState<string[]>([]);
+
+  // 선택된 파일 목록
+  const [selectedFiles, setSelectedFiles] = useState<TRepoContentItem[]>([]);
+
   return (
     <>
       <div className="mb-12 flex gap-6">
@@ -54,15 +75,23 @@ const Example = ({ status }: TAnlaysisCode) => {
               <span className="inline-flex"></span>
             </p>
           </div>
-          <List setCurrentFile={function (item: TRepoContentItem): void {
-            throw new Error("Function not implemented.");
-          } }></List>
+
+          {/* List 컴포넌트에 필요한 props를 전달 */}
+          <List
+            setCurrentFile={setCurrentFile} // 파일 선택 시 호출될 함수
+            currentFile={currentFile} // 현재 선택된 파일
+            fileStatuses={fileStatuses} // 파일 상태를 관리하는 객체
+            checkingFiles={checkingFiles} // 검사 중인 파일 목록
+            selectedFiles={selectedFiles} // 선택된 파일 목록
+          />
         </div>
+
         {/* 코드 */}
         <div className="w-full gap-7 rounded-lg">
           <VulnerabilityAnalysisCode
             className={`${status === "success" && "h-[555px]"}`}
           ></VulnerabilityAnalysisCode>
+
           {/* 수정된 코드 */}
           {status === "success" && (
             <div className="w-[1486px] gap-5 rounded-lg">
@@ -70,9 +99,12 @@ const Example = ({ status }: TAnlaysisCode) => {
               <div className="overflow-x-hidden">
                 <InfoBox
                   backgroundClass="bg-bg-red_light"
-                  className="mb-5" title={""} description={[]} codeSnippet={{
+                  className="mb-5"
+                  title={""}
+                  description={[]}
+                  codeSnippet={{
                     language: "",
-                    code: ""
+                    code: "",
                   }}
                 />
               </div>
@@ -90,4 +122,5 @@ const Example = ({ status }: TAnlaysisCode) => {
     </>
   );
 };
+
 export default Example;

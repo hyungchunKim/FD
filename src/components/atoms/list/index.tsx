@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Star, CheckCircle, RotateCw, AlertTriangle, FileText, Folder, ChevronDown, ChevronRight } from 'lucide-react';
+import { CheckCircle, FileText, Folder, ChevronDown, ChevronRight } from 'lucide-react';
 import useGitContentsStore, { TRepoContentItem } from "@/store/useGitContentsStore";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import { useParams } from "next/navigation";
@@ -27,9 +27,9 @@ const FileItem: React.FC<FileItemProps> = ({
 }) => {
   const getStatusIcon = () => {
     switch (status) {
-      case 'checking': return <RotateCw className="w-4 h-4 text-blue-500 animate-spin" />;
+      case 'checking': return <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />;
       case 'checked': return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case 'warning': return <AlertTriangle className="w-4 h-4 text-red-500" />;
+      case 'warning': return <div className="w-4 h-4 bg-red-500 rounded-full" />;
       default: return null;
     }
   };
@@ -37,7 +37,7 @@ const FileItem: React.FC<FileItemProps> = ({
   return (
     <div
       className={`flex items-center justify-between py-2 px-4 hover:bg-purple-50 cursor-pointer ${
-        isSelected ? 'bg-purple-100' : ''
+        isSelected ? 'bg-purple-100 font-bold' : ''
       }`}
       onClick={onClick}
     >
@@ -56,7 +56,10 @@ const FileItem: React.FC<FileItemProps> = ({
         )}
         <span className="text-sm text-gray-700 truncate">{item.name}</span>
       </div>
-      {getStatusIcon()}
+      <div className="flex items-center space-x-2">
+        {isSelected && <CheckCircle className="w-4 h-4 text-purple-500" />}
+        {getStatusIcon()}
+      </div>
     </div>
   );
 };
@@ -66,13 +69,15 @@ interface FileListProps {
   currentFile: TRepoContentItem | null;
   fileStatuses: Record<string, FileStatus>;
   checkingFiles: string[];
+  selectedFiles: TRepoContentItem[];
 }
 
 const FileList: React.FC<FileListProps> = ({ 
   setCurrentFile, 
   currentFile, 
   fileStatuses,
-  checkingFiles
+  checkingFiles,
+  selectedFiles
 }) => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
   const { owner, name } = useParams();
@@ -146,12 +151,16 @@ const FileList: React.FC<FileListProps> = ({
     return fileStatuses[item.path] || 'none';
   };
 
+  const isFileSelected = (item: TRepoContentItem) => {
+    return selectedFiles.some(file => file.path === item.path);
+  };
+
   const renderFileItem = (item: TRepoContentItem) => (
     <FileItem
       key={item.path}
       item={item}
       status={getFileStatus(item)}
-      isSelected={currentFile?.path === item.path}
+      isSelected={isFileSelected(item)}
       onClick={() => item.type === 'file' ? handleFileClick(item) : handleDirectoryClick(item)}
       onToggleExpand={item.type === 'dir' ? () => handleDirectoryClick(item) : undefined}
       isExpanded={expandedDirs[item.path]}
@@ -208,6 +217,16 @@ const FileList: React.FC<FileListProps> = ({
           item.type === 'file' ? renderFileItem(item) : renderDirItem(item)
         ))}
       </div>
+      {selectedFiles.length > 0 && (
+        <div className="p-4 bg-purple-50 border-t border-gray-200">
+          <h3 className="text-sm font-semibold mb-2">선택된 파일 ({selectedFiles.length})</h3>
+          <ul className="text-xs">
+            {selectedFiles.map(file => (
+              <li key={file.path} className="truncate">{file.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,11 @@ export type TRepoContentItem = {
   sha: string;
   type: "file" | "dir";
   content?: string;
-  download_url: string;
+  download_url: string | null;
+  url: string;  // Added url property
+  git_url: string;  // Added git_url property
+  html_url: string;  // Added html_url property
+  size: number;  // Added size property
   status?: "analyzing" | "loading" | "success" | "error";
   isChecked: boolean;
 };
@@ -83,11 +87,8 @@ const useGitContentsStore = create(
         const updatedContents = contents.map((item: TRepoContentItem) => ({
           ...item,
           status: "none",
-          isSelected: false,
+          isChecked: false,
         }));
-        //저장
-        // const fileBlob = await fetchGitHubFile(response.url);
-        // saveFileToFirebaseStorage(response.url, fileBlob);
 
         return updatedContents;
       } catch (error) {
@@ -124,7 +125,6 @@ const useGitContentsStore = create(
       }
     },
 
-    // 파일 내용 가져오기
     fetchFileContent: async (url: string) => {
       try {
         const response = await fetch(url);

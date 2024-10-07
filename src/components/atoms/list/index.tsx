@@ -1,16 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import {
-  CheckCircle,
-  FileText,
-  Folder,
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
-import useGitContentsStore, {
-  TRepoContentItem,
-} from "@/store/useGitContentsStore";
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { CheckCircle, FileText, Folder, ChevronDown, ChevronRight } from 'lucide-react';
+import useGitContentsStore, { TRepoContentItem } from "@/store/useGitContentsStore";
 import useGitRepoStore from "@/store/useGitRepoStore";
 import { useParams } from "next/navigation";
 
@@ -104,9 +97,9 @@ const FileList: React.FC<FileListProps> = ({
   selectedFiles,
 }) => {
   const [currentPath, setCurrentPath] = useState<string[]>([]);
-  const { owner, name } = useParams();
-  const repoOwner = Array.isArray(owner) ? owner[0] : owner;
-  const repoName = Array.isArray(name) ? name[0] : name;
+  const params  = useParams();
+  const repoOwner =  params?.owner ?(Array.isArray(params.owner) ? params.owner[0] : params.owner): undefined;
+  const repoName =  params?.owner ?(Array.isArray(params.name) ? params.name[0] : params.name): undefined;
 
   const {
     repoContents,
@@ -116,29 +109,41 @@ const FileList: React.FC<FileListProps> = ({
   } = useGitContentsStore();
   const { gitToken } = useGitRepoStore();
 
-  const [expandedDirs, setExpandedDirs] = useState<{ [key: string]: boolean }>(
-    {},
-  );
-  const [dirContents, setDirContents] = useState<{
-    [key: string]: TRepoContentItem[];
-  }>({});
-
-  useEffect(() => {
-    const fetchContents = async () => {
-      if (repoOwner && repoName && gitToken) {
+  const [expandedDirs, setExpandedDirs] = useState<Record<string, boolean>>({});
+  const [dirContents, setDirContents] = useState<Record<string, TRepoContentItem[]>>({});
+  const [error, setError] = useState<string | null>(null);
+  
+    const fetchContents = useCallback(async (path?: string)  => {
+      if (repoOwner && repoName && gitToken) {   try {
         const contents = await fetchRepoContents({
           token: gitToken,
           owner: repoOwner,
           repo: repoName,
+          path,
         });
+        return contents;
+      } catch (error) {
+        console.error('Failed to fetch contents:', error);
+        setError('Failed to fetch repository contents. Please try again.');
+        return null;
+      }
+    }
+    return null;
+  }, [repoOwner, repoName, gitToken, fetchRepoContents]);
+
+  useEffect(() => {
+    const initializeContents = async () => {
+      const contents = await fetchContents();
+      if (contents) {
         setRepoContents(contents);
       }
     };
 
-    fetchContents();
-  }, [repoOwner, repoName, gitToken, fetchRepoContents, setRepoContents]);
+    initializeContents();
+  }, [fetchContents, setRepoContents]);
 
-  const handleDirectoryClick = async (item: TRepoContentItem) => {
+
+  const handleDirectoryClick = useCallback(async (item: TRepoContentItem) => {
     const { path } = item;
     const isExpanded = expandedDirs[path];
 
@@ -147,13 +152,9 @@ const FileList: React.FC<FileListProps> = ({
       [path]: !isExpanded,
     }));
 
-    if (!isExpanded && !dirContents[path] && gitToken) {
-      const children = await fetchRepoContents({
-        token: gitToken,
-        owner: repoOwner,
-        repo: repoName,
-        path: path,
-      });
+    if (!isExpanded && !dirContents[path]) {
+      const children = await fetchContents( path
+      );
 
       if (children) {
         setDirContents((prevState) => ({
@@ -163,32 +164,35 @@ const FileList: React.FC<FileListProps> = ({
       }
     }
 
-    setCurrentPath([...currentPath, item.name]);
-  };
+    setCurrentPath((prevPath) => [...prevPath, item.name]);
+  }, [expandedDirs, dirContents, fetchContents]);
 
-  const handleFileClick = (item: TRepoContentItem) => {
-    toggleFileSelection({ file: item, repoName });
+  
+
+  const handleFileClick = useCallback((item: TRepoContentItem) => {
+    if (repoName) {toggleFileSelection({ file: item, repoName });
     setCurrentFile(item);
-  };
+  }
+}, [repoName, toggleFileSelection, setCurrentFile]);
 
-  const navigateUp = () => {
-    if (currentPath.length > 0) {
-      setCurrentPath(currentPath.slice(0, -1));
-    }
-  };
+  const navigateUp = useCallback(() => {
+    setCurrentPath((prevPath) => {
+      const newPath = prevPath.slice(0, -1);
+      return newPath;
+    });
+  }, []);
 
-  const getFileStatus = (item: TRepoContentItem): FileStatus => {
+  const getFileStatus = useCallback((item: TRepoContentItem): FileStatus => {
     if (checkingFiles.includes(item.path)) {
       return "checking";
-    }
-    return fileStatuses[item.path] || "none";
-  };
+    }   return fileStatuses[item.path] || 'none';
+  }, [checkingFiles, fileStatuses]);
 
-  const isFileSelected = (item: TRepoContentItem) => {
-    return selectedFiles.some((file) => file.path === item.path);
-  };
+  const isFileSelected = useCallback((item: TRepoContentItem) => {
+    return selectedFiles.some(file => file.path === item.path);
+  }, [selectedFiles]);
 
-  const renderFileItem = (item: TRepoContentItem) => (
+  const renderFileItem = useCallback((item: TRepoContentItem) => (
     <FileItem
       key={item.path}
       item={item}
@@ -204,9 +208,10 @@ const FileList: React.FC<FileListProps> = ({
       }
       isExpanded={expandedDirs[item.path]}
     />
+  ), [getFileStatus, isFileSelected, handleFileClick, handleDirectoryClick, expandedDirs]
   );
 
-  const renderDirItem = (item: TRepoContentItem) => {
+  const renderDirItem = useCallback((item: TRepoContentItem) => {
     const isExpanded = expandedDirs[item.path];
     const children = dirContents[item.path];
 
@@ -224,7 +229,15 @@ const FileList: React.FC<FileListProps> = ({
         )}
       </div>
     );
-  };
+  }, [expandedDirs, dirContents, renderFileItem]);
+
+  if (!repoOwner || !repoName) {
+    return <div>Repository information is missing</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -250,16 +263,28 @@ const FileList: React.FC<FileListProps> = ({
       </div>
       <div className="flex-grow overflow-y-auto">
         {currentPath.length > 0 && (
-          <FileItem
-            item={{ name: "..", type: "dir", path: "" }}
-            onClick={navigateUp}
+          
+          <FileItem 
+            item={{ 
+              name: "..", 
+              type: "dir", 
+              path: "", 
+              sha: "",  
+              download_url: null,
+              url: "",
+              git_url: "",
+              html_url: "",
+              size: 0,
+              isChecked: false,
+              status: "error",
+            }}  onClick={navigateUp}
             isSelected={false}
             status="none"
           />
         )}
-        {repoContents.map((item) =>
-          item.type === "file" ? renderFileItem(item) : renderDirItem(item),
-        )}
+        {(currentPath.length === 0 ? repoContents : dirContents[currentPath.join('/')] || []).map((item) => (
+          item.type === 'file' ? renderFileItem(item) : renderDirItem(item)
+        ))}
       </div>
       {selectedFiles.length > 0 && (
         <div className="border-t border-gray-200 bg-purple-50 p-4">

@@ -1,29 +1,29 @@
 import React from "react";
-import { FileText } from "lucide-react"; // 파일 아이콘
+import { FileText } from "lucide-react"; 
+
+import { TRepoContentItem } from "@/store/useGitContentsStore";
 
 interface FileItemProps {
-  name: string;
-  subtitle: string;
-  date: string;
+  item: TRepoContentItem;
 }
 
-const FileItem: React.FC<FileItemProps> = ({ name, subtitle, date }) => {
+const FileItem: React.FC<FileItemProps> = ({ item }) => {
   return (
     <div className="flex justify-between items-center p-3 border-b border-gray-300">
       <div className="flex items-center gap-4">
         <FileText className="text-gray-500 w-6 h-6" /> {/* 파일 아이콘 */}
-        <div className="text-black font-medium">{name}</div>
+        <div className="text-black font-medium">{item.name}</div>
       </div>
       <div className="flex justify-between w-[300px] text-gray-500 text-sm">
-        <div>{subtitle}</div>
-        <div>{date}</div>
+        <div>{item.type}</div>
+        <div>{item.sha.slice(0, 7)}</div>
       </div>
     </div>
   );
 };
 
 interface ModalProps {
-  files: FileItemProps[];
+  files: TRepoContentItem[];
   onCancel: () => void;
   onConfirm: () => void;
 }
@@ -37,10 +37,8 @@ const Modal: React.FC<ModalProps> = ({ files, onCancel, onConfirm }) => {
       <div className="border rounded-lg">
         {files.map((file, index) => (
           <FileItem
-            key={index}
-            name={file.name}
-            subtitle={file.subtitle}
-            date={file.date}
+            key={file.path}
+            item={file}
           />
         ))}
       </div>

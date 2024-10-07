@@ -106,7 +106,10 @@ const FileCard = ({
                   />
                 )}
               </div>
-              <div className="subtitle-md-medium line-clamp-3 h-[108px] w-[200px] overflow-y-hidden text-ellipsis whitespace-normal break-words text-left text-black">
+              <div
+                className="subtitle-md-medium h-[108px] w-[200px] truncate text-left text-black"
+                title={title}
+              >
                 {title}
               </div>
               <div>

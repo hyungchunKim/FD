@@ -35,7 +35,7 @@ interface HotDataProps {
   isClicked: number;
 }
 
-const UIDBPage: React.FC<DetailContentDataProps & HotDataProps> = ()  => {
+const UIDBPage: React.FC = ()  => {
   
   const { id } = useParams();
   const validId = Array.isArray(id) ? id[0] : id;

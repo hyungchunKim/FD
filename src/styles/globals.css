@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.animate-flip {
+  animation: flip 2s ease-in-out forwards infinite; /* 애니메이션 속성 */
+  transform-style: preserve-3d; /* 3D 효과 유지 */
+  perspective: 1000px; /* 원근감 추가 */
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 1s ease-in-out forwards;
+}

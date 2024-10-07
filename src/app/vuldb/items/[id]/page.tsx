@@ -90,6 +90,7 @@ const UIDBPage: React.FC<DetailContentDataProps & HotDataProps> = ()  => {
     };
   
     fetchContentData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validId]);
 
   useEffect(() => {
@@ -130,6 +131,7 @@ const UIDBPage: React.FC<DetailContentDataProps & HotDataProps> = ()  => {
     };
   
     fetchHotDatas();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { removeCookie } from "@/utils/cookies";
 
-export default function setting() {
+export default function Setting() {
   const router = useRouter();
   const [user, setUser] = useState<TUserInfo>();
   useEffect(() => {

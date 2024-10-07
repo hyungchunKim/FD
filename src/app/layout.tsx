@@ -20,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/bug.ico"/>
+      </head>
       <body className={inter.className}>
         <div className="grid h-max min-h-screen w-full grid-rows-[auto_1fr_auto]">
           <header className="sticky top-0 z-50 w-full bg-white px-[40px]">

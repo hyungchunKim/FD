@@ -80,10 +80,13 @@ export default function RootLayout({
                   <Link href="/" className="text-text-default underline">
                     회사소개
                   </Link>
-                  <Link href="/" className="text-text-default underline">
+                  <Link
+                    href="/agreements"
+                    className="text-text-default underline"
+                  >
                     서비스이용약관
                   </Link>
-                  <Link href="/" className="text-text-default underline">
+                  <Link href="/ppa" className="text-text-default underline">
                     개인정보처리방침
                   </Link>
                 </div>

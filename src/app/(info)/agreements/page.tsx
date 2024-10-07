@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 
 const AgreementsPage = () => {
@@ -21,23 +20,23 @@ const AgreementsPage = () => {
         <div className="p-[97px]">
           <p className="title-sm-bold">제1조 (목적)</p>
           <p>
-            이 약관은 회사가 제공하는 [플로디텍터] (이하 &quot;서비스&ldquo;)의 이용과
-            관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로
-            합니다.
+            이 약관은 회사가 제공하는 [플로디텍터] (이하 &quot;서비스&ldquo;)의
+            이용과 관련하여 회사와 이용자의 권리, 의무 및 책임사항을 규정함을
+            목적으로 합니다.
           </p>
 
           <p className="title-sm-bold mt-3">제2조 (정의)</p>
           <p>
-            1. &quot;서비스&ldquo;란 회사가 제공하는 웹사이트 및 애플리케이션을 통해
-            이용자가 사용할 수 있는 모든 관련 서비스를 의미합니다.
+            1. &quot;서비스&ldquo;란 회사가 제공하는 웹사이트 및 애플리케이션을
+            통해 이용자가 사용할 수 있는 모든 관련 서비스를 의미합니다.
           </p>
           <p>
-            2. &quot;이용자&ldquo;란 본 약관에 따라 회사가 제공하는 서비스를 이용하는 자를
-            말합니다.
+            2. &quot;이용자&ldquo;란 본 약관에 따라 회사가 제공하는 서비스를
+            이용하는 자를 말합니다.
           </p>
           <p>
-            3. &quot;회원&ldquo;이란 회사의 서비스에 접속하여 본 약관에 동의하고,
-            개인정보를 제공하여 회원 등록을 한 자를 의미합니다.
+            3. &quot;회원&ldquo;이란 회사의 서비스에 접속하여 본 약관에
+            동의하고, 개인정보를 제공하여 회원 등록을 한 자를 의미합니다.
           </p>
 
           <p className="title-sm-bold mt-3">제3조 (약관의 게시 및 변경)</p>
@@ -81,9 +80,7 @@ const AgreementsPage = () => {
           <p className="title-sm-bold mt-3">제6조 (개인정보 보호)</p>
           <p>
             회사는 이용자의 개인정보를 적법하게 보호하며, 개인정보 처리방침에
-            따라 처리합니다. 자세한 내용은{" "}
-            <Link href="[개인정보 처리방침 링크]">개인정보 처리방침</Link>에서 확인할
-            수 있습니다.
+            따라 처리합니다.
           </p>
 
           <p className="title-sm-bold mt-3">제7조 (서비스 중단)</p>

@@ -5,7 +5,6 @@ import CardComp, {
   FileCard as FileComp,
   ImageLinkCard as ImageLinkComp,
   ContentCard as ContentComp,
-  InnerImageCard as InnerImageComp,
 } from "../components/organisms/card";
 import { CardType } from "@/components/organisms/card/card.d";
 import CardImg from "./assets/card-image.png";
@@ -84,6 +83,10 @@ export const Card: Story = {
     subTitle: "Default Card Subtitle",
     usePinIcon: true,
     useNewWindowIcon: true,
+    isPinned: false, 
+    id: "example-id",  
+    isStackedLocation: false,  
+    handlePinIconClick: async (id) => console.log(`Pinned: ${id}`)
   },
 };
 
@@ -95,6 +98,10 @@ export const DefaultCard: Story = {
     summary: "Test card summary",
     usePinIcon: true,
     useNewWindowIcon: true,
+    isPinned: false, 
+    id: "example-id",  
+    isStackedLocation: false,  
+    handlePinIconClick: async (id) => console.log(`Pinned: ${id}`)
   },
 };
 
@@ -106,11 +113,17 @@ export const FileCard: Story = {
     className: "bg-primary-50 h-[200px]",
     usePinIcon: false,
     useNewWindowIcon: false,
+    isPinned: false, 
+    id: "example-id",  
+    isStackedLocation: false,  
+    handlePinIconClick: async (id) => console.log(`Pinned: ${id}`)
   },
   render: (args) => {
     return (
       <>
-        <FileComp {...args} />
+        <FileComp isBookmarked={false} toggleBookmark={function (id: string): void {
+          throw new Error("Function not implemented.");
+        } } {...args} />
       </>
     );
   },
@@ -135,6 +148,10 @@ export const ContentCard: Story = {
   args: {
     title: "Content Card",
     className: "w-[500px] h-[350px]",
+    isPinned: false, 
+    id: "example-id",  
+    isStackedLocation: false,  
+    handlePinIconClick: async (id) => console.log(`Pinned: ${id}`)
   },
   render: (args) => {
     return (
@@ -144,18 +161,3 @@ export const ContentCard: Story = {
     );
   },
 };
-
-// export const InnerImageCard: Story = {
-//   args: {
-//     title: "Content Card",
-//     className: "w-[700px] h-[350px]",
-//     imgUrl: CardImg.src,
-//   },
-//   render: (args) => {
-//     return (
-//       <>
-//         <InnerImageComp {...args} />
-//       </>
-//     );
-//   },
-// };

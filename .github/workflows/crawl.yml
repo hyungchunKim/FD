@@ -21,4 +21,4 @@ jobs:
       run: npm ci
 
     - name: Run the scraping script
-      run: npm run crawl # 크롤링 스크립트 실행
+      run: tsx ../../src/utils/crawler.ts # 크롤링 스크립트 실행

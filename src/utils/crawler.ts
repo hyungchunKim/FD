@@ -3,17 +3,9 @@ import puppeteer from 'puppeteer';
 import { saveToFirestore } from '../libs/firebase/firebaseDb';
 import { translateText } from './translate';
 import { format } from 'date-fns';
-import serviceAccount from '../fd-6aea3-firebase-adminsdk-t7blu-a3caea7018.json'; // JSON 파일을 import
-
-// Firebase Admin SDK 초기화
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount), // 타입 캐스팅 추가
-  });
-}
 
 // Firestore 데이터베이스에 접근
-const Timestamp = admin.firestore.Timestamp; // Timestamp를 Firestore에서 직접 가져옴
+const Timestamp = admin.firestore.Timestamp;
 
 const URL = 'https://www.cve.org/Media/News/AllNews';
 
@@ -113,7 +105,7 @@ async function scrapeAndSave() {
       pageNumber++;
     }
 
-    if (pageNumber === 6) break;
+    if (pageNumber === 8) break;
   }
 
   console.log(`크롤링 완료. 총 페이지 수: ${pageNumber - 1}`);

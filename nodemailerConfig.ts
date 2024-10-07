@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.MAIL_EMAIL,
-    pass: process.env.APP_PASSWORD,
+    user: process.env.NEXT_MAIL_EMAIL,
+    pass: process.env.NEXT_APP_PASSWORD,
   },
 });
 
@@ -18,7 +18,7 @@ export const sendMail = async (
   try {
     const inquire = await transporter.sendMail({
       from: email,
-      to: process.env.MAIL_EMAIL,
+      to: process.env.NEXT_MAIL_EMAIL,
       subject: name,
       html: message,
     });

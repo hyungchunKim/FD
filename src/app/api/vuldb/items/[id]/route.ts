@@ -8,11 +8,6 @@ export async function GET(
   const { id } = params; // URL에서 동적 id 가져옴
   console.log('id: ', id);
 
-  const headers = new Headers();
-  headers.set('Access-Control-Allow-Origin', '*'); // 모든 도메인 허용
-  headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  headers.set('Access-Control-Allow-Headers', 'Content-Type');
-
   if (!id) {
     return NextResponse.json({ error: 'ID is required' }, { status: 400 });
   }
@@ -40,9 +35,32 @@ export async function GET(
       url: data?.url || '',
     };
 
-    return NextResponse.json(responseData);
+    const headers = new Headers();
+    headers.set('Access-Control-Allow-Origin', 'https://flaw-detector-fd.vercel.app'); // 특정 도메인만 허용
+    headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
+    return new NextResponse(JSON.stringify(responseData), {
+      status: 200,
+      headers,
+    });
   } catch (error) {
     console.error('Error fetching document:', error);
-    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
+    const headers = new Headers();
+    headers.set('Access-Control-Allow-Origin', 'https://flaw-detector-fd.vercel.app'); // 특정 도메인만 허용
+
+    return new NextResponse(JSON.stringify({ error: 'Failed to fetch data' }), {
+      status: 500,
+      headers,
+    });
   }
+}
+
+export async function OPTIONS() {
+  const headers = new Headers();
+  headers.set('Access-Control-Allow-Origin', 'https://flaw-detector-fd.vercel.app'); // 특정 도메인만 허용
+  headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
+  return new NextResponse(null, { headers });
 }

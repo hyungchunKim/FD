@@ -8,6 +8,11 @@ export async function GET(
   const { id } = params; // URL에서 동적 id 가져옴
   console.log('id: ', id);
 
+  const headers = new Headers();
+  headers.set('Access-Control-Allow-Origin', '*'); // 모든 도메인 허용
+  headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  headers.set('Access-Control-Allow-Headers', 'Content-Type');
+
   if (!id) {
     return NextResponse.json({ error: 'ID is required' }, { status: 400 });
   }

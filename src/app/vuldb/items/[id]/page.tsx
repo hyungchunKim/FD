@@ -55,7 +55,7 @@ const UIDBPage: React.FC = ()  => {
     const fetchContentData = async () => {
       if (validId) {
         try {
-          const response = await fetch(`http://localhost:3000/api/vuldb/items/${validId}`);
+          const response = await fetch(`/api/vuldb/items/${validId}`);
           console.log('Response:', response);
           
           if (!response.ok) {

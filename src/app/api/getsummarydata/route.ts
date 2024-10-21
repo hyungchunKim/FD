@@ -9,9 +9,9 @@ export async function GET() {
   headers.set('Access-Control-Allow-Headers', 'Content-Type');
 
   try {
-    // Firestore에서 'flawdb' 컬렉션의 데이터를 가져옴, 'savedTime' 기준으로 최신순으로 정렬
+    // Firestore에서 'flawdb' 컬렉션의 데이터를 가져옴, 'publishedTime' 기준으로 최신순으로 정렬
     const snapshot = await db.collection('flawdb')
-      .orderBy('savedTime', 'desc') // 최신순으로 정렬
+      .orderBy('publishedTime', 'desc') // 최신순으로 정렬
       .select(
         'id',
         'title',

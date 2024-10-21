@@ -74,7 +74,10 @@ const DefaultCard = ({
                   )}
                 </div>
               </div>
-              <h2 className="subtitle-md-medium line-clamp-2 text-ellipsis ml-2 text-black leading-[30px]">
+              <h2 
+                className="subtitle-md-medium text-ellipsis ml-2 text-black leading-[30px] overflow-hidden whitespace-nowrap truncate"
+                title={title}
+              >
                 {title}
               </h2>
               {subTitle && (
